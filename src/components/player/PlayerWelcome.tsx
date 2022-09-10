@@ -13,9 +13,9 @@ export const PlayerWelcome = () => {
   }
 
   return (
-    <div className="w-full h-full">
+    <>
       <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold">{msg}</h1>
-      <div className="grid grid-cols-2 w-full h-60 grid-rows-3 gap-2 mt-3">
+      <div className="grid grid-cols-2 w-full h-52 grid-rows-3 gap-2 mt-3">
         <SongCard
           coverImage="https://i.scdn.co/image/8cdae1f5da8a3282eba1f09bed715380e217164c"
           title="Vitalik: Ethereum, Part 2"
@@ -37,7 +37,7 @@ export const PlayerWelcome = () => {
           title="Vitalik: Ethereum, Part 2"
         />
       </div>
-    </div>
+    </>
   );
 };
 const SongCard: React.FC<{

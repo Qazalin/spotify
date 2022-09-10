@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { PlayerMain } from "./PlayerMain";
 import { PlayerNavbar } from "./PlayerNavbar";
 import { PlayerSidebar } from "./PlayerSidebar";
 import { PlayerWelcome } from "./PlayerWelcome";
@@ -30,6 +31,7 @@ export const PlayerLayout = () => {
       </div>
       <div className="w-[calc(100vw-13rem)] h-[calc(100vh-8rem)] absolute right-0 top-12 px-3 md:px-4 lg:px-5">
         <PlayerWelcome />
+        <PlayerMain />
       </div>
       <div className="w-52 h-[calc(100vh-5rem)] bg-black absolute left-0">
         <PlayerSidebar />
