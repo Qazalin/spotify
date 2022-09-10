@@ -20,7 +20,7 @@ export const PlayerSidebar = () => {
     {
       name: "create playlist",
       icon: (
-        <div className="fill-zinc-700 text-md my-auto bg-gray-300 rounded-sm p-1">
+        <div className="fill-zinc-700 text-md my-auto bg-slate-300 rounded-sm p-1">
           <IoMdAdd className="fill-inherit" />
         </div>
       ),
@@ -28,7 +28,7 @@ export const PlayerSidebar = () => {
     {
       name: "liked songs",
       icon: (
-        <div className="bg-gradient-to-tr from-indigo-500 to-slate-200 fill-gray-500 p-1 rounded flex justify-center items-center">
+        <div className="bg-gradient-to-br from-indigo-500 to-slate-400 fill-slate-300 p-1 rounded flex justify-center items-center">
           <AiFillHeart className="fill-inherit" />
         </div>
       ),
