@@ -62,7 +62,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   artists       Artist[]
-  Playlist      Playlist[]
+  playlists     Playlist[]
 }
 
 model Artist {
@@ -84,16 +84,15 @@ model Album {
 }
 
 model Song {
-  id         String    @id @default(cuid())
-  name       String
-  image      String
-  createdAt  DateTime
-  duration   Int
-  url        String
-  Album      Album?    @relation(fields: [albumId], references: [id])
-  albumId    String?
-  Playlist   Playlist? @relation(fields: [playlistId], references: [id])
-  playlistId String?
+  id        String     @id @default(cuid())
+  name      String
+  image     String
+  createdAt DateTime
+  duration  Int
+  url       String
+  Album     Album?     @relation(fields: [albumId], references: [id])
+  albumId   String?
+  playlists Playlist[]
 }
 
 model Playlist {
