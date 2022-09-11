@@ -1,7 +1,7 @@
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { AiOutlineUser } from "react-icons/ai";
 import { useEffect, useRef, useState } from "react";
-export const PlayerNavbar = () => {
+export const AppNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // watch for outside clicks and close the menu automagically

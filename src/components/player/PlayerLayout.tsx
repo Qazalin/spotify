@@ -1,42 +1,51 @@
-import { useEffect, useState } from "react";
-import { PlayerMain } from "./PlayerMain";
-import { PlayerNavbar } from "./PlayerNavbar";
-import { PlayerSidebar } from "./PlayerSidebar";
-import { PlayerWelcome } from "./PlayerWelcome";
-
+import { AiFillPlayCircle, AiOutlineHeart } from "react-icons/ai";
+import { BiShuffle, BiSkipNext, BiSkipPrevious } from "react-icons/bi";
+import { BsVolumeDownFill } from "react-icons/bs";
+import { IoIosRepeat } from "react-icons/io";
+import { PlayerSlider } from "./PlayerSlider";
 export const PlayerLayout = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  const handleScroll = () => {
-    if (window.scrollY > 0) {
-      setIsScrolled(true);
-    } else {
-      setIsScrolled(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <div className="w-full h-full bg-zinc-900 relative">
-      <div
-        className={`h-12 w-[calc(100vw-13rem)] bg-black absolute right-0 ${
-          isScrolled ? "bg-black" : "bg-transparent"
-        }`}
-      >
-        <PlayerNavbar />
+    <div className="w-full h-full relative flex justify-between px-4">
+      <PlayerLeft />
+      <PlayerCenter />
+      <PlayerRight />
+    </div>
+  );
+};
+
+const PlayerLeft = () => {
+  return (
+    <div className="flex space-x-6 h-full">
+      <div className="my-auto ">
+        <p className="text-sm">As it was</p>
+        <p className="text-xs text-zinc-400">Harry Styles</p>
       </div>
-      <div className="w-[calc(100vw-13rem)] h-[calc(100vh-8rem)] absolute right-0 top-12 px-3 md:px-4 lg:px-5">
-        <PlayerWelcome />
-        <PlayerMain />
+      <div className="my-auto">
+        <AiOutlineHeart className="fill-zinc-400 hover:fill-zinc-100 cursor-pointer" />
       </div>
-      <div className="w-52 h-[calc(100vh-5rem)] bg-black absolute left-0">
-        <PlayerSidebar />
+    </div>
+  );
+};
+
+const PlayerCenter = () => {
+  return (
+    <div className="flex w-72 h-full mr-20 flex-col">
+      <div className="flex text-2xl justify-center mt-3 items-center space-x-2 text-zinc-400 [&>*]:cursor-pointer">
+        <BiShuffle className="text-lg hover:fill-zinc-50" />
+        <BiSkipPrevious className="hover:fill-zinc-50" />
+        <AiFillPlayCircle className="text-3xl text-white hover:scale-105" />
+        <BiSkipNext className="hover:fill-zinc-50" />
+        <IoIosRepeat className="hover:fill-zinc-50" />
       </div>
-      <div className="w-full h-20 bg-zinc-900 border-t-2 border-t-zinc-500 border-opacity-20 absolute bottom-0 right-0" />
+      <PlayerSlider />
+    </div>
+  );
+};
+
+const PlayerRight = () => {
+  return (
+    <div className="my-auto">
+      <BsVolumeDownFill className="text-xl" />
     </div>
   );
 };

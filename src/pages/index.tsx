@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { PlayerLayout } from "../components/player/PlayerLayout";
+import { AppLayout } from "../components/player/AppLayout";
 
 const Home: NextPage = () => {
   return (
@@ -11,7 +11,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-screen h-screen">
-        <PlayerLayout />
+        <AppLayout />
       </main>
     </>
   );

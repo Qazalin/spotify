@@ -3,7 +3,7 @@ import { BiNavigation, BiHomeAlt, BiLibrary } from "react-icons/bi";
 import { AiFillHeart } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
 
-export const PlayerSidebar = () => {
+export const AppSidebar = () => {
   const sidebarOptions: {
     name: string;
     icon: JSXElementConstructor<{ className: string }>;

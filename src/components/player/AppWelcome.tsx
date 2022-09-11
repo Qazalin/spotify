@@ -1,4 +1,4 @@
-export const PlayerWelcome = () => {
+export const AppWelcome = () => {
   // what time is it?
   const time = new Date().getHours();
   let msg;

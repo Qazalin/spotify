@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 
-export const PlayerMain = () => {
+export const AppMain = () => {
   return (
     <div className="w-full h-full mt-5 space-y-3">
       <RecordSection title="recently played">
@@ -47,7 +47,7 @@ const ArtistCard: React.FC<{
       />
 
       <h3 className="text-md font-[600]">{name}</h3>
-      <p className="text-sm capitalize text-zinc-300 mt-1">artist</p>
+      <p className="text-sm capitalize text-zinc-400 mt-1">artist</p>
     </div>
   );
 };
