@@ -70,8 +70,7 @@ model Artist {
   name   String
   image  String
   albums Album[]
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String?
+  users  User[]
 }
 
 model Album {
