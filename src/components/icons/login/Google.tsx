@@ -1,9 +1,12 @@
-export const GoogleIcon = () => {
+import { PropsWithClassName } from "types/props";
+
+export const GoogleIcon: React.FC<
+  PropsWithClassName<Record<string, string>>
+> = ({ className }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="48"
-      height="48"
+      className={className}
       x="0"
       y="0"
       viewBox="0 0 48 48"

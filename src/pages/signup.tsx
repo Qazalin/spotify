@@ -1,27 +1,16 @@
-import type { NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { AuthLayout } from "components/home/Auth";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
-const Signup: NextPage = () => {
-  const { data: session, status } = useSession();
-  if (status === "loading") {
-    return <div>loading</div>;
+function Signup() {
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  // redirect to app if user is already logged in
+  if (session) {
+    router.push("/app");
   }
-
-  return (
-    <div>
-      {session ? (
-        <>
-          <h1>hi {session.user?.name}</h1>
-          <button onClick={() => signOut()}>Log out</button>
-        </>
-      ) : (
-        <>
-          <h1>Signup now</h1>
-          <button onClick={() => signIn("discord")}>Signup with Discord</button>
-        </>
-      )}
-    </div>
-  );
-};
+  return <AuthLayout mode="login" />;
+}
 
 export default Signup;

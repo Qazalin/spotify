@@ -1,5 +1,7 @@
+import { AuthLayout } from "components/home/Auth";
+
 function Login() {
-  return <div>login</div>;
+  return <AuthLayout mode="login" />;
 }
 
 export default Login;
