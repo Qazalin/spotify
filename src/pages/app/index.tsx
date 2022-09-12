@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { AppLayout } from "components/player/AppLayout";
 
-const Home: NextPage = () => {
+const App: NextPage = () => {
   return (
     <>
       <Head>
@@ -9,9 +10,11 @@ const Home: NextPage = () => {
         <meta name="description" content="A clone of Spotify" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="w-screen h-screen">Hello world</main>
+      <main className="w-screen h-screen">
+        <AppLayout />
+      </main>
     </>
   );
 };
 
-export default Home;
+export default App;
