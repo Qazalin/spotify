@@ -40,7 +40,7 @@ export const AppSidebar = () => {
       {sidebarOptions.map((opt, i) => (
         <div
           key={`sidebar-${i}`}
-          className="flex text-md space-x-4 fill-zinc-400 text-zinc-400"
+          className="flex text-md space-x-4 fill-zinc-400 text-zinc-400 cursor-pointer"
         >
           <opt.icon className="fill-inherit text-xl my-auto" />
           <p className="capitalize">{opt.name}</p>

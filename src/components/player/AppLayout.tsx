@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { AppMain } from "./AppMain";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { AppNavbar } from "./AppNavbar";
 import { AppSidebar } from "./AppSidebar";
-import { AppWelcome } from "./AppWelcome";
 import { PlayerLayout } from "./PlayerLayout";
 
-export const AppLayout = () => {
+export const AppLayout: React.FC<
+  PropsWithChildren<Record<string, unknown>>
+> = ({ children }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const handleScroll = () => {
@@ -30,7 +30,9 @@ export const AppLayout = () => {
       >
         <AppNavbar />
       </div>
-      <div className="w-[calc(100vw-13rem)] h-[calc(100vh-8rem)] absolute right-0 top-12 px-3 md:px-4 lg:px-5"></div>
+      <div className="w-[calc(100vw-13rem)] h-[calc(100vh-8rem)] absolute right-0 top-12 px-3 md:px-4 lg:px-5">
+        {children}
+      </div>
       <div className="w-52 h-[calc(100vh-5rem)] bg-black absolute left-0">
         <AppSidebar />
       </div>

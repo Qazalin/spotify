@@ -55,10 +55,10 @@ model VerificationToken {
 
 model User {
   id            String     @id @default(cuid())
-  name          String?
+  name          String
   email         String?    @unique
   emailVerified DateTime?
-  image         String?    @default("/userPlaceholder.png")
+  image         String    @default("/userPlaceholder.png")
   accounts      Account[]
   sessions      Session[]
   artists       Artist[]
