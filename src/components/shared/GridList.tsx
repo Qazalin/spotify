@@ -1,21 +1,6 @@
-import { ArtistCard } from "components/shared/RecordCard";
 import { PropsWithChildren } from "react";
 
-export const AppMain = () => {
-  return (
-    <div className="w-full h-full mt-5 space-y-3">
-      <RecordSection title="recently played">
-        {Array(9)
-          .fill(0)
-          .map((_, i) => (
-            <ArtistCard key={`recently-played-${i}`} artist={i} />
-          ))}
-      </RecordSection>
-    </div>
-  );
-};
-
-const RecordSection: React.FC<
+export const GridList: React.FC<
   PropsWithChildren<{ title: string; sectionId: string }>
 > = ({ title, sectionId, children }) => {
   return (

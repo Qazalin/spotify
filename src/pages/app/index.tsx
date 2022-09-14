@@ -4,6 +4,8 @@ import { AppLayout } from "components/player/AppLayout";
 import { LoadingScreen } from "components/shared/LoadingScreen";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { AppMain } from "components/player/AppMain";
+import { AppWelcome } from "components/player/AppWelcome";
 
 const App: NextPage = () => {
   const { status } = useSession();
@@ -24,9 +26,9 @@ const App: NextPage = () => {
         <meta name="description" content="A clone of Spotify" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="w-screen h-screen">
-        <AppLayout />
-      </main>
+      <AppLayout>
+        <AppMain />
+      </AppLayout>
     </>
   );
 };
