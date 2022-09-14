@@ -36,12 +36,35 @@ export const useWindowDimensions = () => {
 export const useTailwindBreakpoint = (
   breakpoint: BreakpointPrefix
 ): boolean => {
-  const windowDimensions = useWindowDimensions();
+  const { width } = useWindowDimensions();
 
-  if (windowDimensions.width) {
+  if (width) {
     const isMeetingRequirement: boolean =
-      windowDimensions.width <= TAILWIND_BREAKPOINS[breakpoint];
+      width <= TAILWIND_BREAKPOINS[breakpoint];
     return isMeetingRequirement;
   }
   return false; // in SSR
+};
+
+export const useTailwindScreen = () => {
+  const [tailwindDim, setTailwindDim] = useState<BreakpointPrefix>("sm");
+
+  useEffect(() => {
+    function handleResize(): void {
+      if (window.innerWidth >= TAILWIND_BREAKPOINS["2xl"]) {
+        setTailwindDim("2xl");
+      } else if (window.innerWidth >= TAILWIND_BREAKPOINS["xl"]) {
+        setTailwindDim("xl");
+      } else if (window.innerWidth >= TAILWIND_BREAKPOINS["lg"]) {
+        setTailwindDim("lg");
+      } else if (window.innerWidth >= TAILWIND_BREAKPOINS["md"]) {
+        setTailwindDim("md");
+      }
+      setTailwindDim("sm");
+    }
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return (): void => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
+  return tailwindDim;
 };
