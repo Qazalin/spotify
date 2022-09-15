@@ -4,19 +4,22 @@ export const artistsData: Artist[] = [
   {
     id: "1",
     name: "Taylor Swift",
-    image:
-      "https://newcountry.nl/images/2022/01/07/taylor-swiftred-taylors-version.jpg",
+    image: "https://i.scdn.co/image/ab6761610000f178fcf7c334a6e9dcb8555f3663",
   },
   {
     id: "2",
     name: "Harry Styles",
-    image:
-      "https://yt3.ggpht.com/MjEWybBlBXVZigapX__tR_PyJRx-_OGwEZfWZKyS_jJrlgeeF67h69wN2HOhFohiDA7YNeIG=s900-c-k-c0x00ffffff-no-rj",
+    image: "https://i.scdn.co/image/ab6761610000f178f7db7c8ede90a019c54590bb",
   },
   {
     id: "3",
     name: "The Weeknd",
     image: "https://i.scdn.co/image/ab6761610000f178b5f9e28219c169fd4b9e8379",
+  },
+  {
+    id: "4",
+    name: "Halsey",
+    image: "https://i.scdn.co/image/ab6761610000f178d707e1c5177614c4ec95a06c",
   },
 ];
 

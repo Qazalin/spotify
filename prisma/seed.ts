@@ -70,7 +70,9 @@ const run = async () => {
     new Array(10).fill(1).map(async (_, i) => {
       return prisma.playlist.create({
         data: {
-          name: `Playlist #${i + 1}`,
+          name: `My playlist #${i + 1}`,
+          desc: "",
+          image: "",
           user: {
             connect: { id: user.id },
           },
