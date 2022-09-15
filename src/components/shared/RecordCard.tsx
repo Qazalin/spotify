@@ -55,10 +55,14 @@ const RecordCard: React.FC<{
 }> = ({ title, imgSrc, subtitle, onClick }) => {
   return (
     <div
-      className="bg-zinc-800 h-full w-full p-2 rounded-md bg-opacity-25 hover:bg-opacity-60 transition-all duration-300 cursor-pointer px-3"
+      className="bg-zinc-800 p-2 rounded-md bg-opacity-25 hover:bg-opacity-60 transition-all duration-300 cursor-pointer px-3 row-span-1 col-span-1"
       onClick={onClick}
     >
-      <img src={imgSrc} alt="cardImage" className="rounded-full w-full mb-3" />
+      <img
+        src={imgSrc}
+        alt="cardImage"
+        className="rounded-full mb-3 h-fit w-fit"
+      />
 
       <h3 className="text-md font-[600]">{title}</h3>
       <p className="text-sm capitalize text-zinc-400 mt-1">{subtitle}</p>

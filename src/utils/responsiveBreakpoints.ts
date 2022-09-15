@@ -51,16 +51,19 @@ export const useTailwindScreen = () => {
 
   useEffect(() => {
     function handleResize(): void {
-      if (window.innerWidth >= TAILWIND_BREAKPOINS["2xl"]) {
-        setTailwindDim("2xl");
-      } else if (window.innerWidth >= TAILWIND_BREAKPOINS["xl"]) {
-        setTailwindDim("xl");
-      } else if (window.innerWidth >= TAILWIND_BREAKPOINS["lg"]) {
-        setTailwindDim("lg");
-      } else if (window.innerWidth >= TAILWIND_BREAKPOINS["md"]) {
+      if (window.innerWidth <= TAILWIND_BREAKPOINS.sm) {
+        setTailwindDim("sm");
+      } else if (window.innerWidth <= TAILWIND_BREAKPOINS.md) {
         setTailwindDim("md");
+      } else if (window.innerWidth <= TAILWIND_BREAKPOINS.lg) {
+        setTailwindDim("lg");
+      } else if (window.innerWidth <= TAILWIND_BREAKPOINS.xl) {
+        setTailwindDim("xl");
+      } else if (window.innerWidth <= TAILWIND_BREAKPOINS["2xl"]) {
+        setTailwindDim("2xl");
+      } else {
+        setTailwindDim("2xl"); // always set it to the largest breakpoint unless I tell you otherwise
       }
-      setTailwindDim("sm");
     }
     handleResize();
     window.addEventListener("resize", handleResize);

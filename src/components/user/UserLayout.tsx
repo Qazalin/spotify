@@ -2,6 +2,8 @@ import { Artist, Playlist } from "@prisma/client";
 import { AppLayout } from "components/player/AppLayout";
 import { GridList } from "components/shared/GridList";
 import { ArtistCard } from "components/shared/RecordCard";
+import { useEffect, useState } from "react";
+import { useTailwindScreen } from "utils/responsiveBreakpoints";
 
 type UserProfileInfo = {
   name: string;
@@ -11,11 +13,47 @@ type UserProfileInfo = {
 };
 
 export const UserLayout: React.FC<{ user: UserProfileInfo }> = ({ user }) => {
+  type GridSize = {
+    cols: string;
+    maxLen: number;
+  };
+  const [sizes, setSizes] = useState<GridSize>({
+    cols: "grid-cols-9",
+    maxLen: 9,
+  });
+  const dim = useTailwindScreen();
+
+  useEffect(() => {
+    console.log(dim);
+    switch (dim) {
+      case "sm":
+        setSizes({ cols: "grid-cols-3", maxLen: 3 });
+        break;
+      case "md":
+        setSizes({ cols: "grid-cols-3", maxLen: 3 });
+        break;
+      case "lg":
+        setSizes({ cols: "grid-cols-5", maxLen: 5 });
+        break;
+      case "xl":
+        setSizes({ cols: "grid-cols-6", maxLen: 6 });
+        break;
+      case "2xl":
+        setSizes({ cols: "grid-cols-9", maxLen: 9 });
+        break;
+    }
+  }, [dim]);
+
   return (
     <AppLayout>
       <UserProfileHeader user={user} />
-      <GridList title="following" sectionId="blah">
-        {user.artists.map((a, i) => (
+      <GridList
+        title="following"
+        sectionId="blah"
+        gridCols={sizes.cols}
+        hasMore={user.artists.length > sizes.maxLen}
+      >
+        {user.artists.slice(0, sizes.maxLen).map((a, i) => (
           <ArtistCard artist={a} key={`artist-${i}`} />
         ))}
       </GridList>
