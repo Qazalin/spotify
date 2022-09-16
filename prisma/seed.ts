@@ -45,42 +45,7 @@ const run = async () => {
           duration: s.duration,
           url: s.url,
           albumId: s.albumId,
-          image: s.image,
           createdAt: s.createdAt,
-        },
-      });
-    })
-  );
-
-  // Create me
-  const user = await prisma.user.upsert({
-    where: { id: "0" },
-    update: {},
-    create: {
-      email: "qazal@dev.com",
-      name: "Qazal",
-      image:
-        "https://i.pinimg.com/564x/4d/34/50/4d34507817d61cccd4d0d4da978972da.jpg",
-    },
-  });
-
-  // Create playlists
-  const songs = await prisma.song.findMany({});
-  await Promise.all(
-    new Array(10).fill(1).map(async (_, i) => {
-      return prisma.playlist.create({
-        data: {
-          name: `My playlist #${i + 1}`,
-          desc: "",
-          image: "",
-          user: {
-            connect: { id: user.id },
-          },
-          songs: {
-            connect: songs.map((song) => ({
-              id: song.id,
-            })),
-          },
         },
       });
     })
