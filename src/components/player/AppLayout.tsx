@@ -26,11 +26,11 @@ export const AppLayout: React.FC<
       <div
         className={`h-12 w-[calc(100vw-13rem)] bg-black absolute right-0 ${
           isScrolled ? "bg-black" : "bg-transparent"
-        }`}
+        } z-50`}
       >
         <AppNavbar />
       </div>
-      <div className="w-[calc(100vw-13rem)] h-[calc(100vh-8rem)] absolute right-0 top-12 px-3 md:px-4">
+      <div className="w-[calc(100vw-13rem)] h-[calc(100vh-4rem)] absolute right-0 top-0">
         {children}
       </div>
       <div className="w-52 h-[calc(100vh-5rem)] bg-black absolute left-0">

@@ -54,7 +54,7 @@ const run = async () => {
 
   // Create me
   const user = await prisma.user.upsert({
-    where: { email: "user@test.com" },
+    where: { id: "0" },
     update: {},
     create: {
       email: "qazal@dev.com",

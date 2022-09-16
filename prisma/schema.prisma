@@ -63,36 +63,50 @@ model User {
   sessions      Session[]
   artists       Artist[]
   playlists     Playlist[]
+  favorites     Favorite[]
+}
+
+model Favorite {
+  id      String   @id @default(cuid())
+  userId  String
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  songs   Song[]
+  artists Artist[]
+  albums  Album[]
+  playlists Playlist[]
 }
 
 model Artist {
-  id     String  @id @default(cuid())
-  name   String
-  image  String
-  albums Album[]
-  users  User[]
+  id         String    @id @default(cuid())
+  name       String
+  image      String
+  albums     Album[]
+  users      User[]
+  isVerified Boolean   @default(false)
+  favorites Favorite[]
 }
 
 model Album {
-  id        String   @id @default(cuid())
-  name      String
-  image     String
-  createdAt DateTime
-  songs     Song[]
-  Artist    Artist?  @relation(fields: [artistId], references: [id])
-  artistId  String?
+  id         String    @id @default(cuid())
+  name       String
+  image      String
+  createdAt  DateTime
+  songs      Song[]
+  Artist     Artist?   @relation(fields: [artistId], references: [id])
+  artistId   String?
+  favorites Favorite[]
 }
 
 model Song {
-  id        String     @id @default(cuid())
-  name      String
-  image     String
-  createdAt DateTime
-  duration  Int
-  url       String
-  Album     Album?     @relation(fields: [albumId], references: [id])
-  albumId   String?
-  playlists Playlist[]
+  id         String     @id @default(cuid())
+  name       String
+  createdAt  DateTime
+  duration   Int
+  url        String
+  Album      Album?     @relation(fields: [albumId], references: [id])
+  albumId    String?
+  playlists  Playlist[]
+  favorites Favorite[]
 }
 
 model Playlist {
@@ -101,6 +115,7 @@ model Playlist {
   image  String @default("")
   desc   String @default("")
   songs  Song[]
-  user   User   @relation(fields: [userId], references: [id])
+  User   User   @relation(fields: [userId], references: [id])
   userId String
+  favorites Favorite[]
 }
