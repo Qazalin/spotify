@@ -24,14 +24,14 @@ export const AppLayout: React.FC<
   return (
     <main className="w-screen h-screen bg-zinc-900 relative">
       <div
-        className={`h-12 w-[calc(100vw-13rem)] bg-black absolute right-0 ${
+        className={`h-3 w-[calc(100vw-13rem)] bg-black absolute right-0 ${
           isScrolled ? "bg-black" : "bg-transparent"
         } z-50`}
       >
         <AppNavbar />
       </div>
       <div className="w-[calc(100vw-13rem)] h-[calc(100vh-4rem)] absolute right-0 top-0">
-        {children}
+        <div>{children}</div>
       </div>
       <div className="w-52 h-[calc(100vh-5rem)] bg-black absolute left-0">
         <AppSidebar />

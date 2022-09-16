@@ -5,9 +5,7 @@ import { UserProfileHeader } from "components/shared/RecordHeader";
 export const UserLayout: React.FC<{ user: UserProfileInfo }> = ({ user }) => {
   return (
     <AppLayout>
-      <div className="bg-zinc-800 pt-12">
-        <UserProfileHeader user={user} />
-      </div>
+      <UserProfileHeader user={user} />
     </AppLayout>
   );
 };

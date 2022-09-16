@@ -9,7 +9,7 @@ const PlaylistPage = () => {
   const { id } = router.query;
   const { data: playlist, isLoading } = trpc.useQuery([
     "playlist.getPlaylistById",
-    { id },
+    { id: id as string }, // danger stuff
   ]);
 
   if (isLoading) {
@@ -17,7 +17,11 @@ const PlaylistPage = () => {
   }
 
   console.log(playlist);
-  return <div></div>;
+  return (
+    <AppLayout>
+      <PlaylistHeader playlist={playlist} />
+    </AppLayout>
+  );
 };
 
 export default PlaylistPage;
