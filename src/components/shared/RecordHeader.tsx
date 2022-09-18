@@ -52,8 +52,7 @@ export const PlaylistHeader: React.FC<{
           <span>·</span>
           <p>{playlist.songs.length} songs</p>
           <span>·</span>
-          // TODO
-          <p>{(dur) => playlist.songs.map((s) => s.duration)} songs</p>
+          <p>2:20 hours</p>
           <span>·</span>
         </div>
       </div>

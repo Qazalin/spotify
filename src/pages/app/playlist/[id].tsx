@@ -1,4 +1,5 @@
 import { AppLayout } from "components/player/AppLayout";
+import { PlaylistTable } from "components/player/PlaylistTable";
 import { LoadingScreen } from "components/shared/LoadingScreen";
 import { PlaylistHeader } from "components/shared/RecordHeader";
 import { useRouter } from "next/router";
@@ -16,10 +17,13 @@ const PlaylistPage = () => {
     return <LoadingScreen />;
   }
 
-  console.log(playlist);
+  console.log(playlist?.songs);
   return (
     <AppLayout>
-      <PlaylistHeader playlist={playlist} />
+      <div className="w-full h-full bg-gray-200">
+        <PlaylistHeader playlist={playlist} />
+        <PlaylistTable />
+      </div>
     </AppLayout>
   );
 };

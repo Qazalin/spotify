@@ -92,8 +92,8 @@ model Album {
   image      String
   createdAt  DateTime
   songs      Song[]
-  Artist     Artist?   @relation(fields: [artistId], references: [id])
-  artistId   String?
+  Artist     Artist   @relation(fields: [artistId], references: [id])
+  artistId   String
   favorites Favorite[]
 }
 
@@ -103,8 +103,8 @@ model Song {
   createdAt  DateTime
   duration   Int
   url        String
-  Album      Album?     @relation(fields: [albumId], references: [id])
-  albumId    String?
+  Album      Album     @relation(fields: [albumId], references: [id])
+  albumId    String
   playlists  Playlist[]
   favorites Favorite[]
 }

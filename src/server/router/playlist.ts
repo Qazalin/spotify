@@ -1,4 +1,3 @@
-import { playlistFields } from "utils/selectedFields";
 import { z } from "zod";
 import { createRouter } from "./context";
 
