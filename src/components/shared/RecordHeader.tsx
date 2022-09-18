@@ -15,7 +15,7 @@ export const UserProfileHeader: React.FC<{ user: UserProfileInfo }> = ({
     >
       <div className="flex absolute bottom-2 items-center">
         <a
-          className="text-sm capitalize text-zinc-300 hover:underline"
+          className="text-sm capitalize text-zinc-300"
           href="https://open.spotify.com/user/31wsxmhc25wkyn7vftepkw4raw5e"
           target="_blank"
           rel="noreferrer"
