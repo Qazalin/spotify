@@ -52,6 +52,7 @@ export const playlistRouter = createRouter()
         return playlist;
       } catch (err) {
         console.log(err);
+        throw new Error("Error getting playlist");
       }
     },
   })

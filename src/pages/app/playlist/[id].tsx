@@ -8,6 +8,7 @@ import { trpc } from "utils/trpc";
 const PlaylistPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  console.log(id);
   const { data: playlist, isLoading } = trpc.useQuery([
     "playlist.getPlaylistById",
     { id: id as string }, // danger stuff
@@ -16,16 +17,15 @@ const PlaylistPage = () => {
   if (isLoading) {
     return <LoadingScreen />;
   }
-
-  console.log(playlist?.songs);
-  return (
-    <AppLayout>
-      <div className="w-full h-full bg-gray-200">
+  if (playlist) {
+    return (
+      <AppLayout>
         <PlaylistHeader playlist={playlist} />
         <PlaylistTable />
-      </div>
-    </AppLayout>
-  );
+      </AppLayout>
+    );
+  }
+  return <div>Playlist not found</div>;
 };
 
 export default PlaylistPage;
