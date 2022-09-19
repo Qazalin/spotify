@@ -1,7 +1,7 @@
 import { LoadingScreen } from "components/shared/LoadingScreen";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsDiscord } from "react-icons/bs";
 
 export const AuthLayout: React.FC<{ mode: "login" | "signup" }> = ({
@@ -13,6 +13,7 @@ export const AuthLayout: React.FC<{ mode: "login" | "signup" }> = ({
 
   const { status } = useSession();
   const router = useRouter();
+  useEffect(() => console.log(status), [status]);
 
   function validateEmail(email: string) {
     const re = /\S+@\S+\.\S+/;
@@ -34,7 +35,10 @@ export const AuthLayout: React.FC<{ mode: "login" | "signup" }> = ({
         <button className="bg-zinc-700 p-2 px-10 rounded-md flex text-md md:text-lg hover:fill-indigo-400 hover:text-indigo-400 fill-zinc-100 text-zinc-100 transition-colors">
           <BsDiscord
             className="fill-inherit mr-2 my-auto text-lg md:text-xl"
-            onClick={() => signIn("discord")}
+            onClick={() => {
+              console.log("sining you in...");
+              signIn("discord");
+            }}
           />
           Continue with Discord
         </button>

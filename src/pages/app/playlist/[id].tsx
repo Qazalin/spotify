@@ -3,7 +3,7 @@ import { PlaylistTable } from "components/player/PlaylistTable";
 import { LoadingScreen } from "components/shared/LoadingScreen";
 import { PlaylistHeader } from "components/shared/RecordHeader";
 import { useRouter } from "next/router";
-import { trpc } from "utils/trpc";
+import { trpc, inferQueryOutput } from "utils/trpc";
 
 const PlaylistPage = () => {
   const router = useRouter();
@@ -21,7 +21,7 @@ const PlaylistPage = () => {
     return (
       <AppLayout>
         <PlaylistHeader playlist={playlist} />
-        <PlaylistTable />
+        <PlaylistTable playlist={playlist} />
       </AppLayout>
     );
   }

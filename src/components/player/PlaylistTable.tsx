@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { BsFillPlayFill } from "react-icons/bs";
+import { dateFormatter, durationFormatter } from "utils/formatters";
+import { inferQueryOutput } from "utils/trpc";
 
-export const PlaylistTable = () => {
+export const PlaylistTable: React.FC<{
+  playlist: inferQueryOutput<"playlist.getPlaylistById">;
+}> = ({ playlist }) => {
   return (
     <div className="w-full h-full px-5">
       <div className="w-full h-full relative">
@@ -21,17 +25,50 @@ export const PlaylistTable = () => {
         </div>
         <hr className="absolute top-8 w-full opacity-20" />
         <div className="top-8 w-full absolute space-y-2 mt-2">
-          <Row />
-          <Row />
-          <Row />
-          <Row />
+          {playlist?.songs.map((s, i) => (
+            <SongRow
+              key={`song-row-${i}`}
+              idx={i}
+              songId={s.id}
+              albumId={s.Album.id}
+              artistId={s.Album.Artist.id}
+              songName={s.name}
+              albumName={s.Album.name}
+              artistName={s.Album.Artist.name}
+              songDateAdded={s.createdAt}
+              songDuration={s.duration}
+              albumImage={s.Album.image}
+            />
+          ))}
         </div>
       </div>
     </div>
   );
 };
 
-const Row = () => {
+const SongRow: React.FC<{
+  idx: number;
+  songId: string;
+  albumId: string;
+  artistId: string;
+  songName: string;
+  artistName: string;
+  albumName: string;
+  albumImage: string;
+  songDateAdded: Date;
+  songDuration: number;
+}> = ({
+  idx,
+  songId,
+  albumId,
+  artistId,
+  artistName,
+  songName,
+  albumName,
+  albumImage,
+  songDateAdded,
+  songDuration,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   return (
     <div
@@ -44,32 +81,26 @@ const Row = () => {
           {isHovered ? (
             <BsFillPlayFill className="text-md text-zinc-50 text-lg" />
           ) : (
-            <p> 1</p>
+            <p>{idx}</p>
           )}
         </div>
         <div className="flex space-x-2">
-          <img
-            src="https://i.scdn.co/image/ab67616d00001e022e8ed79e177ff6011076f5f0"
-            className="h-10 w-10 self-center"
-          />
+          <img src={albumImage} className="h-10 w-10 self-center" />
           <div className="h-full space-y-1 flex flex-col">
-            <a
-              className="font-[400] text-zinc-50"
-              href="/track/6kxaaIeowajN7w21PfMLbu"
-            >
-              Matilda
+            <a className="font-[400] text-zinc-50" href={`/track/${songId}`}>
+              {songName}
             </a>
-            <a className="text-xs" href="/artist/2445">
-              Harry Styles
+            <a className="text-xs" href={`/app/artist/${artistId}`}>
+              {artistName}
             </a>
           </div>
         </div>
       </div>
-      <a className="w-1/4" href="/album/234">
-        Harry&apos;s House
+      <a className="w-1/4" href={`app/album/${albumId}`}>
+        {albumName}
       </a>
-      <p className="w-1/4">Jun 10, 2022</p>
-      <p className="w-1/12 text-end">2:13</p>
+      <p className="w-1/4">{dateFormatter(songDateAdded)}</p>
+      <p className="w-1/12 text-end">{durationFormatter(songDuration)}</p>
     </div>
   );
 };

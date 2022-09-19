@@ -29,13 +29,17 @@ export const playlistRouter = createRouter()
               select: {
                 id: true, // for a link to click on the song
                 name: true,
+                duration: true,
+                createdAt: true,
                 Album: {
                   select: {
                     name: true,
                     image: true,
+                    id: true,
                     Artist: {
                       select: {
                         name: true,
+                        id: true,
                       },
                     },
                   },
