@@ -17,6 +17,7 @@ interface Song {
     };
   };
 }
+
 interface ActiveSongModel {
   song?: Song;
   setActiveSong: Action<ActiveSongModel, Song>;
