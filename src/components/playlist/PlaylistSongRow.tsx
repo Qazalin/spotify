@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BsFillPlayFill } from "react-icons/bs";
 import { dateFormatter, durationFormatter } from "@spotify/utils/formatters";
+import { useStoreActions } from "easy-peasy";
 import Image from "next/future/image";
 
 export const SongRow: React.FC<{
@@ -27,16 +28,25 @@ export const SongRow: React.FC<{
   songDuration,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const setActiveSong = useStoreActions((store: any) => store.changeActiveSong);
+
+  const handlePlay = (activeSong) => {
+    setActiveSong(activeSong);
+  };
   return (
     <div
       className="relative w-full flex justify-between h-12 items-center fill-zinc-400 text-sm text-zinc-400 hover:bg-zinc-700 hover:bg-opacity-50 rounded-md p-2"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onDoubleClick={() => console.log("play song")}
     >
       <div className="flex items-center w-1/4 self-start">
         <div className="flex w-5 justify-center items-center content-center text-center text-sm mr-2 self-center h-5">
           {isHovered ? (
-            <BsFillPlayFill className="text-md text-zinc-50 text-lg" />
+            <BsFillPlayFill
+              className="text-md text-zinc-50 text-lg"
+              onClick={() => console.log("play song")}
+            />
           ) : (
             <p>{idx}</p>
           )}

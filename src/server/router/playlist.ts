@@ -31,6 +31,7 @@ export const playlistRouter = createRouter()
                 name: true,
                 duration: true,
                 createdAt: true,
+                url: true,
                 Album: {
                   select: {
                     name: true,

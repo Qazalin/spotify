@@ -7,8 +7,8 @@ import { AppLayout } from "@spotify/components/app";
 
 const PlaylistPage: NextPage = () => {
   const router = useRouter();
+
   const { id } = router.query;
-  console.log(id);
   const { data: playlist, isLoading } = trpc.useQuery([
     "playlist.getPlaylistById",
     { id: id as string }, // danger stuff
@@ -17,6 +17,7 @@ const PlaylistPage: NextPage = () => {
   if (isLoading) {
     return <LoadingScreen />;
   }
+
   if (playlist) {
     return (
       <AppLayout>

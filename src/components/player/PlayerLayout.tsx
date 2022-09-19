@@ -6,10 +6,10 @@ import { PlayerSlider } from "./PlayerSlider";
 
 export const PlayerLayout = () => {
   return (
-    <div className="w-full h-full relative flex justify-between px-4">
-      <div className="h-full w-1/3 bg-zinc-600" />
-      <div className="h-full w-1/3 bg-zinc-600" />
-      <div className="h-full w-1/3 bg-zinc-600" />
+    <div className="w-full h-full relative flex space-x-1 px-4">
+      <div className="h-full w-1/3 bg-zinc-800" />
+      <div className="h-full w-1/3 bg-zinc-800" />
+      <div className="h-full w-1/3 bg-zinc-800" />
     </div>
   );
 };
