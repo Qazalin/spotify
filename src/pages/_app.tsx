@@ -2,10 +2,12 @@
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { withTRPC } from "@trpc/next";
+import { StoreProvider } from "easy-peasy";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
+import { store } from "utils/store";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
 
@@ -15,9 +17,11 @@ const MyApp: AppType = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <ThemeProvider attribute="class">
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <StoreProvider store={store}>
+        <ThemeProvider attribute="class">
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </StoreProvider>
     </SessionProvider>
   );
 };

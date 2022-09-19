@@ -1,11 +1,10 @@
-import { useRouter } from "next/router";
-import { NextPage } from "next";
+import { AppLayout } from "components/player/AppLayout";
 import { PlaylistTable, PlaylistHeader } from "@spotify/components/playlist";
 import { LoadingScreen } from "components/shared/LoadingScreen";
-import { trpc } from "@spotify/utils/trpc";
-import { AppLayout } from "components/player/AppLayout";
+import { useRouter } from "next/router";
+import { trpc } from "utils/trpc";
 
-const PlaylistPage: NextPage = () => {
+const PlaylistPage = () => {
   const router = useRouter();
   const { id } = router.query;
   console.log(id);
