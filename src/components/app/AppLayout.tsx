@@ -1,7 +1,7 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 import { AppNavbar } from "./AppNavbar";
 import { AppSidebar } from "./AppSidebar";
-import { PlayerLayout } from "./PlayerLayout";
+import { PlayerLayout } from "@spotify/components/player/PlayerLayout";
 
 export const AppLayout: React.FC<
   PropsWithChildren<Record<string, unknown>>

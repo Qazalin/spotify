@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { PlaylistTable, PlaylistHeader } from "@spotify/components/playlist";
 import { LoadingScreen } from "components/shared/LoadingScreen";
 import { trpc } from "@spotify/utils/trpc";
-import { AppLayout } from "components/player/AppLayout";
+import { AppLayout } from "@spotify/components/app";
 
 const PlaylistPage: NextPage = () => {
   const router = useRouter();
