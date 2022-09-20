@@ -1,9 +1,6 @@
 import { useActiveSong } from "@spotify/utils/state/useStoreStates";
-import { AiFillPlayCircle, AiOutlineHeart } from "react-icons/ai";
-import { BiShuffle, BiSkipNext, BiSkipPrevious } from "react-icons/bi";
-import { BsVolumeDownFill } from "react-icons/bs";
-import { IoIosRepeat } from "react-icons/io";
-import { PlayerSlider } from "./PlayerSlider";
+import { PlayerControls } from "./PlayerControls";
+
 import { SongInfo } from "./SongInfo";
 
 export const PlayerLayout = () => {
@@ -22,7 +19,9 @@ export const PlayerLayout = () => {
           artistId={activeSong.Album.Artist.id}
         />
       </div>
-      <div className="h-full w-1/3 bg-zinc-800" />
+      <div className="h-full w-1/3">
+        <PlayerControls />
+      </div>
       <div className="h-full w-1/3 bg-zinc-800" />
     </div>
   );
