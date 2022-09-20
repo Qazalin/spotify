@@ -14,6 +14,7 @@ export const playlistRouter = createRouter()
           },
           select: {
             // playlist fields
+            id: true,
             name: true,
             desc: true,
             image: true,

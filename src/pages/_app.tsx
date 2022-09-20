@@ -1,4 +1,5 @@
 // src/pages/_app.tsx
+import { store } from "@spotify/utils/state/store";
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { withTRPC } from "@trpc/next";
@@ -7,7 +8,6 @@ import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
-import { store } from "utils/store";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
 

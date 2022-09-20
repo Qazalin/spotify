@@ -24,6 +24,8 @@ export const PlaylistTable: React.FC<{
               songDateAdded={s.createdAt}
               songDuration={s.duration}
               albumImage={s.Album.image}
+              songUrl={s.url}
+              playlistId={playlist.id}
             />
           ))}
         </div>

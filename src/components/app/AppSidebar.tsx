@@ -2,8 +2,14 @@ import { JSXElementConstructor, ReactNode } from "react";
 import { BiNavigation, BiHomeAlt, BiLibrary } from "react-icons/bi";
 import { AiFillHeart } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
+import { useActiveSong } from "@spotify/utils/state";
+import Image from "next/future/image";
+import { useRouter } from "next/router";
 
 export const AppSidebar = () => {
+  const activeSong = useActiveSong();
+  const router = useRouter();
+
   const sidebarOptions: {
     name: string;
     icon: JSXElementConstructor<{ className: string }>;
@@ -36,7 +42,7 @@ export const AppSidebar = () => {
   ];
 
   return (
-    <div className="w-full h-full p-5 space-y-3">
+    <div className="w-full h-full p-5 space-y-3 relative">
       {sidebarOptions.map((opt, i) => (
         <div
           key={`sidebar-${i}`}
@@ -56,6 +62,19 @@ export const AppSidebar = () => {
           <p className="capitalize">{opt.name}</p>
         </div>
       ))}
+      {activeSong ? (
+        <Image
+          src={activeSong.Album.image}
+          width={280}
+          height={280}
+          className="absolute bottom-0 left-0 cursor-pointer"
+          onClick={() =>
+            router.push(`/app/playlist/${activeSong.activePlaylistId}`)
+          }
+          draggable={false}
+          alt={activeSong.name}
+        />
+      ) : null}
     </div>
   );
 };

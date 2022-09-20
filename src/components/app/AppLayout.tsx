@@ -2,12 +2,13 @@ import { PropsWithChildren, useEffect, useState } from "react";
 import { AppNavbar } from "./AppNavbar";
 import { AppSidebar } from "./AppSidebar";
 import { PlayerLayout } from "@spotify/components/player/PlayerLayout";
-import { useStoreState } from "@spotify/utils";
+import { useActiveSong } from "@spotify/utils/state";
 
 export const AppLayout: React.FC<
   PropsWithChildren<Record<string, unknown>>
 > = ({ children }) => {
-  const activeSong = useStoreState((state) => state.activeSong.song);
+  const activeSong = useActiveSong();
+
   useEffect(
     () => console.log("Current active song: ", activeSong),
     [activeSong]

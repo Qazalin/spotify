@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { BsFillPlayFill } from "react-icons/bs";
 import Image from "next/future/image";
-import {
-  dateFormatter,
-  durationFormatter,
-  useStoreActions,
-} from "@spotify/utils";
+import { dateFormatter, durationFormatter } from "@spotify/utils";
+import { useStoreActions } from "@spotify/utils/state";
 
 export const SongRow: React.FC<{
   idx: number;
@@ -19,6 +16,7 @@ export const SongRow: React.FC<{
   songUrl: string;
   songDateAdded: Date;
   songDuration: number;
+  playlistId: string;
 }> = ({
   idx,
   songId,
@@ -31,6 +29,7 @@ export const SongRow: React.FC<{
   songDateAdded,
   songUrl,
   songDuration,
+  playlistId,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const setActiveSong = useStoreActions(
@@ -40,9 +39,11 @@ export const SongRow: React.FC<{
     console.log("setting active song");
     setActiveSong({
       id: songId,
+      activePlaylistId: playlistId,
       name: songName,
       duration: songDuration,
       url: songUrl,
+      createdAt: songDateAdded,
       Album: {
         name: albumName,
         image: albumImage,
