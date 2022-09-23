@@ -18,14 +18,17 @@ export interface StoreSongModel {
   };
 }
 
-interface ActiveSongModel {
-  song?: StoreSongModel;
-  isPlaying: boolean;
+interface SongsModel {
+  allSongs?: StoreSongModel[];
+  activeSongIdx: number; // always default to 0
+  isPlaying: boolean; // always default to false
   playlistId?: string;
-  setActiveSong: Action<ActiveSongModel, StoreSongModel>;
-  setIsPlaying: Action<ActiveSongModel, boolean>;
-  setPlaylistId: Action<ActiveSongModel, string>;
+
+  setAllSongs: Action<SongsModel, StoreSongModel[]>;
+  setIsPlaying: Action<SongsModel, boolean>;
+  setPlaylistId: Action<SongsModel, string>;
+  setActiveSongIdx: Action<SongsModel, number>;
 }
 export interface IStore {
-  activeSong: ActiveSongModel;
+  songs: SongsModel;
 }

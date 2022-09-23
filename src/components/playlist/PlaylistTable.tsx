@@ -1,13 +1,13 @@
 import { PlaylistTableHeader } from "./PlaylistTableHeader";
 import { SongRow } from "./PlaylistSongRow";
 import { inferQueryOutput } from "@spotify/utils/trpc";
-import { useActiveSong, useIsPlaying } from "@spotify/utils/state";
+import { useStoreState } from "@spotify/utils/state";
 
 export const PlaylistTable: React.FC<{
   playlist: inferQueryOutput<"playlist.getPlaylistById">;
 }> = ({ playlist }) => {
-  const activeSong = useActiveSong();
-  const isPlaying = useIsPlaying();
+  const activeSong = useStoreState((state) => state.songs.activeSongIdx);
+  const isPlaying = useStoreState((state) => state.songs.isPlaying);
 
   return (
     <div className="w-full h-full px-5">

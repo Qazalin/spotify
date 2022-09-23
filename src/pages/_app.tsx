@@ -1,5 +1,5 @@
 // src/pages/_app.tsx
-import { store } from "@spotify/utils/state/store";
+import { store } from "@spotify/utils/state";
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { withTRPC } from "@trpc/next";
