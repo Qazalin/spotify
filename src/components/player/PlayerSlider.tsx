@@ -1,8 +1,9 @@
-import { useState } from "react";
 import { Range, getTrackBackground } from "react-range";
 
-export const PlayerSlider = () => {
-  const [values, setValues] = useState([0]);
+export const PlayerSlider: React.FC<{
+  onChange: (val: number) => void;
+  value: number;
+}> = ({ onChange, value }) => {
   const MIN = 0;
   const MAX = 167;
   const STEP = 5;
@@ -13,8 +14,8 @@ export const PlayerSlider = () => {
         min={MIN}
         max={MAX}
         step={STEP}
-        values={values}
-        onChange={(values) => setValues(values)}
+        values={[value]}
+        onChange={(vals) => onChange(vals[0] ? vals[0] : 0)}
         renderTrack={({ props, children, isDragged }) => (
           <div
             onMouseDown={props.onMouseDown}
@@ -31,7 +32,7 @@ export const PlayerSlider = () => {
               className="h-1 w-full rounded-full self-center"
               style={{
                 background: getTrackBackground({
-                  values,
+                  values: [value],
                   colors: isDragged
                     ? ["#10b981", "#52525b"]
                     : ["#fff", "#52525b"],

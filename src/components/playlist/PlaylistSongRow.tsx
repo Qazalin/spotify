@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BsFillPlayFill } from "react-icons/bs";
 import Image from "next/future/image";
 import { dateFormatter, durationFormatter } from "@spotify/utils";
-import { useStoreActions } from "@spotify/utils/state";
+import { useStoreActions, useStoreState } from "@spotify/utils/state";
 
 export const SongRow: React.FC<{
   idx: number;
@@ -17,6 +17,8 @@ export const SongRow: React.FC<{
   songDateAdded: Date;
   songDuration: number;
   playlistId: string;
+  isActive: boolean;
+  isPlaying: boolean;
 }> = ({
   idx,
   songId,
@@ -30,16 +32,31 @@ export const SongRow: React.FC<{
   songUrl,
   songDuration,
   playlistId,
+  isActive,
+  isPlaying,
 }) => {
+  // state
   const [isHovered, setIsHovered] = useState(false);
+
+  // setters and hanlers
   const setActiveSong = useStoreActions(
     (actions) => actions.activeSong.setActiveSong
   );
+  const setPlaylistId = useStoreActions(
+    (actions) => actions.activeSong.setPlaylistId
+  );
+  const setIsPlaying = useStoreActions(
+    (actions) => actions.activeSong.setIsPlaying
+  );
+
   const handlePlay = () => {
-    console.log("setting active song");
+    if (isPlaying) {
+      setIsPlaying(false);
+    } else {
+      setIsPlaying(true);
+    }
     setActiveSong({
       id: songId,
-      activePlaylistId: playlistId,
       name: songName,
       duration: songDuration,
       url: songUrl,
@@ -54,6 +71,7 @@ export const SongRow: React.FC<{
         },
       },
     });
+    setPlaylistId(playlistId);
   };
 
   return (
@@ -71,7 +89,9 @@ export const SongRow: React.FC<{
               onClick={() => handlePlay()}
             />
           ) : (
-            <p>{idx}</p>
+            <p className={`${isActive ? "text-green-400" : "text-inherit"}`}>
+              {idx}
+            </p>
           )}
         </div>
         <div className="flex space-x-2">
@@ -83,7 +103,12 @@ export const SongRow: React.FC<{
             alt="album"
           />
           <div className="h-full space-y-1 flex flex-col">
-            <a className="font-[400] text-zinc-50" href={`/track/${songId}`}>
+            <a
+              className={`font-[400] text-zinc-50 ${
+                isActive ? "text-green-400" : "text-inherit"
+              }`}
+              href={`/track/${songId}`}
+            >
               {songName}
             </a>
             <a className="text-xs" href={`/app/artist/${artistId}`}>

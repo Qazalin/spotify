@@ -3,7 +3,6 @@ import { Action } from "easy-peasy";
 // Models
 export interface StoreSongModel {
   id: string;
-  activePlaylistId: string;
   name: string;
   duration: number;
   url: string;
@@ -21,7 +20,11 @@ export interface StoreSongModel {
 
 interface ActiveSongModel {
   song?: StoreSongModel;
+  isPlaying?: boolean;
+  playlistId?: string;
   setActiveSong: Action<ActiveSongModel, StoreSongModel>;
+  setIsPlaying: Action<ActiveSongModel, boolean>;
+  setPlaylistId: Action<ActiveSongModel, string>;
 }
 export interface IStore {
   activeSong: ActiveSongModel;

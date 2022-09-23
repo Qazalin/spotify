@@ -6,3 +6,8 @@ export const useActiveSong = () => {
   const activeSong = useStoreState((state) => state.activeSong.song);
   return activeSong;
 };
+
+export const useIsPlaying = () => {
+  const activeSong = useStoreState((state) => state.activeSong.isPlaying);
+  return activeSong;
+};

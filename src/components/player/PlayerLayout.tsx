@@ -20,7 +20,7 @@ export const PlayerLayout = () => {
         />
       </div>
       <div className="h-full w-1/3">
-        <PlayerControls />
+        <PlayerControls songUrl={activeSong.url} />
       </div>
       <div className="h-full w-1/3 bg-zinc-800" />
     </div>

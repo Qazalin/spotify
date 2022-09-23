@@ -6,10 +6,15 @@ export const store = createStore<IStore>({
     setActiveSong: action((state, payload) => {
       state.song = payload;
     }),
+    setIsPlaying: action((state, payload) => {
+      state.isPlaying = payload;
+    }),
+    setPlaylistId: action((state, payload) => {
+      state.playlistId = payload;
+    }),
   },
 });
 
 export const typedHooks = createTypedHooks<IStore>();
 
-export const useStoreActions = typedHooks.useStoreActions;
 export const useStoreDispatch = typedHooks.useStoreDispatch;

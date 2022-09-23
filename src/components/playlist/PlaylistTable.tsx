@@ -1,10 +1,14 @@
 import { PlaylistTableHeader } from "./PlaylistTableHeader";
 import { SongRow } from "./PlaylistSongRow";
 import { inferQueryOutput } from "@spotify/utils/trpc";
+import { useActiveSong, useIsPlaying } from "@spotify/utils/state";
 
 export const PlaylistTable: React.FC<{
   playlist: inferQueryOutput<"playlist.getPlaylistById">;
 }> = ({ playlist }) => {
+  const activeSong = useActiveSong();
+  const isPlaying = useIsPlaying();
+
   return (
     <div className="w-full h-full px-5">
       <div className="w-full h-full relative">
@@ -26,6 +30,8 @@ export const PlaylistTable: React.FC<{
               albumImage={s.Album.image}
               songUrl={s.url}
               playlistId={playlist.id}
+              isActive={activeSong?.id === s.id}
+              isPlaying={isPlaying}
             />
           ))}
         </div>

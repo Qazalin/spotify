@@ -6,14 +6,11 @@ export const SongInfo: React.FC<{
 }> = ({ artistId, artistName, songName, albumId }) => {
   return (
     <div className="w-full h-full flex justify-start items-center">
-      <div className="space-y-2 flex flex-col">
-        <a href={`/app/album/${albumId}`} className="text-sm md:text-md">
+      <div className="space-y-1 flex flex-col">
+        <a href={`/app/album/${albumId}`} className="text-md">
           {songName}
         </a>
-        <a
-          href={`/app/artist/${artistId}`}
-          className="text-xs md:text-sm text-zinc-400"
-        >
+        <a href={`/app/artist/${artistId}`} className="text-xs text-zinc-400">
           {artistName}
         </a>
       </div>
