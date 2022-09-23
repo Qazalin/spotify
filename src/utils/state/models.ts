@@ -20,7 +20,7 @@ export interface StoreSongModel {
 
 interface ActiveSongModel {
   song?: StoreSongModel;
-  isPlaying?: boolean;
+  isPlaying: boolean;
   playlistId?: string;
   setActiveSong: Action<ActiveSongModel, StoreSongModel>;
   setIsPlaying: Action<ActiveSongModel, boolean>;

@@ -11,7 +11,7 @@ export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
   const [isSeeking, setIsSeeking] = useState(false);
   const [playedTime, setPlayedTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const songRef = useRef(null);
+  const songRef = useRef<ReactHowler>(null);
 
   const setIsPlaying = useStoreActions(
     (actions) => actions.activeSong.setIsPlaying
@@ -27,7 +27,11 @@ export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
     let timerId: number;
     if (isPlaying && !isSeeking) {
       const timer = () => {
-        // setPlayedTime(songRef.current.seek());
+        const t = songRef.current?.seek(); // can possibly be undefined
+        if (t) {
+          setPlayedTime(t);
+        }
+
         timerId = requestAnimationFrame(timer);
       };
       timerId = requestAnimationFrame(timer);
@@ -36,7 +40,7 @@ export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
   }, [isPlaying, isSeeking]);
 
   useEffect(() => {
-    const handleSpace = (e: KeyboardEvent) => {
+    const handleKey = (e: KeyboardEvent) => {
       if (e.code === "Space") {
         console.log(isPlaying);
         setIsPlaying(!isPlaying);
@@ -54,9 +58,9 @@ export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
         e.preventDefault();
       }
     };
-    window.addEventListener("keydown", handleSpace);
+    window.addEventListener("keydown", handleKey);
     return () => {
-      window.removeEventListener("keydown", handleSpace);
+      window.removeEventListener("keydown", handleKey);
     };
   });
 
@@ -81,7 +85,7 @@ export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
         <BiSkipNext className="hover:fill-zinc-50" />
         <IoIosRepeat className="hover:fill-zinc-50" />
       </div>
-      <ReactHowler src={songUrl} playing={isPlaying} />
+      <ReactHowler src={songUrl} playing={isPlaying} ref={songRef} />
       <PlayerSlider value={playedTime} onChange={(val) => setPlayedTime(val)} />
     </div>
   );

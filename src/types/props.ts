@@ -16,3 +16,20 @@ export type SharedGridProps<D> = {
   sectionId: string;
   data: D[];
 };
+
+export type SongRowProps = {
+  idx: number;
+  songId: string;
+  albumId: string;
+  artistId: string;
+  songName: string;
+  artistName: string;
+  albumName: string;
+  albumImage: string;
+  songUrl: string;
+  songDateAdded: Date;
+  songDuration: number;
+  playlistId: string;
+  isActive: boolean;
+  isPlaying: boolean;
+};

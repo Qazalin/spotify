@@ -12,6 +12,7 @@ export const store = createStore<IStore>({
     setPlaylistId: action((state, payload) => {
       state.playlistId = payload;
     }),
+    isPlaying: false,
   },
 });
 
