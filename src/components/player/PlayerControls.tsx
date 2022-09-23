@@ -13,6 +13,16 @@ export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
   const [duration, setDuration] = useState(0);
   const songRef = useRef(null);
 
+  const setIsPlaying = useStoreActions(
+    (actions) => actions.activeSong.setIsPlaying
+  );
+
+  const onSeek = (e) => {
+    console.log("seeked: ", e);
+    setIsSeeking(true);
+    setPlayedTime(parseFloat(e[0]));
+  };
+
   useEffect(() => {
     let timerId: number;
     if (isPlaying && !isSeeking) {
@@ -25,15 +35,30 @@ export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
     }
   }, [isPlaying, isSeeking]);
 
-  const setIsPlaying = useStoreActions(
-    (actions) => actions.activeSong.setIsPlaying
-  );
+  useEffect(() => {
+    const handleSpace = (e: KeyboardEvent) => {
+      if (e.code === "Space") {
+        console.log(isPlaying);
+        setIsPlaying(!isPlaying);
+        e.preventDefault();
+      }
 
-  const onSeek = (e) => {
-    console.log("seeked: ", e);
-    setIsSeeking(true);
-    setPlayedTime(parseFloat(e[0]));
-  };
+      // left arrow key
+      if (e.code === "ArrowLeft") {
+        // go to the prev song
+        e.preventDefault();
+      }
+
+      if (e.code === "ArrowRight") {
+        // go to the next song
+        e.preventDefault();
+      }
+    };
+    window.addEventListener("keydown", handleSpace);
+    return () => {
+      window.removeEventListener("keydown", handleSpace);
+    };
+  });
 
   return (
     <div className="flex w-full h-full flex-col">

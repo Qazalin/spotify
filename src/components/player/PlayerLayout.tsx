@@ -8,6 +8,7 @@ export const PlayerLayout = () => {
   if (!activeSong) {
     return <div>Nothing playing</div>;
   }
+  // listen for the space key
 
   return (
     <div className="w-full h-full relative flex space-x-1 px-4">
