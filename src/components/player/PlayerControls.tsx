@@ -6,20 +6,50 @@ import { PlayerSlider } from "./PlayerSlider";
 import ReactHowler from "react-howler";
 import { useStoreState, useStoreActions } from "@spotify/utils/state";
 
-export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
-  const isPlaying = useStoreState((state) => state.songs.isPlaying);
+export const PlayerControls: React.FC<{
+  songUrl: string;
+  songDuration: number;
+}> = ({ songUrl, songDuration }) => {
+  // local state
   const [isSeeking, setIsSeeking] = useState(false);
   const [playedTime, setPlayedTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [isShuffle, setIsShuffle] = useState(false);
+  const [isRepeat, setIsRepeat] = useState(false);
+
+  // global state
+  const isPlaying = useStoreState((state) => state.songs.isPlaying);
+  const activeSongIdx = useStoreState((state) => state.songs.activeSongIdx);
+  const allSongs = useStoreState((state) => state.songs.allSongs);
+
+  // global actions
+  const setIsPlaying = useStoreActions((actions) => actions.songs.setIsPlaying);
+  const setActiveSongIdx = useStoreActions(
+    (actions) => actions.songs.setActiveSongIdx
+  );
+
   const songRef = useRef<ReactHowler>(null);
 
-  const setIsPlaying = useStoreActions((actions) => actions.songs.setIsPlaying);
-
   const onSeek = (e: number) => {
-    console.log("seeked: ", e);
     setIsSeeking(true);
     setPlayedTime(e);
     songRef.current?.seek(e);
+  };
+
+  const onSongChange = (action: "next" | "prev") => {
+    // when a song changes, a few things need to reset: 1- the played time needs to be reset to 0 TODO
+    console.log("change of songs");
+    setPlayedTime(0);
+    if (action === "next") {
+      if (allSongs && activeSongIdx === allSongs.length - 1) {
+        setActiveSongIdx(0);
+      }
+      setActiveSongIdx(activeSongIdx + 1);
+    } else {
+      if (allSongs && activeSongIdx === 0) {
+        setActiveSongIdx(allSongs.length - 1);
+      }
+      setActiveSongIdx(activeSongIdx - 1);
+    }
   };
 
   useEffect(() => {
@@ -38,23 +68,22 @@ export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
     }
   }, [isPlaying, isSeeking]);
 
+  // because this component is always in the layout, we can listen to keys right here
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.code === "Space") {
-        console.log(isPlaying);
-        setIsPlaying(!isPlaying);
         e.preventDefault();
+        setIsPlaying(!isPlaying);
       }
-
-      // left arrow key
       if (e.code === "ArrowLeft") {
         // go to the prev song
         e.preventDefault();
+        setActiveSongIdx(activeSongIdx - 1);
       }
-
       if (e.code === "ArrowRight") {
         // go to the next song
         e.preventDefault();
+        setActiveSongIdx(activeSongIdx + 1);
       }
     };
     window.addEventListener("keydown", handleKey);
@@ -67,7 +96,10 @@ export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
     <div className="flex w-full h-full flex-col">
       <div className="flex text-2xl justify-center mt-3 items-center space-x-2 text-zinc-400 [&>*]:cursor-pointer">
         <BiShuffle className="text-lg hover:fill-zinc-50" />
-        <BiSkipPrevious className="hover:fill-zinc-50" />
+        <BiSkipPrevious
+          className="hover:fill-zinc-50"
+          onClick={() => onSongChange("prev")}
+        />
         <div className="w-7 h-7 p-1 bg-white rounded-full flex justify-center items-center">
           {isPlaying ? (
             <BsPauseFill
@@ -81,7 +113,10 @@ export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
             />
           )}
         </div>
-        <BiSkipNext className="hover:fill-zinc-50" />
+        <BiSkipNext
+          className="hover:fill-zinc-50"
+          onClick={() => onSongChange("next")}
+        />
         <IoIosRepeat className="hover:fill-zinc-50" />
       </div>
       <ReactHowler
@@ -89,11 +124,13 @@ export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
         playing={isPlaying}
         ref={songRef}
         volume={isSeeking ? 0 : 1} // don't play a sound when seeking
+        onEnd={() => onSongChange("next")}
       />
       <PlayerSlider
         value={playedTime}
         onChange={onSeek}
         onFinalChange={() => setIsSeeking(false)}
+        duration={songDuration}
       />
     </div>
   );

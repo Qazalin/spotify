@@ -20,9 +20,11 @@ export const PlayerLayout = () => {
         />
       </div>
       <div className="h-full w-1/3">
-        <PlayerControls songUrl={activeSong.url} />
+        <PlayerControls
+          songUrl={activeSong.url}
+          songDuration={activeSong.duration}
+        />
       </div>
-      <div className="h-full w-1/3 bg-zinc-800" />
     </div>
   );
 };
