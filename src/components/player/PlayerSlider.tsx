@@ -2,8 +2,9 @@ import { Range, getTrackBackground } from "react-range";
 
 export const PlayerSlider: React.FC<{
   onChange: (val: number) => void;
+  onFinalChange: () => void;
   value: number;
-}> = ({ onChange, value }) => {
+}> = ({ onChange, value, onFinalChange }) => {
   const MIN = 0;
   const MAX = 167;
   const STEP = 5;
@@ -16,6 +17,7 @@ export const PlayerSlider: React.FC<{
         step={STEP}
         values={[value]}
         onChange={(vals) => onChange(vals[0] ? vals[0] : 0)}
+        onFinalChange={onFinalChange}
         renderTrack={({ props, children, isDragged }) => (
           <div
             onMouseDown={props.onMouseDown}

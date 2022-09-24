@@ -1,12 +1,20 @@
 import { PlaylistTableHeader } from "./PlaylistTableHeader";
 import { SongRow } from "./PlaylistSongRow";
 import { inferQueryOutput } from "@spotify/utils/trpc";
-import { useStoreState } from "@spotify/utils/state";
+import {
+  useStoreState,
+  useStoreActions,
+  useActiveSong,
+} from "@spotify/utils/state";
 
 export const PlaylistTable: React.FC<{
   playlist: inferQueryOutput<"playlist.getPlaylistById">;
 }> = ({ playlist }) => {
-  const activeSong = useStoreState((state) => state.songs.activeSongIdx);
+  const activeSong = useActiveSong();
+  useStoreActions((actions) => actions.songs.setAllSongs)(
+    playlist ? playlist.songs : []
+  );
+  const songs = useStoreState((state) => state.songs.allSongs);
   const isPlaying = useStoreState((state) => state.songs.isPlaying);
 
   return (
@@ -15,7 +23,7 @@ export const PlaylistTable: React.FC<{
         <PlaylistTableHeader />
         <hr className="absolute top-8 w-full opacity-20" />
         <div className="top-8 w-full absolute space-y-2 mt-2">
-          {playlist?.songs.map((s, i) => (
+          {songs?.map((s, i) => (
             <SongRow
               key={`song-row-${i}`}
               idx={i}
@@ -29,7 +37,7 @@ export const PlaylistTable: React.FC<{
               songDuration={s.duration}
               albumImage={s.Album.image}
               songUrl={s.url}
-              playlistId={playlist.id}
+              playlistId={playlist ? playlist.id : ""}
               isActive={activeSong?.id === s.id}
               isPlaying={isPlaying}
             />

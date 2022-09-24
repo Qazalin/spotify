@@ -2,12 +2,13 @@ import { JSXElementConstructor, ReactNode } from "react";
 import { BiNavigation, BiHomeAlt, BiLibrary } from "react-icons/bi";
 import { AiFillHeart } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
-import { useActiveSong } from "@spotify/utils/state";
 import Image from "next/future/image";
 import { useRouter } from "next/router";
+import { useActiveSong, useStoreState } from "@spotify/utils/state";
 
 export const AppSidebar = () => {
   const activeSong = useActiveSong();
+  const activePlaylistId = useStoreState((state) => state.songs.playlistId);
   const router = useRouter();
 
   const sidebarOptions: {
@@ -68,9 +69,7 @@ export const AppSidebar = () => {
           width={280}
           height={280}
           className="absolute bottom-0 left-0 cursor-pointer"
-          onClick={() =>
-            router.push(`/app/playlist/${activeSong.activePlaylistId}`)
-          }
+          onClick={() => router.push(`/app/playlist/${activePlaylistId}`)}
           draggable={false}
           alt={activeSong.name}
         />

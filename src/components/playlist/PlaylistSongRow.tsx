@@ -1,49 +1,27 @@
 import { useState } from "react";
 import { dateFormatter, durationFormatter } from "@spotify/utils";
-import { useStoreActions } from "@spotify/utils/state";
+import { useStoreState, useStoreActions } from "@spotify/utils/state";
 import { SongRowProps } from "@spotify/types/props";
-import { useTailwindBreakpoint } from "@spotify/utils/responsiveBreakpoints";
 import { IDXColumn, TrackInfoColumn } from "./PlaylistTableColumns";
 
 export const SongRow: React.FC<SongRowProps> = (p) => {
   // state
   const [isHovered, setIsHovered] = useState(false);
-  const isLg = useTailwindBreakpoint("lg");
 
   // setters and hanlers
-  const setActiveSong = useStoreActions(
-    (actions) => actions.activeSong.setActiveSong
+  const setActiveSongIdx = useStoreActions(
+    (actions) => actions.songs.setActiveSongIdx
   );
   const setPlaylistId = useStoreActions(
-    (actions) => actions.activeSong.setPlaylistId
+    (actions) => actions.songs.setPlaylistId
   );
-  const setIsPlaying = useStoreActions(
-    (actions) => actions.activeSong.setIsPlaying
-  );
+  const isPlaying = useStoreState((state) => state.songs.isPlaying);
+  const setIsPlaying = useStoreActions((actions) => actions.songs.setIsPlaying);
 
   // main handler
   const handlePlay = () => {
-    if (p.isPlaying) {
-      setIsPlaying(false);
-    } else {
-      setIsPlaying(true);
-    }
-    setActiveSong({
-      id: p.songId,
-      name: p.songName,
-      duration: p.songDuration,
-      url: p.songUrl,
-      createdAt: p.songDateAdded,
-      Album: {
-        name: p.albumName,
-        image: p.albumImage,
-        id: p.albumId,
-        Artist: {
-          name: p.artistName,
-          id: p.artistId,
-        },
-      },
-    });
+    setIsPlaying(!isPlaying);
+    setActiveSongIdx(p.idx);
     setPlaylistId(p.playlistId);
   };
 

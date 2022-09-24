@@ -25,3 +25,10 @@ export const typedHooks = createTypedHooks<IStore>();
 export const useStoreDispatch = typedHooks.useStoreDispatch;
 export const useStoreState = typedHooks.useStoreState;
 export const useStoreActions = typedHooks.useStoreActions;
+
+export const useActiveSong = () => {
+  const activeSongIdx = useStoreState((state) => state.songs.activeSongIdx);
+  const allSongs = useStoreState((state) => state.songs.allSongs);
+
+  return allSongs ? allSongs[activeSongIdx] : undefined;
+};

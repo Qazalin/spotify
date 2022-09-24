@@ -1,4 +1,4 @@
-import { useActiveSong } from "@spotify/utils/state/useStoreStates";
+import { useActiveSong } from "@spotify/utils/state";
 import { PlayerControls } from "./PlayerControls";
 
 import { SongInfo } from "./SongInfo";
@@ -8,7 +8,6 @@ export const PlayerLayout = () => {
   if (!activeSong) {
     return <div>Nothing playing</div>;
   }
-  // listen for the space key
 
   return (
     <div className="w-full h-full relative flex space-x-1 px-4">

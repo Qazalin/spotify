@@ -1,6 +1,5 @@
 import { Album, Artist, Playlist } from "@prisma/client";
 import { useState } from "react";
-import { AiFillPlayCircle } from "react-icons/ai";
 
 export const ArtistCard: React.FC<{ artist: Artist }> = ({ artist }) => {
   function handleArtistClick() {

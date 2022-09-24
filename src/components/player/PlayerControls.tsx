@@ -4,23 +4,22 @@ import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 import { IoIosRepeat } from "react-icons/io";
 import { PlayerSlider } from "./PlayerSlider";
 import ReactHowler from "react-howler";
-import { useIsPlaying, useStoreActions } from "@spotify/utils/state";
+import { useStoreState, useStoreActions } from "@spotify/utils/state";
 
 export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
-  const isPlaying = useIsPlaying();
+  const isPlaying = useStoreState((state) => state.songs.isPlaying);
   const [isSeeking, setIsSeeking] = useState(false);
   const [playedTime, setPlayedTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const songRef = useRef<ReactHowler>(null);
 
-  const setIsPlaying = useStoreActions(
-    (actions) => actions.activeSong.setIsPlaying
-  );
+  const setIsPlaying = useStoreActions((actions) => actions.songs.setIsPlaying);
 
-  const onSeek = (e) => {
+  const onSeek = (e: number) => {
     console.log("seeked: ", e);
     setIsSeeking(true);
-    setPlayedTime(parseFloat(e[0]));
+    setPlayedTime(e);
+    songRef.current?.seek(e);
   };
 
   useEffect(() => {
@@ -85,8 +84,17 @@ export const PlayerControls: React.FC<{ songUrl: string }> = ({ songUrl }) => {
         <BiSkipNext className="hover:fill-zinc-50" />
         <IoIosRepeat className="hover:fill-zinc-50" />
       </div>
-      <ReactHowler src={songUrl} playing={isPlaying} ref={songRef} />
-      <PlayerSlider value={playedTime} onChange={(val) => setPlayedTime(val)} />
+      <ReactHowler
+        src={songUrl}
+        playing={isPlaying}
+        ref={songRef}
+        volume={isSeeking ? 0 : 1} // don't play a sound when seeking
+      />
+      <PlayerSlider
+        value={playedTime}
+        onChange={onSeek}
+        onFinalChange={() => setIsSeeking(false)}
+      />
     </div>
   );
 };
