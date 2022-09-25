@@ -1,4 +1,5 @@
 import { durationFormatter } from "@spotify/utils";
+import { useState } from "react";
 import { Range, getTrackBackground } from "react-range";
 
 export const PlayerSlider: React.FC<{
@@ -7,19 +8,20 @@ export const PlayerSlider: React.FC<{
   value: number;
   duration: number;
 }> = ({ onChange, value, onFinalChange, duration }) => {
-  const MIN = 0;
-  const MAX = duration;
-  const STEP = 1;
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(duration);
+  const [values, setValues] = useState([value, max]);
+
   return (
     <div className="w-full h-full flex space-x-2 items-center">
       <span className="text-[13px] text-zinc-500">
         {durationFormatter(value)}
       </span>
       <Range
-        min={MIN}
-        max={MAX}
-        step={STEP}
-        values={[value, MAX]}
+        min={min}
+        max={max}
+        step={1}
+        values={values}
         onChange={(vals) => onChange(vals[0] ? vals[0] : 0)}
         onFinalChange={onFinalChange}
         renderTrack={({ props, children, isDragged }) => (
@@ -42,8 +44,8 @@ export const PlayerSlider: React.FC<{
                   colors: isDragged
                     ? ["#10b981", "#52525b"]
                     : ["#fff", "#52525b"],
-                  min: MIN,
-                  max: MAX,
+                  min,
+                  max,
                 }),
               }}
             >

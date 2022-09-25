@@ -5,6 +5,7 @@ import { IoIosRepeat } from "react-icons/io";
 import { PlayerSlider } from "./PlayerSlider";
 import ReactHowler from "react-howler";
 import { useStoreState, useStoreActions } from "@spotify/utils/state";
+import { PlayPauseButton } from "../shared";
 
 export const PlayerControls: React.FC<{
   songUrl: string;
@@ -36,19 +37,19 @@ export const PlayerControls: React.FC<{
   };
 
   const onSongChange = (action: "next" | "prev") => {
-    // when a song changes, a few things need to reset: 1- the played time needs to be reset to 0 TODO
-    console.log("change of songs");
     setPlayedTime(0);
     if (action === "next") {
       if (allSongs && activeSongIdx === allSongs.length - 1) {
         setActiveSongIdx(0);
+      } else {
+        setActiveSongIdx(activeSongIdx + 1);
       }
-      setActiveSongIdx(activeSongIdx + 1);
     } else {
       if (allSongs && activeSongIdx === 0) {
         setActiveSongIdx(allSongs.length - 1);
+      } else {
+        setActiveSongIdx(activeSongIdx - 1);
       }
-      setActiveSongIdx(activeSongIdx - 1);
     }
   };
 
@@ -78,12 +79,12 @@ export const PlayerControls: React.FC<{
       if (e.code === "ArrowLeft") {
         // go to the prev song
         e.preventDefault();
-        setActiveSongIdx(activeSongIdx - 1);
+        onSongChange("prev");
       }
       if (e.code === "ArrowRight") {
         // go to the next song
         e.preventDefault();
-        setActiveSongIdx(activeSongIdx + 1);
+        onSongChange("next");
       }
     };
     window.addEventListener("keydown", handleKey);
@@ -100,19 +101,7 @@ export const PlayerControls: React.FC<{
           className="hover:fill-zinc-50"
           onClick={() => onSongChange("prev")}
         />
-        <div className="w-7 h-7 p-1 bg-white rounded-full flex justify-center items-center">
-          {isPlaying ? (
-            <BsPauseFill
-              className="text-2xl text-black hover:scale-105"
-              onClick={() => setIsPlaying(false)}
-            />
-          ) : (
-            <BsFillPlayFill
-              className="text-2xl text-black hover:scale-105"
-              onClick={() => setIsPlaying(true)}
-            />
-          )}
-        </div>
+        <PlayPauseButton className="w-7 h-7" />
         <BiSkipNext
           className="hover:fill-zinc-50"
           onClick={() => onSongChange("next")}

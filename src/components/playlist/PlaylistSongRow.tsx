@@ -48,13 +48,13 @@ export const SongRow: React.FC<SongRowProps> = (p) => {
           albumImage={p.albumImage}
         />
       </div>
-      <div className="invisible md:visible md:w-1/3 lg:w-1/4 overflow-ellipsis whitespace-nowrap block">
+      <div className="invisible md:visible md:w-1/3 lg:w-1/4 overflow-ellipsis whitespace-nowrap block h-full">
         <a href={`app/album/${p.albumId}`}>{p.albumName}</a>
       </div>
-      <div className="invisible lg:visible lg:w-1/4">
+      <div className="invisible lg:visible lg:w-1/4 h-full">
         <p>{dateFormatter(p.songDateAdded)}</p>
       </div>
-      <div className="w-1/12 text-end">
+      <div className="w-1/12 text-end h-full">
         <p>{durationFormatter(p.songDuration)}</p>
       </div>
     </div>

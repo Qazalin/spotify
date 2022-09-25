@@ -18,7 +18,7 @@ const MyApp: AppType = ({
   return (
     <SessionProvider session={session}>
       <StoreProvider store={store}>
-        <ThemeProvider attribute="class">
+        <ThemeProvider attribute="class" forcedTheme="dark">
           <Component {...pageProps} />
         </ThemeProvider>
       </StoreProvider>

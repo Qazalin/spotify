@@ -1,17 +1,17 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
-}
-
+// 
 datasource db {
   provider             = "mysql"
   // Further reading: 
   // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 // Necessary for Next auth
@@ -21,12 +21,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String? // @db.Text
+  access_token      String? // @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String? // @db.Text
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -63,55 +63,55 @@ model User {
 }
 
 model Favorite {
-  id      String   @id @default(cuid())
-  userId  String
-  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  songs   Song[]
-  artists Artist[]
-  albums  Album[]
+  id        String     @id @default(cuid())
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  songs     Song[]
+  artists   Artist[]
+  albums    Album[]
   playlists Playlist[]
 }
 
 model Artist {
-  id         String    @id @default(cuid())
+  id         String     @id @default(cuid())
   name       String
   image      String
   albums     Album[]
   users      User[]
-  isVerified Boolean   @default(false)
-  favorites Favorite[]
+  isVerified Boolean    @default(false)
+  favorites  Favorite[]
 }
 
 model Album {
-  id         String    @id @default(cuid())
-  name       String
-  image      String
-  createdAt  DateTime
-  songs      Song[]
-  Artist     Artist   @relation(fields: [artistId], references: [id])
-  artistId   String
+  id        String     @id @default(cuid())
+  name      String
+  image     String
+  createdAt DateTime
+  songs     Song[]
+  Artist    Artist     @relation(fields: [artistId], references: [id])
+  artistId  String
   favorites Favorite[]
 }
 
 model Song {
-  id         String     @id @default(cuid())
-  name       String
-  createdAt  DateTime
-  duration   Int
-  url        String
-  Album      Album     @relation(fields: [albumId], references: [id])
-  albumId    String
-  playlists  Playlist[]
+  id        String     @id @default(cuid())
+  name      String
+  createdAt DateTime
+  duration  Int
+  url       String
+  Album     Album      @relation(fields: [albumId], references: [id])
+  albumId   String
+  playlists Playlist[]
   favorites Favorite[]
 }
 
 model Playlist {
-  id     String @id @default(cuid())
-  name   String
-  image  String @default("")
-  desc   String @default("")
-  songs  Song[]
-  User   User   @relation(fields: [userId], references: [id])
-  userId String
+  id        String     @id @default(cuid())
+  name      String
+  image     String     @default("")
+  desc      String     @default("")
+  songs     Song[]
+  User      User       @relation(fields: [userId], references: [id])
+  userId    String
   favorites Favorite[]
 }

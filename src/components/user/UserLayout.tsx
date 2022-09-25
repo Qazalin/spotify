@@ -1,4 +1,4 @@
-import { AppLayout } from "components/player/AppLayout";
+import { AppLayout } from "components/app/AppLayout";
 import { UserProfileInfo } from "types/props";
 import { UserProfileHeader } from "components/shared/RecordHeader";
 

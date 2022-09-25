@@ -1,11 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { AppLayout } from "components/player/AppLayout";
+import { AppLayout } from "components/app/AppLayout";
 import { LoadingScreen } from "components/shared/LoadingScreen";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { AppMain } from "components/player/AppMain";
-import { AppWelcome } from "components/player/AppWelcome";
+import { AppMain } from "components/app/AppMain";
 
 const App: NextPage = () => {
   const { status } = useSession();
@@ -15,8 +14,8 @@ const App: NextPage = () => {
     return <LoadingScreen />;
   }
   if (status === "unauthenticated") {
-    router.push("/login");
-    return <LoadingScreen />;
+    //   router.push("/login");
+    // return <LoadingScreen />;
   }
 
   return (
