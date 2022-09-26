@@ -5,10 +5,8 @@ import { LoadingScreen } from "components/shared/LoadingScreen";
 import { trpc } from "@spotify/utils/trpc";
 import { AppLayout } from "@spotify/components/app";
 import { useStoreActions } from "@spotify/utils/state";
-import { StoreSongModel } from "@spotify/utils/state/models";
 import { useEffect, useState } from "react";
 import { PlayPauseButton } from "@spotify/components/shared";
-import { FaHeart } from "react-icons/fa";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 const PlaylistPage: NextPage = () => {

@@ -59,17 +59,18 @@ model User {
   sessions      Session[]
   artists       Artist[]
   playlists     Playlist[]
-  favorites     Favorite[]
+  favorite      Favorite?  @relation(fields: [favoriteId], references: [id])
+  favoriteId    String     @unique
 }
 
 model Favorite {
   id        String     @id @default(cuid())
-  userId    String
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   songs     Song[]
   artists   Artist[]
   albums    Album[]
   playlists Playlist[]
+  User      User?      @relation
+  userId    String     @unique
 }
 
 model Artist {
