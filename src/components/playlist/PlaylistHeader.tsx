@@ -24,7 +24,7 @@ export const PlaylistHeader: React.FC<{
             {playlist.User.name}
           </a>
           <span>·</span>
-          <p>{numberWithCommas(playlist._count.favorites)} likes</p>
+          <p>{numberWithCommas(playlist._count.UserFavorites)} likes</p>
           <span>·</span>
           <p>{playlist.songs.length} songs</p>
           <span>·</span>

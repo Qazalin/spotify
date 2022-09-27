@@ -12,27 +12,50 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 const PlaylistPage: NextPage = () => {
   const router = useRouter();
   const setSongs = useStoreActions((actions) => actions.songs.setAllSongs);
-  const [isFave, setIsFave] = useState(false); // init state should change in the userEffect when the playlist is fetched
+  const [isFavoritePlaylist, setIsFavoritePlaylist] = useState(false); // init state should change in the userEffect when the playlist is fetched
 
+  // queries
   const { id } = router.query;
-  const { data: playlist, isLoading } = trpc.useQuery([
+  const { data: playlist, isLoading: isPlaylistLoading } = trpc.useQuery([
     "playlist.getPlaylistById",
     { id: id as string }, // first time, this is undefined
   ]);
+  const { data: isFavorite, isLoading: isFavoriteLoading } = trpc.useQuery([
+    "favorite.isFavorite",
+    { id: id as string, type: "playlist" },
+  ]);
+
+  // mutations
+  const { mutate: toggleFavorite } = trpc.useMutation(
+    "favorite.toggleFavorite"
+  );
+
+  // effects
+
+  // set the songs and isFavorite states when the playlist is fetched
   useEffect(() => {
     if (playlist) {
       setSongs(playlist.songs);
     }
-  }, [playlist, setSongs]);
+    if (isFavorite) {
+      setIsFavoritePlaylist(isFavorite);
+    }
+  }, [playlist, setSongs, isFavorite]);
 
-  if (isLoading) {
+  // handle adding/removing a playlist from favorites
+  useEffect(() => {
+    if (playlist) {
+      toggleFavorite({
+        id: playlist.id as string,
+        type: "playlist",
+      });
+    }
+  }, [isFavoritePlaylist, id, toggleFavorite, playlist]);
+
+  if (isPlaylistLoading || isFavoriteLoading) {
     return <LoadingScreen />;
   }
 
-  function handleLikeRecord() {
-    setIsFave(!isFave);
-    // TODO api calls
-  }
   if (playlist) {
     return (
       <AppLayout>
@@ -41,15 +64,15 @@ const PlaylistPage: NextPage = () => {
           <div className="flex space-x-2 mb-5">
             <PlayPauseButton className="w-10 h-10 bg-green-400 p-2" />
             <div className="w-10 h-10 p-2">
-              {isFave ? (
+              {isFavoritePlaylist ? (
                 <AiFillHeart
                   className={`w-full h-full text-zinc-400 fill-green-400`}
-                  onClick={handleLikeRecord}
+                  onClick={() => setIsFavoritePlaylist((s) => !s)}
                 />
               ) : (
                 <AiOutlineHeart
                   className={`w-full h-full text-zinc-400 hover:text-zinc-100 stroke-zinc-100`}
-                  onClick={handleLikeRecord}
+                  onClick={() => setIsFavoritePlaylist((s) => !s)}
                 />
               )}
             </div>

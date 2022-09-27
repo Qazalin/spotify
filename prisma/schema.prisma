@@ -1,10 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-// 
 datasource db {
   provider             = "mysql"
-  // Further reading: 
-  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
@@ -50,69 +45,92 @@ model VerificationToken {
 }
 
 model User {
-  id            String     @id @default(cuid())
-  name          String
-  email         String?    @unique
-  emailVerified DateTime?
-  image         String     @default("/userPlaceholder.png")
-  accounts      Account[]
-  sessions      Session[]
-  artists       Artist[]
-  playlists     Playlist[]
-  favorite      Favorite?  @relation(fields: [favoriteId], references: [id])
-  favoriteId    String     @unique
+  id                String             @id @default(cuid())
+  name              String
+  email             String?            @unique
+  emailVerified     DateTime?
+  image             String             @default("/userPlaceholder.png")
+  accounts          Account[]
+  sessions          Session[]
+  playlists         Playlist[]
+  favoriteSongs     FavoriteSong[]
+  favoritePlaylists FavoritePlaylist[]
+  favoriteArtists   FavoriteArtist[]
+  favoriteAlbums    FavoriteAlbum[]
 }
 
-model Favorite {
-  id        String     @id @default(cuid())
-  songs     Song[]
-  artists   Artist[]
-  albums    Album[]
-  playlists Playlist[]
-  User      User?      @relation
-  userId    String     @unique
+model FavoriteSong {
+  id     String @id @default(cuid())
+  songId String
+  song   Song   @relation(fields: [songId], references: [id])
+  userId String
+  User   User   @relation(fields: [userId], references: [id])
+}
+
+model FavoritePlaylist {
+  id         String   @id @default(cuid())
+  playlistId String
+  userId     String
+  playlist   Playlist @relation(fields: [playlistId], references: [id])
+  User       User     @relation(fields: [userId], references: [id])
+}
+
+model FavoriteArtist {
+  id       String @id @default(cuid())
+  artistId String
+  artist   Artist @relation(fields: [artistId], references: [id])
+  userId   String
+  User     User   @relation(fields: [userId], references: [id])
+}
+
+model FavoriteAlbum {
+  id      String @id @default(cuid())
+  albumId String
+  album   Album  @relation(fields: [albumId], references: [id])
+  userId  String
+
+  User User @relation(fields: [userId], references: [id])
 }
 
 model Artist {
-  id         String     @id @default(cuid())
-  name       String
-  image      String
-  albums     Album[]
-  users      User[]
-  isVerified Boolean    @default(false)
-  favorites  Favorite[]
+  id             String           @id @default(cuid())
+  name           String
+  image          String
+  albums         Album[]
+  isVerified     Boolean          @default(false)
+  FavoriteArtist FavoriteArtist[]
 }
 
 model Album {
-  id        String     @id @default(cuid())
-  name      String
-  image     String
-  createdAt DateTime
-  songs     Song[]
-  Artist    Artist     @relation(fields: [artistId], references: [id])
-  artistId  String
-  favorites Favorite[]
+  id            String          @id @default(cuid())
+  name          String
+  image         String
+  createdAt     DateTime
+  songs         Song[]
+  Artist        Artist          @relation(fields: [artistId], references: [id])
+  artistId      String
+  FavoriteAlbum FavoriteAlbum[]
 }
 
 model Song {
-  id        String     @id @default(cuid())
-  name      String
-  createdAt DateTime
-  duration  Int
-  url       String
-  Album     Album      @relation(fields: [albumId], references: [id])
-  albumId   String
-  playlists Playlist[]
-  favorites Favorite[]
+  id           String         @id @default(cuid())
+  name         String
+  createdAt    DateTime
+  duration     Int
+  url          String
+  Album        Album          @relation(fields: [albumId], references: [id])
+  albumId      String
+  playlists    Playlist[]
+  FavoriteSong FavoriteSong[]
 }
 
 model Playlist {
-  id        String     @id @default(cuid())
-  name      String
-  image     String     @default("")
-  desc      String     @default("")
-  songs     Song[]
-  User      User       @relation(fields: [userId], references: [id])
-  userId    String
-  favorites Favorite[]
+  id               String             @id @default(cuid())
+  name             String
+  image            String             @default("")
+  desc             String             @default("")
+  songs            Song[]
+  User             User               @relation(fields: [userId], references: [id])
+  userId           String
+  FavoritePlaylist FavoritePlaylist[]
 }

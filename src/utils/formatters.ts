@@ -20,3 +20,12 @@ export function durationFormatter(duration: number) {
     Math.round(seconds) < 10 ? "0" + Math.round(seconds) : Math.round(seconds)
   }`;
 }
+
+/*
+ * Capilizes a string at runtime
+ * @param {string} str - The string to capitalize
+ * @returns {string} - The capitalized string
+ */
+export function capitalizeString(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

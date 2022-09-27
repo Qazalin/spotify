@@ -3,11 +3,13 @@ import { createRouter } from "./context";
 import superjson from "superjson";
 import { userRouter } from "./user";
 import { playlistRouter } from "./playlist";
+import { favoriteRouter } from "./favorite";
 
 export const appRouter = createRouter()
   .transformer(superjson)
   .merge("user.", userRouter)
-  .merge("playlist.", playlistRouter);
+  .merge("playlist.", playlistRouter)
+  .merge("favorite.", favoriteRouter);
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
