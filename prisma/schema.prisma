@@ -98,7 +98,7 @@ model Artist {
   image          String
   albums         Album[]
   isVerified     Boolean          @default(false)
-  FavoriteArtist FavoriteArtist[]
+  favoriteArtist FavoriteArtist[]
 }
 
 model Album {
@@ -109,7 +109,7 @@ model Album {
   songs         Song[]
   Artist        Artist          @relation(fields: [artistId], references: [id])
   artistId      String
-  FavoriteAlbum FavoriteAlbum[]
+  favoriteAlbum FavoriteAlbum[]
 }
 
 model Song {
@@ -121,7 +121,7 @@ model Song {
   Album        Album          @relation(fields: [albumId], references: [id])
   albumId      String
   playlists    Playlist[]
-  FavoriteSong FavoriteSong[]
+  favoriteSong FavoriteSong[]
 }
 
 model Playlist {
@@ -132,5 +132,5 @@ model Playlist {
   songs            Song[]
   User             User               @relation(fields: [userId], references: [id])
   userId           String
-  FavoritePlaylist FavoritePlaylist[]
+  favoritePlaylist FavoritePlaylist[]
 }

@@ -50,7 +50,7 @@ export const playlistRouter = createRouter()
             },
             _count: {
               select: {
-                UserFavorites: true,
+                favoritePlaylist: true,
               },
             },
           },

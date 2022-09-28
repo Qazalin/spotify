@@ -1,172 +1,177 @@
 import { z } from "zod";
 import { createProtectedRouter } from "./context";
 
-// I'm very sorry about this, but it was at the cost of less client complexity
+// Every one of the 4 records have 2 operations: isFavorite, toggleFavorite
 export const favoriteRouter = createProtectedRouter()
-  .query("getFavorites", {
-    input: z.object({
-      type: z.enum(["song", "artist", "album", "playlist"]),
-    }),
-    async resolve({ input, ctx }) {
-      const { type } = input;
-
-      switch (
-        type // just too long
-      ) {
-        case "song":
-          return await ctx.prisma.favoriteSong.findFirst({
-            where: {
-              userId: ctx.session.user.id,
-            },
-          });
-        case "artist":
-          return await ctx.prisma.favoriteArtist.findFirst({
-            where: {
-              userId: ctx.session.user.id,
-            },
-          });
-        case "album":
-          return await ctx.prisma.favoriteAlbum.findFirst({
-            where: {
-              userId: ctx.session.user.id,
-            },
-          });
-        case "playlist":
-          return await ctx.prisma.favoritePlaylist.findFirst({
-            where: {
-              userId: ctx.session.user.id,
-            },
-          });
-      }
-    },
-  })
-  .query("isFavorite", {
+  /////////////////////////////////////// Song ///////////////////////////////////////
+  .query("isFavoriteSong", {
     input: z.object({
       id: z.string(),
-      type: z.enum(["song", "artist", "album", "playlist"]),
     }),
-    async resolve({ ctx, input }) {
-      const { id, type } = input;
-      let foundRecord: unknown;
-      switch (
-        type // just too long
-      ) {
-        case "song":
-          foundRecord = await ctx.prisma.favoriteSong.findFirst({
-            where: {
-              userId: ctx.session.user.id,
-              songId: id,
-            },
-          });
-        case "artist":
-          foundRecord = await ctx.prisma.favoriteArtist.findFirst({
-            where: {
-              userId: ctx.session.user.id,
-              artistId: id,
-            },
-          });
-        case "album":
-          foundRecord = await ctx.prisma.favoriteAlbum.findFirst({
-            where: {
-              userId: ctx.session.user.id,
-              albumId: id,
-            },
-          });
-        case "playlist":
-          foundRecord = await ctx.prisma.favoritePlaylist.findFirst({
-            where: {
-              userId: ctx.session.user.id,
-              playlistId: id,
-            },
-          });
-      }
-      return !!foundRecord;
-    },
-  })
-  .mutation("addFavorite", {
-    input: z.object({
-      id: z.string(),
-      type: z.enum(["song", "artist", "album", "playlist"]),
-    }),
-    async resolve({ ctx, input }) {
-      const { type, id } = input;
-      const favorite = await ctx.prisma.userFavorite.create({
-        data: {
-          userId: ctx.session.user.id,
-          [type]: {
-            connect: {
-              id,
-            },
-          },
-        },
-      });
-      return favorite;
-    },
-  })
-  .mutation("removeFavorite", {
-    input: z.object({
-      id: z.string(),
-      type: z.enum(["song", "artist", "album", "playlist"]),
-    }),
-    async resolve({ ctx, input }) {
-      const { type, id } = input;
-      await ctx.prisma.userFavorite.update({
+    async resolve({ input: { id }, ctx }) {
+      const favorite = await ctx.prisma.favoriteSong.findFirst({
         where: {
+          songId: id,
           userId: ctx.session.user.id,
         },
-        data: {
-          [type]: {
-            disconnect: {
-              id,
-            },
-          },
-        },
       });
+      return favorite !== null;
     },
   })
-  .mutation("toggleFavorite", {
+  .mutation("toggleFavoriteSong", {
     input: z.object({
       id: z.string(),
-      type: z.enum(["song", "artist", "album", "playlist"]),
     }),
-
-    async resolve({ ctx, input }) {
-      const { type, id } = input;
-      const isFavorite = await ctx.prisma.userFavorite.findFirst({
+    async resolve({ input: { id }, ctx }) {
+      const favorite = await ctx.prisma.favoriteSong.findFirst({
         where: {
+          songId: id,
           userId: ctx.session.user.id,
-          [type]: {
-            some: {
-              id,
-            },
-          },
         },
       });
-
-      if (isFavorite) {
-        await ctx.prisma.userFavorite.update({
+      if (favorite) {
+        await ctx.prisma.favoriteSong.delete({
           where: {
-            userId: ctx.session.user.id,
-          },
-          data: {
-            [type]: {
-              disconnect: {
-                id,
-              },
-            },
+            id: favorite.id,
           },
         });
       } else {
-        await ctx.prisma.userFavorite.create({
+        await ctx.prisma.favoriteSong.create({
           data: {
+            songId: id,
             userId: ctx.session.user.id,
-            [type]: {
-              connect: {
-                id,
-              },
-            },
           },
         });
       }
+      return true;
+    },
+  })
+  /////////////////////////////////////// Playlist ///////////////////////////////////////
+  .query("isFavoritePlaylist", {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input: { id }, ctx }) {
+      const favorite = await ctx.prisma.favoritePlaylist.findFirst({
+        where: {
+          playlistId: id,
+          userId: ctx.session.user.id,
+        },
+      });
+      return favorite !== null;
+    },
+  })
+  .mutation("toggleFavoritePlaylist", {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input: { id }, ctx }) {
+      const favorite = await ctx.prisma.favoritePlaylist.findFirst({
+        where: {
+          playlistId: id,
+          userId: ctx.session.user.id,
+        },
+      });
+      if (favorite) {
+        await ctx.prisma.favoritePlaylist.delete({
+          where: {
+            id: favorite.id,
+          },
+        });
+      } else {
+        await ctx.prisma.favoritePlaylist.create({
+          data: {
+            playlistId: id,
+            userId: ctx.session.user.id,
+          },
+        });
+      }
+      return true;
+    },
+  })
+  /////////////////////////////////////// Album ///////////////////////////////////////
+  .query("isFavoriteAlbum", {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input: { id }, ctx }) {
+      const favorite = await ctx.prisma.favoriteAlbum.findFirst({
+        where: {
+          albumId: id,
+          userId: ctx.session.user.id,
+        },
+      });
+      return favorite !== null;
+    },
+  })
+  .mutation("toggleFavoriteAlbum", {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input: { id }, ctx }) {
+      const favorite = await ctx.prisma.favoriteAlbum.findFirst({
+        where: {
+          albumId: id,
+          userId: ctx.session.user.id,
+        },
+      });
+      if (favorite) {
+        await ctx.prisma.favoriteAlbum.delete({
+          where: {
+            id: favorite.id,
+          },
+        });
+      } else {
+        await ctx.prisma.favoriteAlbum.create({
+          data: {
+            albumId: id,
+            userId: ctx.session.user.id,
+          },
+        });
+      }
+      return true;
+    },
+  })
+  /////////////////////////////////////// Artist ///////////////////////////////////////
+  .query("isFavoriteArtist", {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input: { id }, ctx }) {
+      const favorite = await ctx.prisma.favoriteArtist.findFirst({
+        where: {
+          artistId: id,
+          userId: ctx.session.user.id,
+        },
+      });
+      return favorite !== null;
+    },
+  })
+  .mutation("toggleFavoriteArtist", {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input: { id }, ctx }) {
+      const favorite = await ctx.prisma.favoriteArtist.findFirst({
+        where: {
+          artistId: id,
+          userId: ctx.session.user.id,
+        },
+      });
+      if (favorite) {
+        await ctx.prisma.favoriteArtist.delete({
+          where: {
+            id: favorite.id,
+          },
+        });
+      } else {
+        await ctx.prisma.favoriteArtist.create({
+          data: {
+            artistId: id,
+            userId: ctx.session.user.id,
+          },
+        });
+      }
+      return true;
     },
   });

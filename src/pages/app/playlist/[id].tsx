@@ -6,7 +6,7 @@ import { trpc } from "@spotify/utils/trpc";
 import { AppLayout } from "@spotify/components/app";
 import { useStoreActions } from "@spotify/utils/state";
 import { useEffect, useState } from "react";
-import { PlayPauseButton } from "@spotify/components/shared";
+import { Notification, PlayPauseButton } from "@spotify/components/shared";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 const PlaylistPage: NextPage = () => {
@@ -16,18 +16,19 @@ const PlaylistPage: NextPage = () => {
 
   // queries
   const { id } = router.query;
+
   const { data: playlist, isLoading: isPlaylistLoading } = trpc.useQuery([
     "playlist.getPlaylistById",
     { id: id as string }, // first time, this is undefined
   ]);
   const { data: isFavorite, isLoading: isFavoriteLoading } = trpc.useQuery([
-    "favorite.isFavorite",
-    { id: id as string, type: "playlist" },
+    "favorite.isFavoritePlaylist",
+    { id: id as string },
   ]);
 
   // mutations
   const { mutate: toggleFavorite } = trpc.useMutation(
-    "favorite.toggleFavorite"
+    "favorite.toggleFavoritePlaylist"
   );
 
   // effects
@@ -43,14 +44,16 @@ const PlaylistPage: NextPage = () => {
   }, [playlist, setSongs, isFavorite]);
 
   // handle adding/removing a playlist from favorites
+  /* 
   useEffect(() => {
     if (playlist) {
       toggleFavorite({
         id: playlist.id as string,
-        type: "playlist",
       });
     }
+    console.log(isFavoritePlaylist);
   }, [isFavoritePlaylist, id, toggleFavorite, playlist]);
+  */
 
   if (isPlaylistLoading || isFavoriteLoading) {
     return <LoadingScreen />;
@@ -79,6 +82,7 @@ const PlaylistPage: NextPage = () => {
           </div>
           <PlaylistTable playlist={playlist} />
         </div>
+        <Notification msg="saved to lib" state={isFavoritePlaylist} />
       </AppLayout>
     );
   }
