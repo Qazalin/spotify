@@ -1,17 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 export const Notification: React.FC<{
   msg: string;
   state: string | boolean;
 }> = ({ msg, state }) => {
   const [showNotification, setShowNotification] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useLayoutEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
-    setShowNotification(true);
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 1000);
-  }, [state]);
+    console.log("mounted: ", mounted);
+    if (mounted) {
+      console.log("init render");
+      setShowNotification(true);
+      setTimeout(() => {
+        setShowNotification(false);
+      }, 1000);
+    }
+  }, [state, mounted]);
 
   return (
     <div

@@ -44,16 +44,13 @@ const PlaylistPage: NextPage = () => {
   }, [playlist, setSongs, isFavorite]);
 
   // handle adding/removing a playlist from favorites
-  /* 
   useEffect(() => {
     if (playlist) {
       toggleFavorite({
         id: playlist.id as string,
       });
     }
-    console.log(isFavoritePlaylist);
   }, [isFavoritePlaylist, id, toggleFavorite, playlist]);
-  */
 
   if (isPlaylistLoading || isFavoriteLoading) {
     return <LoadingScreen />;
@@ -69,7 +66,7 @@ const PlaylistPage: NextPage = () => {
             <div className="w-10 h-10 p-2">
               {isFavoritePlaylist ? (
                 <AiFillHeart
-                  className={`w-full h-full text-zinc-400 fill-green-400`}
+                  className={`w-full h-full text-zinc-400 fill-green-400 my-auto`}
                   onClick={() => setIsFavoritePlaylist((s) => !s)}
                 />
               ) : (
@@ -82,7 +79,14 @@ const PlaylistPage: NextPage = () => {
           </div>
           <PlaylistTable playlist={playlist} />
         </div>
-        <Notification msg="saved to lib" state={isFavoritePlaylist} />
+        <Notification
+          msg={
+            isFavoritePlaylist
+              ? "Saved to Your Library"
+              : "Removed from Your Library"
+          }
+          state={isFavoritePlaylist}
+        />
       </AppLayout>
     );
   }

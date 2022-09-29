@@ -3,10 +3,12 @@ import { dateFormatter, durationFormatter } from "@spotify/utils";
 import { useStoreState, useStoreActions } from "@spotify/utils/state";
 import { SongRowProps } from "@spotify/types/props";
 import { IDXColumn, TrackInfoColumn } from "./PlaylistTableColumns";
+import { AiOutlineHeart } from "react-icons/ai";
 
 export const SongRow: React.FC<SongRowProps> = (p) => {
   // state
   const [isHovered, setIsHovered] = useState(false);
+  const [isFavoriteSong, setIsFavoriteSong] = useState(false);
 
   // setters and hanlers
   const setActiveSongIdx = useStoreActions(
@@ -54,7 +56,14 @@ export const SongRow: React.FC<SongRowProps> = (p) => {
       <div className="invisible lg:visible lg:w-1/4 h-full">
         <p>{dateFormatter(p.songDateAdded)}</p>
       </div>
-      <div className="w-1/12 text-end h-full">
+
+      <div className="h-full p-4 elf-end my-auto absolute right-24">
+        <AiOutlineHeart
+          className={`w-full h-full text-zinc-400 hover:text-zinc-100 stroke-zinc-100`}
+          onClick={() => setIsFavoriteSong((s) => !s)}
+        />
+      </div>
+      <div className="flex text-end w-1/12">
         <p>{durationFormatter(p.songDuration)}</p>
       </div>
     </div>
