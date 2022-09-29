@@ -8,7 +8,7 @@ export const IDXColumn: React.FC<{
   handlePlay: () => void;
 }> = ({ idx, isHovered, handlePlay, isActive }) => {
   return (
-    <div className="flex w-5 justify-center items-center content-center text-center text-sm mr-2 self-center h-5">
+    <div className="w-full h-full flex pl-2 items-center text-sm self-center">
       {isHovered ? (
         <BsPlayFill
           className="text-md text-zinc-50 text-lg"
@@ -43,12 +43,15 @@ export const TrackInfoColumn: React.FC<{
       <a
         className={`font-[400] text-zinc-50 ${
           p.isActive ? "text-green-400" : "text-inherit"
-        } text-ellipsis whitespace-nowrap overflow-hidden`}
+        } text-ellipsis whitespace-nowrap overflow-hidden truncate`}
         href={`/track/${p.songId}`}
       >
         {p.songName}
       </a>
-      <a className="text-xs text-ellipsis" href={`/app/artist/${p.artistId}`}>
+      <a
+        className="truncate text-xs text-ellipsis"
+        href={`/app/artist/${p.artistId}`}
+      >
         {p.artistName}
       </a>
     </div>
