@@ -33,3 +33,5 @@ export type SongRowProps = {
   isActive: boolean;
   isPlaying: boolean;
 };
+
+export type RecordType = "song" | "artist" | "album" | "playlist";

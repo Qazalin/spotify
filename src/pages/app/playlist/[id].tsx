@@ -8,6 +8,8 @@ import { useStoreActions } from "@spotify/utils/state";
 import { useEffect, useState } from "react";
 import { Notification, PlayPauseButton } from "@spotify/components/shared";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { useFavorite } from "@spotify/utils/hooks/useFavorite";
+// TODO import { assertIsValidId } from "@spotify/utils/typeGaurds";
 
 const PlaylistPage: NextPage = () => {
   const router = useRouter();
@@ -17,19 +19,19 @@ const PlaylistPage: NextPage = () => {
   // queries
   const { id } = router.query;
 
+  // TODO: Change these typescasts to a typegaurd that makes sure id is always string
   const { data: playlist, isLoading: isPlaylistLoading } = trpc.useQuery([
     "playlist.getPlaylistById",
-    { id: id as string }, // first time, this is undefined
-  ]);
-  const { data: isFavorite, isLoading: isFavoriteLoading } = trpc.useQuery([
-    "favorite.isFavoritePlaylist",
     { id: id as string },
   ]);
-
-  // mutations
-  const { mutate: toggleFavorite } = trpc.useMutation(
-    "favorite.toggleFavoritePlaylist"
-  );
+  const {
+    isFavorite,
+    toggleFavorite,
+    isLoading: isFavoriteLoading,
+  } = useFavorite({
+    id: id as string,
+    recordType: "playlist",
+  });
 
   // effects
 
@@ -38,10 +40,13 @@ const PlaylistPage: NextPage = () => {
     if (playlist) {
       setSongs(playlist.songs);
     }
+  }, [playlist, setSongs]);
+
+  useEffect(() => {
     if (isFavorite) {
       setIsFavoritePlaylist(isFavorite);
     }
-  }, [playlist, setSongs, isFavorite]);
+  }, [isFavorite]);
 
   // handle adding/removing a playlist from favorites
   useEffect(() => {
