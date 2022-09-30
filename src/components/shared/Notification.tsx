@@ -1,26 +1,22 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useFirstRender } from "@spotify/utils/hooks/useFirstRender";
+import { useEffect, useState } from "react";
 
 export const Notification: React.FC<{
   msg: string;
-  state: string | boolean;
+  state?: string | boolean;
 }> = ({ msg, state }) => {
   const [showNotification, setShowNotification] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useLayoutEffect(() => {
-    setMounted(true);
-  }, []);
+  const isFirstRender = useFirstRender();
 
   useEffect(() => {
-    console.log("mounted: ", mounted);
-    if (mounted) {
-      console.log("init render");
+    if (!isFirstRender) {
+      console.log("not init render");
       setShowNotification(true);
       setTimeout(() => {
         setShowNotification(false);
       }, 1000);
     }
-  }, [state, mounted]);
+  }, [state, isFirstRender]);
 
   return (
     <div

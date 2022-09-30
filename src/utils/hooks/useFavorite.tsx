@@ -1,66 +1,77 @@
-import { RecordType } from "@spotify/types/props";
+import { useEffect, useState } from "react";
 import { trpc } from "../trpc";
 
 type useFavoriteProps = {
   id: string;
-  recordType: RecordType;
 };
 
 type useFavoriteReturn = {
   isFavorite?: boolean;
-  toggleFavorite: any; // TODO
+  toggleFavorite: () => void; // TODO
   isLoading?: boolean;
 };
 
-export const useFavorite = ({
-  id,
-  recordType,
-}: useFavoriteProps): useFavoriteReturn => {
-  if (recordType === "playlist") {
-    const { data: isFavorite, isLoading } = trpc.useQuery([
-      "favorite.isFavoritePlaylist",
-      { id },
-    ]);
+/**
+ * Re-usable favorite logic for adding songs, artists, playlists and albums to a user's favorites libraray
+ */
+export const useFavorite = ({ id }: useFavoriteProps): useFavoriteReturn => {
+  const [isFavorite, setIsFavorite] = useState(false);
 
-    const { mutate: toggleFavorite } = trpc.useMutation(
-      "favorite.toggleFavoritePlaylist"
-    );
+  const { data, isLoading } = trpc.useQuery([
+    "favorite.isFavoritePlaylist",
+    { id },
+  ]);
 
-    return { isFavorite, toggleFavorite, isLoading };
-  } else if (recordType === "song") {
-    const { data: isFavorite } = trpc.useQuery([
-      "favorite.isFavoriteSong",
-      { id },
-    ]);
+  useEffect(() => {
+    if (data) {
+      setIsFavorite(data);
+    }
+  }, [data]);
 
-    const { mutate: toggleFavorite } = trpc.useMutation(
-      "favorite.toggleFavoriteSong"
-    );
+  const {
+    mutate,
+    isLoading: isMutationLoading,
+    isError: isMutationError,
+  } = trpc.useMutation("favorite.toggleFavoritePlaylist");
 
-    return { isFavorite, toggleFavorite };
-  } else if (recordType === "artist") {
-    const { data: isFavorite } = trpc.useQuery([
-      "favorite.isFavoriteArtist",
-      { id },
-    ]);
+  useEffect(() => {
+    mutate({
+      id,
+    });
+  }, [id, mutate]);
 
-    const { mutate: toggleFavorite } = trpc.useMutation(
-      "favorite.toggleFavoriteArtist"
-    );
-
-    return { isFavorite, toggleFavorite };
-  } else if (recordType === "album") {
-    const { data: isFavorite } = trpc.useQuery([
-      "favorite.isFavoriteAlbum",
-      { id },
-    ]);
-
-    const { mutate: toggleFavorite } = trpc.useMutation(
-      "favorite.toggleFavoriteAlbum"
-    );
-
-    return { isFavorite, toggleFavorite };
-  } else {
-    throw new Error("Invalid record type");
+  function toggleFavorite() {
+    setIsFavorite((s) => !s);
   }
+  return { isFavorite, toggleFavorite, isLoading };
+};
+
+export const useFavoriteSong = ({
+  id,
+}: useFavoriteProps): useFavoriteReturn => {
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const { data, isLoading } = trpc.useQuery([
+    "favorite.isFavoriteSong",
+    { id },
+  ]);
+
+  useEffect(() => {
+    if (data) {
+      setIsFavorite(data);
+    }
+  }, [data]);
+
+  const { mutate } = trpc.useMutation("favorite.toggleFavoriteSong");
+
+  useEffect(() => {
+    mutate({
+      id,
+    });
+  }, [isFavorite, id, mutate]);
+
+  function toggleFavorite() {
+    setIsFavorite((s) => !s);
+  }
+  return { isFavorite, toggleFavorite, isLoading };
 };

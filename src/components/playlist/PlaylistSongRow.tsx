@@ -6,11 +6,15 @@ import { SongRowProps } from "@spotify/types/props";
 import { IDXColumn, TrackInfoColumn } from "./PlaylistTableColumns";
 import { AiOutlineHeart } from "react-icons/ai";
 import { isMobile } from "react-device-detect"; // if the user is using a mobile device, the song row will always show the heart icon
+import { useFavoriteSong } from "@spotify/utils/hooks/useFavorite";
+import { FavoriteButton } from "../shared/FavoriteButton";
 
 export const SongRow: React.FC<SongRowProps> = (p) => {
   // state
   const [isHovered, setIsHovered] = useState(false);
-  const [isFavoriteSong, setIsFavoriteSong] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavoriteSong({
+    id: p.songId,
+  });
   const screen = useTailwindScreen();
 
   // setters and hanlers
@@ -23,10 +27,6 @@ export const SongRow: React.FC<SongRowProps> = (p) => {
   const isPlaying = useStoreState((state) => state.songs.isPlaying);
   const setIsPlaying = useStoreActions((actions) => actions.songs.setIsPlaying);
 
-  const { mutate: toggleFavorite } = trpc.useMutation(
-    "favorite.toggleFavoriteSong"
-  );
-
   // main handler
   const handlePlay = () => {
     setIsPlaying(!isPlaying);
@@ -34,11 +34,6 @@ export const SongRow: React.FC<SongRowProps> = (p) => {
     setPlaylistId(p.playlistId);
   };
 
-  useEffect(() => {
-    toggleFavorite({
-      id: p.songId,
-    });
-  }, [isFavoriteSong]);
   return (
     <div
       className="relative w-full flex justify-between h-12 items-center fill-zinc-400 text-sm text-zinc-400 hover:bg-zinc-700 hover:bg-opacity-50 rounded-md flex-wrap"
@@ -78,14 +73,18 @@ export const SongRow: React.FC<SongRowProps> = (p) => {
           <p className="truncate">{dateFormatter(p.songDateAdded)}</p>
         </div>
       )}
-      <div className="h-full flex items-center w-1/12">
-        {isMobile ||
-          (isHovered && (
-            <AiOutlineHeart
-              className={`w-5 h-5 text-zinc-400 hover:text-zinc-100 stroke-zinc-100`}
-              onClick={() => setIsFavoriteSong((s) => !s)}
-            />
-          ))}
+      <div className="h-full flex items-center w-1/12 p-4">
+        {isFavorite ? (
+          <FavoriteButton
+            isFavorite={isFavorite}
+            toggleFavorite={toggleFavorite}
+          />
+        ) : (
+          <FavoriteButton
+            isFavorite={isFavorite}
+            toggleFavorite={toggleFavorite}
+          />
+        )}
       </div>
       <div className="h-full items-center w-1/12 flex justify-end">
         <p>{durationFormatter(p.songDuration)}</p>
