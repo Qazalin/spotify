@@ -29,6 +29,7 @@ interface SongsModel {
   setPlaylistId: Action<SongsModel, string>;
   setActiveSongIdx: Action<SongsModel, number>;
 }
+
 export interface IStore {
   songs: SongsModel;
 }

@@ -7,7 +7,6 @@ import { AppLayout } from "@spotify/components/app";
 import { useStoreActions } from "@spotify/utils/state";
 import { useEffect } from "react";
 import { Notification, PlayPauseButton } from "@spotify/components/shared";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useFavorite } from "@spotify/utils/hooks/useFavorite";
 import { FavoriteButton } from "@spotify/components/shared/FavoriteButton";
 // TODO import { assertIsValidId } from "@spotify/utils/typeGaurds";

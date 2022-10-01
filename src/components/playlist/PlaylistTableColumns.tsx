@@ -8,7 +8,7 @@ export const IDXColumn: React.FC<{
   handlePlay: () => void;
 }> = ({ idx, isHovered, handlePlay, isActive }) => {
   return (
-    <div className="w-full h-full flex pl-2 items-center text-sm self-center">
+    <div className="w-full h-full flex items-center text-sm self-center">
       {isHovered ? (
         <BsPlayFill
           className="text-md text-zinc-50 text-lg"

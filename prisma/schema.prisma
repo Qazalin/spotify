@@ -96,6 +96,7 @@ model Artist {
   id             String           @id @default(cuid())
   name           String
   image          String
+  backgroundImage String
   albums         Album[]
   isVerified     Boolean          @default(false)
   favoriteArtist FavoriteArtist[]

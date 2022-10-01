@@ -9,8 +9,8 @@ export const PlaylistTableHeader = () => {
     console.log(screen);
   }, [screen]);
   return (
-    <div className="absolute top-0 w-full flex justify-between h-8 items-center fill-zinc-400 text-zinc-400 uppercase text-sm">
-      <div className="h-full flex items-center w-1/12">#</div>
+    <div className="absolute top-0 w-full flex justify-between h-8 items-center fill-zinc-400 text-zinc-400 uppercase text-sm px-2">
+      <div className="h-full flex items-center w-[2%]">#</div>
       <div className="h-full flex items-center w-3/4 md:w-1/2 lg:w-1/4">
         title
       </div>

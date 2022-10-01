@@ -34,7 +34,9 @@ export const RecordHeader: React.FC<
   }>
 > = ({ type, heading, isRounded, children, imgSrc }) => {
   return (
-    <div className="w-full h-56 px-3 bg-gradient-to-b from-zinc-600 to-zinc-800 flex justify-start items-center pt-8 relative">
+    <div
+      className={`bg-opacity-5 w-full h-64 px-3 flex justify-start items-center pt-8 relative bg-gradient-to-b from-amber-200 to-transparent`}
+    >
       <div className="flex items-center space-x-4 relative h-full">
         <img
           src={imgSrc}

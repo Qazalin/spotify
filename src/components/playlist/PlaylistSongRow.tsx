@@ -36,12 +36,12 @@ export const SongRow: React.FC<SongRowProps> = (p) => {
 
   return (
     <div
-      className="relative w-full flex justify-between h-12 items-center fill-zinc-400 text-sm text-zinc-400 hover:bg-zinc-700 hover:bg-opacity-50 rounded-md flex-wrap"
+      className="relative w-full flex justify-between h-12 items-center fill-zinc-400 text-sm text-zinc-400 hover:bg-zinc-700 hover:bg-opacity-50 rounded-md flex-wrap px-2"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onDoubleClick={() => handlePlay()}
     >
-      <div className="h-full items-center w-1/12">
+      <div className="h-full items-center w-[2%]">
         <IDXColumn
           idx={p.idx}
           isHovered={isHovered}

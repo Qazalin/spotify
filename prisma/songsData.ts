@@ -6,24 +6,32 @@ export const artistsData: Artist[] = [
     name: "Taylor Swift",
     image: "https://i.scdn.co/image/ab6761610000f178fcf7c334a6e9dcb8555f3663",
     isVerified: true,
+    backgroundImage:
+      "https://i.scdn.co/image/ab6761860000101622f03de0ecaa0937397461fd",
   },
   {
     id: "2",
     name: "Harry Styles",
     image: "https://i.scdn.co/image/ab6761610000f178f7db7c8ede90a019c54590bb",
     isVerified: true,
+    backgroundImage:
+      "https://i.scdn.co/image/ab6761860000101622f03de0ecaa0937397461fd",
   },
   {
     id: "3",
     name: "The Weeknd",
     image: "https://i.scdn.co/image/ab6761610000f178b5f9e28219c169fd4b9e8379",
     isVerified: true,
+    backgroundImage:
+      "https://i.scdn.co/image/ab6761860000101622f03de0ecaa0937397461fd",
   },
   {
     id: "4",
     name: "Halsey",
     image: "https://i.scdn.co/image/ab6761610000f178d707e1c5177614c4ec95a06c",
     isVerified: true,
+    backgroundImage:
+      "https://i.scdn.co/image/ab6761860000101622f03de0ecaa0937397461fd",
   },
 ];
 
