@@ -22,8 +22,12 @@ export const artistRouter = createRouter().query("getArtistById", {
               name: true,
               image: true,
               createdAt: true,
+              songs: {
+                take: 1,
+              },
             },
           },
+
           _count: {
             select: {
               favoriteArtist: true,
