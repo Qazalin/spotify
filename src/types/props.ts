@@ -20,18 +20,21 @@ export type SharedGridProps<D> = {
 export type SongRowProps = {
   idx: number;
   songId: string;
-  albumId: string;
+  albumId?: string;
   artistId: string;
   songName: string;
   artistName: string;
-  albumName: string;
+  albumName?: string;
   albumImage: string;
   songUrl: string;
-  songDateAdded: Date;
+  songDateAdded?: Date;
   songDuration: number;
-  playlistId: string;
+  clickLink: string; // the link the user should go to when they click on the img of the song in the sidebar
   isActive: boolean;
   isPlaying: boolean;
+  variant?: "minimal" | "full"; // defaults to minimal
 };
 
 export type RecordType = "song" | "artist" | "album" | "playlist";
+
+export type NextRouterQueryType = string | string[] | undefined;

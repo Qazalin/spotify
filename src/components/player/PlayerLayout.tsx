@@ -1,10 +1,10 @@
-import { useActiveSong } from "@spotify/utils/state";
+import { useStoreState } from "@spotify/utils/state";
 import { PlayerControls } from "./PlayerControls";
 
 import { SongInfo } from "./SongInfo";
 
 export const PlayerLayout = () => {
-  const activeSong = useActiveSong();
+  const activeSong = useStoreState((state) => state.songs.activeSong);
   if (!activeSong) {
     return <div>Nothing playing</div>;
   }

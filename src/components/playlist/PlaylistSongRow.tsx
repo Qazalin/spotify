@@ -1,11 +1,9 @@
 import { useTailwindScreen } from "@spotify/utils/responsiveBreakpoints";
 import { useEffect, useState } from "react";
-import { dateFormatter, durationFormatter, trpc } from "@spotify/utils";
+import { dateFormatter, durationFormatter } from "@spotify/utils";
 import { useStoreState, useStoreActions } from "@spotify/utils/state";
 import { SongRowProps } from "@spotify/types/props";
 import { IDXColumn, TrackInfoColumn } from "./PlaylistTableColumns";
-import { AiOutlineHeart } from "react-icons/ai";
-import { isMobile } from "react-device-detect"; // if the user is using a mobile device, the song row will always show the heart icon
 import { useFavoriteSong } from "@spotify/utils/hooks/useFavorite";
 import { FavoriteButton } from "../shared/FavoriteButton";
 
@@ -18,11 +16,11 @@ export const SongRow: React.FC<SongRowProps> = (p) => {
   const screen = useTailwindScreen();
 
   // setters and hanlers
-  const setActiveSongIdx = useStoreActions(
-    (actions) => actions.songs.setActiveSongIdx
+  const setActiveSong = useStoreActions(
+    (actions) => actions.songs.setActiveSong
   );
-  const setPlaylistId = useStoreActions(
-    (actions) => actions.songs.setPlaylistId
+  const setSongClickLink = useStoreActions(
+    (actions) => actions.songs.setSongClickLink
   );
   const isPlaying = useStoreState((state) => state.songs.isPlaying);
   const setIsPlaying = useStoreActions((actions) => actions.songs.setIsPlaying);
@@ -30,10 +28,27 @@ export const SongRow: React.FC<SongRowProps> = (p) => {
   // main handler
   const handlePlay = () => {
     setIsPlaying(!isPlaying);
-    setActiveSongIdx(p.idx);
-    setPlaylistId(p.playlistId);
+    setActiveSong({
+      id: p.songId,
+      name: p.songName,
+      duration: p.songDuration,
+      url: p.songUrl,
+      Album: {
+        name: p?.albumName || "",
+        image: p.albumImage,
+        id: p?.albumId || "",
+        Artist: {
+          name: p.artistName,
+          id: p.artistId,
+        },
+      },
+    });
+    setSongClickLink(p.clickLink);
   };
 
+  const activeSong = useStoreState((state) => state.songs.activeSong);
+
+  useEffect(() => console.log("active: ", activeSong), [activeSong]);
   return (
     <div
       className="relative w-full flex justify-between h-12 items-center fill-zinc-400 text-sm text-zinc-400 hover:bg-zinc-700 hover:bg-opacity-50 rounded-md flex-wrap px-2"
@@ -60,7 +75,7 @@ export const SongRow: React.FC<SongRowProps> = (p) => {
         />
       </div>
 
-      {screen !== "md" && screen !== "sm" && (
+      {screen !== "md" && screen !== "sm" && p.variant === "full" && (
         <div className="h-full flex items-center invisible md:visible md:w-1/4">
           <a href={`app/album/${p.albumId}`} className="truncate">
             {" "}
@@ -68,11 +83,16 @@ export const SongRow: React.FC<SongRowProps> = (p) => {
           </a>
         </div>
       )}
-      {screen !== "sm" && screen !== "md" && screen !== "lg" && (
-        <div className="h-full flex items-center lg:w-1/4">
-          <p className="truncate">{dateFormatter(p.songDateAdded)}</p>
-        </div>
-      )}
+      {screen !== "sm" &&
+        screen !== "md" &&
+        screen !== "lg" &&
+        p.variant === "full" && (
+          <div className="h-full flex items-center lg:w-1/4">
+            <p className="truncate">
+              {dateFormatter(p.songDateAdded || new Date())}
+            </p>
+          </div>
+        )}
       <div className="h-full flex items-center w-1/12 p-4">
         {isFavorite ? (
           <FavoriteButton

@@ -4,11 +4,11 @@ import { AiFillHeart } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
 import Image from "next/future/image";
 import { useRouter } from "next/router";
-import { useActiveSong, useStoreState } from "@spotify/utils/state";
+import { useStoreState } from "@spotify/utils/state";
 
 export const AppSidebar = () => {
-  const activeSong = useActiveSong();
-  const activePlaylistId = useStoreState((state) => state.songs.playlistId);
+  const activeSong = useStoreState((state) => state.songs.activeSong);
+  const songClickLink = useStoreState((state) => state.songs.songClickLink);
   const router = useRouter();
 
   const sidebarOptions: {
@@ -69,7 +69,7 @@ export const AppSidebar = () => {
           width={280}
           height={280}
           className="absolute bottom-0 left-0 cursor-pointer"
-          onClick={() => router.push(`/app/playlist/${activePlaylistId}`)}
+          onClick={() => router.push(songClickLink || "")}
           draggable={false}
           alt={activeSong.name}
         />

@@ -6,7 +6,7 @@ export interface StoreSongModel {
   name: string;
   duration: number;
   url: string;
-  createdAt: Date;
+  createdAt?: Date;
   Album: {
     name: string;
     image: string;
@@ -20,14 +20,14 @@ export interface StoreSongModel {
 
 interface SongsModel {
   allSongs?: StoreSongModel[];
-  activeSongIdx: number; // always default to 0
+  activeSong?: StoreSongModel;
   isPlaying: boolean; // always default to false
-  playlistId?: string;
+  songClickLink?: string;
 
   setAllSongs: Action<SongsModel, StoreSongModel[]>;
   setIsPlaying: Action<SongsModel, boolean>;
-  setPlaylistId: Action<SongsModel, string>;
-  setActiveSongIdx: Action<SongsModel, number>;
+  setSongClickLink: Action<SongsModel, string>;
+  setActiveSong: Action<SongsModel, StoreSongModel>;
 }
 
 export interface IStore {

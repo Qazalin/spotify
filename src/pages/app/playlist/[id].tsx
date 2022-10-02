@@ -30,7 +30,6 @@ const PlaylistPage: NextPage = () => {
     isLoading: isFavoriteLoading,
   } = useFavorite({
     id: id as string,
-    recordType: "playlist",
   });
 
   /* effects */

@@ -3,7 +3,6 @@ import { IStore } from "./models";
 
 export const store = createStore<IStore>({
   songs: {
-    activeSongIdx: 0,
     isPlaying: false,
 
     setAllSongs: action((state, payload) => {
@@ -12,11 +11,11 @@ export const store = createStore<IStore>({
     setIsPlaying: action((state, payload) => {
       state.isPlaying = payload;
     }),
-    setPlaylistId: action((state, payload) => {
-      state.playlistId = payload;
+    setSongClickLink: action((state, payload) => {
+      state.songClickLink = payload;
     }),
-    setActiveSongIdx: action((state, payload) => {
-      state.activeSongIdx = payload;
+    setActiveSong: action((state, payload) => {
+      state.activeSong = payload;
     }),
   },
 });
@@ -25,10 +24,3 @@ export const typedHooks = createTypedHooks<IStore>();
 export const useStoreDispatch = typedHooks.useStoreDispatch;
 export const useStoreState = typedHooks.useStoreState;
 export const useStoreActions = typedHooks.useStoreActions;
-
-export const useActiveSong = () => {
-  const activeSongIdx = useStoreState((state) => state.songs.activeSongIdx);
-  const allSongs = useStoreState((state) => state.songs.allSongs);
-
-  return allSongs ? allSongs[activeSongIdx] : undefined;
-};

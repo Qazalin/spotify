@@ -227,3 +227,7 @@ Here are some resources that we commonly refer to:
 
 - [Protecting routes with Next-Auth.js](https://next-auth.js.org/configuration/nextjs#unstable_getserversession)
 // cl879kmv80182vua9s3ek28nl
+// https://i.scdn.co/image/ab67706f00000002e6fc98620cda649d45e42bc6 
+// https://i.scdn.co/image/ab67706f000000023b49ed4dfcda5fd05c805ca4 
+// https://i.scdn.co/image/ab67706f0000000211745a8204b55717393c39b6 
+// https://i.scdn.co/image/ab67706f00000002c145d8fb4b4885f9a275c1a7
