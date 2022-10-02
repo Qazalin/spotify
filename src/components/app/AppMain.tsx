@@ -15,7 +15,7 @@ export const AppMain = () => {
   );
 };
 
-const RecordSection: React.FC<
+export const RecordSection: React.FC<
   PropsWithChildren<{ title: string; sectionId: string }>
 > = ({ title, sectionId, children }) => {
   return (

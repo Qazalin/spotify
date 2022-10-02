@@ -1,32 +1,40 @@
 import { Album, Artist, Playlist } from "@prisma/client";
 import { useState } from "react";
 
-export const ArtistCard: React.FC<{ artist: Artist }> = ({ artist }) => {
+export const ArtistCard: React.FC<{
+  name: string;
+  image: string;
+  id: string;
+}> = ({ name, image, id }) => {
   function handleArtistClick() {
-    console.log("artist: ", artist.name);
     // TODO: Do some router.push thing and analytics maybe?
   }
   return (
     <RecordCard
-      title={artist.name}
+      title={name}
       subtitle="Artist"
-      imgSrc={artist.image}
+      imgSrc={image}
       onClick={handleArtistClick}
+      rounded={true}
     />
   );
 };
 
-export const AlbumCard: React.FC<{ album: Album }> = ({ album }) => {
+export const AlbumCard: React.FC<{
+  name: string;
+  createdAt: Date;
+  img: string;
+}> = ({ name, createdAt, img }) => {
   function handleAlbumClick() {
-    console.log("album: ", album.name);
     // TODO: Do some router.push thing and analytics maybe?
   }
   return (
     <RecordCard
-      title={album.name}
-      subtitle={`${album.createdAt.getFullYear()} • Album`}
-      imgSrc={album.image}
+      title={name}
+      subtitle={`${createdAt.getFullYear()} • Album`}
+      imgSrc={img}
       onClick={handleAlbumClick}
+      rounded={false}
     />
   );
 };
@@ -45,6 +53,7 @@ export const PlaylistCard: React.FC<{ playlist: Playlist }> = ({
       subtitle={playlist.desc}
       imgSrc={playlist.image}
       onClick={handlePlaylistClick}
+      rounded={false}
     />
   );
 };
@@ -54,7 +63,8 @@ const RecordCard: React.FC<{
   subtitle: string;
   imgSrc: string;
   onClick: () => void;
-}> = ({ title, imgSrc, subtitle, onClick }) => {
+  rounded: boolean;
+}> = ({ title, imgSrc, subtitle, onClick, rounded }) => {
   const [showPlay, setShowPlay] = useState(false);
   return (
     <div
@@ -64,7 +74,11 @@ const RecordCard: React.FC<{
       onMouseLeave={() => setShowPlay(false)}
     >
       <div className="relative">
-        <img src={imgSrc} alt="cardImage" className="rounded-full mb-3" />
+        <img
+          src={imgSrc}
+          alt="cardImage"
+          className={`${rounded ? "rounded-full" : "rounded-none"} mb-3`}
+        />
         <div
           className={`bg-green-400 rounded-full w-8 h-8 flex justify-center items-center absolute -bottom-2 -right-1 hover:scale-105 transition-all cursor-default shadow-lg shadow-zinc-900 ${
             showPlay ? "opacity-100" : "opacity-0"

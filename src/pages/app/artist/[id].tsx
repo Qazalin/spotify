@@ -1,7 +1,9 @@
 import { AppLayout } from "@spotify/components/app";
+import { ArtistDiscography } from "@spotify/components/artist/ArtistDiscography";
 import { ArtistHeader } from "@spotify/components/artist/ArtistHeader";
 import { ArtistPopular } from "@spotify/components/artist/ArtistPopular";
 import { ArtistSubheader } from "@spotify/components/artist/ArtistSubheader";
+import { SimilarArtists } from "@spotify/components/artist/SimilarArtists";
 import { useRouter } from "next/router";
 
 const ArtistPage = () => {
@@ -15,6 +17,8 @@ const ArtistPage = () => {
       <div className="mt-5 px-5">
         <ArtistSubheader />
         <ArtistPopular id={id} />
+        <ArtistDiscography id={id} />
+        <SimilarArtists id={id} />
       </div>
     </AppLayout>
   );
