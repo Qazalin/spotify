@@ -68,7 +68,7 @@ const RecordCard: React.FC<{
   const [showPlay, setShowPlay] = useState(false);
   return (
     <div
-      className="bg-zinc-800 p-2 rounded-md bg-opacity-25 hover:bg-opacity-80 transition-all duration-300 cursor-pointer px-3 row-span-1 col-span-1 relative"
+      className="bg-zinc-800 p-2 rounded-md bg-opacity-25 hover:bg-opacity-80 transition-all duration-300 cursor-pointer px-3 row-span-1 col-span-1 relative max-w-[10rem]"
       onClick={onClick}
       onMouseEnter={() => setShowPlay(true)}
       onMouseLeave={() => setShowPlay(false)}

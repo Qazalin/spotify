@@ -5,7 +5,7 @@ type WindowDimentions = {
   height: number | undefined;
 };
 
-type BreakpointPrefix = "sm" | "md" | "lg" | "xl" | "2xl";
+export type BreakpointPrefix = "sm" | "md" | "lg" | "xl" | "2xl";
 const TAILWIND_BREAKPOINS: Record<BreakpointPrefix, number> = {
   sm: 640,
   md: 768,

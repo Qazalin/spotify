@@ -1,6 +1,6 @@
 import { trpc } from "@spotify/utils";
-import { RecordSection } from "../app/AppMain";
 import { AlbumCard } from "../shared/RecordCard";
+import { RecordsRowWrapper } from "../shared/RecordsRowWrapper";
 
 export const ArtistDiscography: React.FC<{ id: string }> = ({ id }) => {
   const { data } = trpc.useQuery(["artist.getDiscography", { id }]);
@@ -8,17 +8,15 @@ export const ArtistDiscography: React.FC<{ id: string }> = ({ id }) => {
   if (!data) return null;
 
   return (
-    <RecordSection title="discography" sectionId="124">
-      {data.map((d, i) => {
-        return (
-          <AlbumCard
-            key={`discography-${i}`}
-            name={d.name}
-            img={d.image}
-            createdAt={d.createdAt}
-          />
-        );
-      })}
-    </RecordSection>
+    <RecordsRowWrapper title="discography">
+      {data.map((d, i) => (
+        <AlbumCard
+          key={i}
+          name={d.name}
+          createdAt={d.createdAt}
+          img={d.image}
+        />
+      ))}
+    </RecordsRowWrapper>
   );
 };
