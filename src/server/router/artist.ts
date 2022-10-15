@@ -101,4 +101,32 @@ export const artistRouter = createRouter()
       });
       return artists;
     },
+  })
+  .query("getFeaturedIn", {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input, ctx }) {
+      const featuredIn = await ctx.prisma.playlist.findMany({
+        where: {
+          songs: {
+            some: {
+              Album: {
+                Artist: {
+                  id: input.id,
+                },
+              },
+            },
+          },
+        },
+        take: 9,
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          desc: true,
+        },
+      });
+      return featuredIn;
+    },
   });

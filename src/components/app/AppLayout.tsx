@@ -30,7 +30,7 @@ export const AppLayout: React.FC<
       >
         <AppNavbar />
       </div>
-      <div className="w-[calc(100vw-13rem)] h-[calc(100vh-4rem)] absolute right-0 top-0 overflow-scroll">
+      <div className="w-[calc(100vw-13rem)] h-[calc(100vh-4rem)] absolute right-0 top-0 overflow-scroll pb-20">
         <div>{children}</div>
       </div>
       <div className="w-52 h-[calc(100vh-5rem)] bg-black absolute left-0">

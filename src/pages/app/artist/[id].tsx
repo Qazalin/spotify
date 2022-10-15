@@ -1,5 +1,6 @@
 import { AppLayout } from "@spotify/components/app";
 import { ArtistDiscography } from "@spotify/components/artist/ArtistDiscography";
+import { ArtistFeaturedIn } from "@spotify/components/artist/ArtistFeaturedIn";
 import { ArtistHeader } from "@spotify/components/artist/ArtistHeader";
 import { ArtistPopular } from "@spotify/components/artist/ArtistPopular";
 import { ArtistSubheader } from "@spotify/components/artist/ArtistSubheader";
@@ -19,6 +20,7 @@ const ArtistPage = () => {
         <ArtistPopular id={id} />
         <ArtistDiscography id={id} />
         <SimilarArtists id={id} />
+        <ArtistFeaturedIn id={id} />
       </div>
     </AppLayout>
   );

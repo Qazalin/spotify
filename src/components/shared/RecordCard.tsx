@@ -1,4 +1,4 @@
-import { Album, Artist, Playlist } from "@prisma/client";
+import { Playlist } from "@prisma/client";
 import { useState } from "react";
 
 export const ArtistCard: React.FC<{
@@ -39,19 +39,21 @@ export const AlbumCard: React.FC<{
   );
 };
 
-export const PlaylistCard: React.FC<{ playlist: Playlist }> = ({
-  playlist,
-}) => {
+export const PlaylistCard: React.FC<{
+  name: string;
+  desc: string;
+  img: string;
+}> = ({ name, desc, img }) => {
   function handlePlaylistClick() {
-    console.log("playlist: ", playlist.name);
+    console.log("playlist: ", name);
     // TODO: Do some router.push thing and analytics maybe?
   }
   // TODO: Have playlist logic if the playlist img is === ""
   return (
     <RecordCard
-      title={playlist.name}
-      subtitle={playlist.desc}
-      imgSrc={playlist.image}
+      title={name}
+      subtitle={desc}
+      imgSrc={img}
       onClick={handlePlaylistClick}
       rounded={false}
     />
