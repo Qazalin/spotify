@@ -1,5 +1,6 @@
 import { trpc } from "@spotify/utils";
-import { AlbumCard } from "../shared/RecordCard";
+import { CardWrapper } from "../shared/CardWrapper";
+import { AlbumCard } from "@spotify/components/shared/Cards";
 import { RecordsRowWrapper } from "../shared/RecordsRowWrapper";
 
 export const ArtistDiscography: React.FC<{ id: string }> = ({ id }) => {
@@ -7,16 +8,15 @@ export const ArtistDiscography: React.FC<{ id: string }> = ({ id }) => {
 
   if (!data) return null;
 
-  return (
-    <RecordsRowWrapper title="discography">
-      {data.map((d, i) => (
-        <AlbumCard
-          key={i}
-          name={d.name}
-          createdAt={d.createdAt}
-          img={d.image}
-        />
-      ))}
-    </RecordsRowWrapper>
-  );
+  const components = data.map((d, i) => (
+    <AlbumCard
+      key={i}
+      name={d.name}
+      createdAt={d.createdAt}
+      img={d.image}
+      id={d.id}
+    />
+  ));
+
+  return <CardWrapper title="Discography" cards={components} />;
 };

@@ -1,10 +1,11 @@
-import { JSXElementConstructor } from "react";
+import { ReactElement } from "react";
 
-// WIP
-export const ListWrapper: React.FC<{
+export const CardWrapper: React.FC<{
   title: string;
-  cards: JSXElementConstructor<unknown>[];
-}> = ({ title, cards }) => {
+  cards: ReactElement[];
+  loading?: boolean;
+  roudedCards?: boolean;
+}> = ({ title, cards, loading, roudedCards = false }) => {
   return (
     <div className="w-full mt-5">
       <h1 className="text-md md:text-lg lg:text-xl font-semibold mb-3">
@@ -12,9 +13,9 @@ export const ListWrapper: React.FC<{
         {title.split(" ").slice(1, title.length).join(" ")}
       </h1>
       <div className="flex space-x-3">
-        {cards.map((C, i) => (
-          <C key={i} />
-        ))}
+        {cards.map((C) => {
+          return C;
+        })}
       </div>
     </div>
   );

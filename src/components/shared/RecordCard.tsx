@@ -1,4 +1,3 @@
-import { Playlist } from "@prisma/client";
 import { useState } from "react";
 
 export const ArtistCard: React.FC<{
