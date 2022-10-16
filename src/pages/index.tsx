@@ -9,7 +9,7 @@ const Home: NextPage = () => {
         <meta name="description" content="A clone of Spotify" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="w-screen h-screen">Hello world</main>
+      <main className="w-screen h-screen mt-2"></main>
     </>
   );
 };
