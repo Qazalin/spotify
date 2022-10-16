@@ -7,7 +7,7 @@ export const ArtistPopular: React.FC<{
 }> = ({ id }) => {
   const activeSong = useStoreState((state) => state.activeSong);
   const isPlaying = useStoreState((state) => state.isPlaying);
-  const { data } = trpc.useQuery(["artist.getTopSongs", { id }]);
+  const { data, loading } = trpc.useQuery(["artist.getTopSongs", { id }]);
 
   if (!data) return null;
   const songs = data.albums.map((a) => a.songs).flat();

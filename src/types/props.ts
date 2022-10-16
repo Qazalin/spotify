@@ -4,6 +4,9 @@ import { StoreSongModel } from "@spotify/utils/state/models";
 export type PropsWithClassName<P> = P & { className?: string };
 // for components that consume the active song state stored globally through their parrent
 export type PropsWithActiveSong<P> = P & { activeSong?: StoreSongModel };
+
+export type PropsWithLoading<P> = P & { isLoading?: boolean };
+
 export type UserProfileInfo = {
   name: string;
   image: string;
