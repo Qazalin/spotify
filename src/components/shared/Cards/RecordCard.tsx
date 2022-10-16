@@ -1,5 +1,7 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState, MouseEvent } from "react";
+import { PlayPauseButton } from "../PlayPauseButton";
 
 export const RecordCard: React.FC<{
   title: string;
@@ -10,35 +12,37 @@ export const RecordCard: React.FC<{
   rounded: boolean;
 }> = ({ title, imgSrc, subtitle, href, rounded, onPlay }) => {
   const [showPlay, setShowPlay] = useState(false);
-  return (
-    <a href={href} className="hover:no-underline">
-      <div
-        className="bg-zinc-800 p-2 rounded-md bg-opacity-25 hover:bg-opacity-80 transition-all duration-300 cursor-pointer px-3 row-span-1 col-span-1 relative max-w-[10rem]"
-        onMouseEnter={() => setShowPlay(true)}
-        onMouseLeave={() => setShowPlay(false)}
-      >
-        <div className="relative">
-          <Image
-            src={imgSrc}
-            width={200}
-            height={200}
-            alt="cardImage"
-            className={`${rounded ? "rounded-full" : "rounded-none"} mb-3`}
-          />
-          <div
-            className={`bg-green-400 rounded-full w-8 h-8 flex justify-center items-center absolute -bottom-2 -right-1 hover:scale-105 transition-all cursor-default shadow-lg shadow-zinc-900 ${
-              showPlay ? "opacity-100" : "opacity-0"
-            }`}
-            onClick={onPlay}
-          >
-            <PlayBtn />
-          </div>
-        </div>
+  const playButtonRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
-        <h3 className="text-md font-[600]">{title}</h3>
-        <p className="text-sm capitalize text-zinc-400 mt-1">{subtitle}</p>
+  return (
+    <div
+      className="bg-zinc-800 p-2 rounded-md bg-opacity-25 hover:bg-opacity-80 transition-all duration-300 cursor-pointer px-3 row-span-1 col-span-1 relative max-w-[10rem]"
+      onMouseEnter={() => setShowPlay(true)}
+      onMouseLeave={() => setShowPlay(false)}
+    >
+      <div className="relative">
+        <Image
+          src={imgSrc}
+          width={200}
+          height={200}
+          alt="cardImage"
+          className={`${rounded ? "rounded-full" : "rounded-none"} mb-3`}
+        />
+        <div
+          className={`bg-green-400 rounded-full w-8 h-8 flex justify-center items-center absolute -bottom-2 -right-1 hover:scale-105 transition-all cursor-default shadow-lg shadow-zinc-900 ${
+            showPlay ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={onPlay}
+          ref={playButtonRef}
+        >
+          <PlayBtn />
+        </div>
       </div>
-    </a>
+
+      <h3 className="text-md font-[600]">{title}</h3>
+      <p className="text-sm capitalize text-zinc-400 mt-1">{subtitle}</p>
+    </div>
   );
 };
 
