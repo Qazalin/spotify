@@ -9,6 +9,7 @@ export const PlayPauseButton: React.FC<{
   const isPlaying = useStoreState((state) => state.isPlaying);
   const setIsPlaying = useStoreActions((actions) => actions.setIsPlaying);
   const setActiveQueue = useStoreActions((actions) => actions.setActiveQueue);
+  const setActiveSong = useStoreActions((actions) => actions.setActiveSong);
 
   return (
     <div
@@ -28,6 +29,7 @@ export const PlayPauseButton: React.FC<{
           onClick={() => {
             setIsPlaying(true);
             setActiveQueue(newActiveQueue);
+            setActiveSong(newActiveQueue[0]);
           }}
         />
       )}

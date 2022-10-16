@@ -26,6 +26,6 @@ export default defineNextConfig({
     },
   },
   images: {
-    domains: ["i.scdn.co"],
+    domains: ["i.scdn.co", "cdn.discordapp.com", "media.pitchfork.com"],
   },
 });

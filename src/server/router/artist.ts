@@ -14,7 +14,7 @@ export const artistRouter = createRouter()
         select: {
           id: true,
           name: true,
-          backgroundImage: true,
+          image: true,
           isVerified: true,
           _count: {
             select: {

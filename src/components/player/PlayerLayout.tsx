@@ -5,6 +5,7 @@ import { SongInfo } from "./SongInfo";
 
 export const PlayerLayout = () => {
   const activeSong = useStoreState((state) => state.activeSong);
+
   if (!activeSong) {
     return <div>Nothing playing</div>;
   }
