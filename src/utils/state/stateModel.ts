@@ -1,10 +1,10 @@
 import { Action } from "easy-peasy";
 
 type PrimaryStates = {
-  activeSong: SongModel;
-  activeQueue: SongModel[];
-  activeQueueId: string; // can be: playlistId, albumId, artistId
-  activeQueueType: "playlist" | "album" | "artist";
+  activeSong?: SongModel;
+  activeQueue?: SongModel[];
+  activeQueueId?: string; // can be: playlistId, albumId, artistId
+  activeQueueType?: "playlist" | "album" | "artist";
 };
 
 type BooleanStates = {
@@ -33,7 +33,7 @@ type BooleanActions = {
 
 type SpotifyStoreActions = PrimaryActions & BooleanActions;
 
-type SpotifyStoreModel = SpotifyStoreState & SpotifyStoreActions;
+export type SpotifyStoreModel = SpotifyStoreState & SpotifyStoreActions;
 
 // TODO: This is bad
 interface SongModel {
