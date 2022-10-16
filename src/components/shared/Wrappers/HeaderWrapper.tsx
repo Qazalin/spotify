@@ -46,8 +46,8 @@ export const HeaderWrapper: React.FC<
 };
 
 type HeaderImageProps = {
-  imageUrl: string;
-  isRounded: boolean;
+  imageUrl?: string;
+  isRounded?: boolean;
 };
 
 const HeaderImage: React.FC<PropsWithLoading<HeaderImageProps>> = ({
@@ -55,9 +55,12 @@ const HeaderImage: React.FC<PropsWithLoading<HeaderImageProps>> = ({
   isRounded,
   isLoading,
 }) => {
+  // TODO: Why is this not working?
+  // const [isLoaded, setIsLoaded] = useState(false);
+  // const onLoad = () => setIsLoaded(true);
   const [imgLoading, setImgLoading] = useState(true);
 
-  if (isLoading || imgLoading) {
+  if (isLoading) {
     return (
       <LoaderSkeleton
         className={`mb-3 w-32 h-32 animate-pulse bg-zinc-700`}
@@ -67,14 +70,14 @@ const HeaderImage: React.FC<PropsWithLoading<HeaderImageProps>> = ({
   }
   return (
     <Image
-      src={imageUrl}
-      width={200}
-      height={200}
+      src={imageUrl || ""}
+      width={170}
+      height={170}
       alt="cardImage"
       className={`${
         isRounded ? "rounded-full" : "rounded-none"
       } mb-3 object-cover shadow-2xl show-black`}
-      onLoad={() => setImgLoading(false)}
+      // onLoad={() => setImgLoading(false)}
     />
   );
 };
@@ -102,7 +105,7 @@ const HeaderInfo: React.FC<PropsWithLoading<HeaderInfoProps>> = ({
 };
 
 type HeaderHeadingProps = {
-  heading: string;
+  heading?: string;
 };
 const HeaderHeading: React.FC<PropsWithLoading<HeaderHeadingProps>> = ({
   heading,
