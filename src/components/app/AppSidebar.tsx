@@ -7,8 +7,8 @@ import { useRouter } from "next/router";
 import { useStoreState } from "@spotify/utils/state";
 
 export const AppSidebar = () => {
-  const activeSong = useStoreState((state) => state.songs.activeSong);
-  const songClickLink = useStoreState((state) => state.songs.songClickLink);
+  const activeSong = useStoreState((state) => state.activeSong);
+  const songClickLink = useStoreState((state) => state.songHref);
   const router = useRouter();
 
   const sidebarOptions: {

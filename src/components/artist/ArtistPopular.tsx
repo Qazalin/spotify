@@ -5,8 +5,8 @@ import { useStoreState } from "@spotify/utils/state";
 export const ArtistPopular: React.FC<{
   id: string;
 }> = ({ id }) => {
-  const activeSong = useStoreState((state) => state.songs.activeSong);
-  const isPlaying = useStoreState((state) => state.songs.isPlaying);
+  const activeSong = useStoreState((state) => state.activeSong);
+  const isPlaying = useStoreState((state) => state.isPlaying);
   const { data } = trpc.useQuery(["artist.getTopSongs", { id }]);
 
   if (!data) return null;

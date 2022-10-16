@@ -2,7 +2,7 @@ import { createTypedHooks, createStore, action } from "easy-peasy";
 import { SpotifyStoreModel } from "./stateModel";
 
 export const store = createStore<SpotifyStoreModel>({
-  isPlayling: false,
+  isPlaying: false,
   isShuffle: false,
   isRepeat: false,
   setActiveQueue: action((state, payload) => {
@@ -18,13 +18,16 @@ export const store = createStore<SpotifyStoreModel>({
     state.activeSong = payload;
   }),
   setIsPlaying: action((state, payload) => {
-    state.isPlayling = payload;
+    state.isPlaying = payload;
   }),
   setIsRepeat: action((state, payload) => {
     state.isRepeat = payload;
   }),
   setIsShuffle: action((state, payload) => {
     state.isShuffle = payload;
+  }),
+  setSongHref: action((state, payload) => {
+    state.songHref = payload;
   }),
 });
 

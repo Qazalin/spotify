@@ -4,8 +4,8 @@ import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 export const PlayPauseButton: React.FC<{
   className?: string;
 }> = ({ className }) => {
-  const isPlaying = useStoreState((state) => state.songs.isPlaying);
-  const setIsPlaying = useStoreActions((actions) => actions.songs.setIsPlaying);
+  const isPlaying = useStoreState((state) => state.isPlaying);
+  const setIsPlaying = useStoreActions((actions) => actions.setIsPlaying);
 
   return (
     <div

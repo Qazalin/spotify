@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { BiShuffle, BiSkipNext, BiSkipPrevious } from "react-icons/bi";
-import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 import { IoIosRepeat } from "react-icons/io";
 import { PlayerSlider } from "./PlayerSlider";
 import ReactHowler from "react-howler";
@@ -18,15 +17,16 @@ export const PlayerControls: React.FC<{
   const [isRepeat, setIsRepeat] = useState(false);
 
   // global state
-  const isPlaying = useStoreState((state) => state.songs.isPlaying);
-  const activeSongIdx = useStoreState((state) => state.songs.activeSongIdx);
-  const allSongs = useStoreState((state) => state.songs.allSongs);
+  const isPlaying = useStoreState((state) => state.isPlaying);
+  const activeSong = useStoreState((state) => state.activeSong);
+  const activeQueue = useStoreState((state) => state.activeQueue);
+
+  const activeSongIdx =
+    activeQueue?.findIndex((song) => song.id === activeSong?.id) || 0;
 
   // global actions
-  const setIsPlaying = useStoreActions((actions) => actions.songs.setIsPlaying);
-  const setActiveSongIdx = useStoreActions(
-    (actions) => actions.songs.setActiveSongIdx
-  );
+  const setIsPlaying = useStoreActions((actions) => actions.setIsPlaying);
+  const setActiveSong = useStoreActions((actions) => actions.setActiveSong);
 
   const songRef = useRef<ReactHowler>(null);
 
@@ -38,17 +38,19 @@ export const PlayerControls: React.FC<{
 
   const onSongChange = (action: "next" | "prev") => {
     setPlayedTime(0);
-    if (action === "next") {
-      if (allSongs && activeSongIdx === allSongs.length - 1) {
-        setActiveSongIdx(0);
+    if (activeQueue) {
+      if (action === "next") {
+        if (activeSongIdx === activeQueue.length - 1) {
+          setActiveSong(activeQueue[0]);
+        } else {
+          setActiveSong(activeQueue[activeSongIdx + 1]);
+        }
       } else {
-        setActiveSongIdx(activeSongIdx + 1);
-      }
-    } else {
-      if (allSongs && activeSongIdx === 0) {
-        setActiveSongIdx(allSongs.length - 1);
-      } else {
-        setActiveSongIdx(activeSongIdx - 1);
+        if (activeSongIdx === 0) {
+          setActiveSong(activeQueue[activeQueue.length - 1]);
+        } else {
+          setActiveSong(activeQueue[activeSongIdx - 1]);
+        }
       }
     }
   };

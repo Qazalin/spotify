@@ -16,14 +16,10 @@ export const SongRow: React.FC<SongRowProps> = (p) => {
   const screen = useTailwindScreen();
 
   // setters and hanlers
-  const setActiveSong = useStoreActions(
-    (actions) => actions.songs.setActiveSong
-  );
-  const setSongClickLink = useStoreActions(
-    (actions) => actions.songs.setSongClickLink
-  );
-  const isPlaying = useStoreState((state) => state.songs.isPlaying);
-  const setIsPlaying = useStoreActions((actions) => actions.songs.setIsPlaying);
+  const setActiveSong = useStoreActions((actions) => actions.setActiveSong);
+  const setSongClickLink = useStoreActions((actions) => actions.setSongHref);
+  const isPlaying = useStoreState((state) => state.isPlaying);
+  const setIsPlaying = useStoreActions((actions) => actions.setIsPlaying);
 
   // main handler
   const handlePlay = () => {
@@ -46,7 +42,7 @@ export const SongRow: React.FC<SongRowProps> = (p) => {
     setSongClickLink(p.clickLink);
   };
 
-  const activeSong = useStoreState((state) => state.songs.activeSong);
+  const activeSong = useStoreState((state) => state.activeSong);
 
   useEffect(() => console.log("active: ", activeSong), [activeSong]);
   return (

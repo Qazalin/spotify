@@ -14,7 +14,13 @@ import { FavoriteButton } from "@spotify/components/shared/FavoriteButton";
 const PlaylistPage: NextPage = () => {
   /* states */
   const router = useRouter();
-  const setSongs = useStoreActions((actions) => actions.songs.setAllSongs);
+  const setActiveQueue = useStoreActions((actions) => actions.setActiveQueue);
+  const setActiveQueueId = useStoreActions(
+    (actions) => actions.setActiveQueueId
+  );
+  const setActiveQueueType = useStoreActions(
+    (actions) => actions.setActiveQueueType
+  );
 
   /* queries */
   const { id } = router.query;
@@ -36,9 +42,11 @@ const PlaylistPage: NextPage = () => {
   // set the songs when the playlist is fetched
   useEffect(() => {
     if (playlist) {
-      setSongs(playlist.songs);
+      setActiveQueue(playlist.songs);
+      setActiveQueueId(playlist.id);
+      setActiveQueueType("playlist");
     }
-  }, [playlist, setSongs]);
+  }, [playlist, setActiveQueueType, setActiveQueueId, setActiveQueue]);
 
   if (isPlaylistLoading || isFavoriteLoading) {
     return <LoadingScreen />;

@@ -5,10 +5,11 @@ type PrimaryStates = {
   activeQueue?: SongModel[];
   activeQueueId?: string; // can be: playlistId, albumId, artistId
   activeQueueType?: "playlist" | "album" | "artist";
+  songHref?: string;
 };
 
 type BooleanStates = {
-  isPlayling: boolean;
+  isPlaying: boolean;
   isShuffle: boolean;
   isRepeat: boolean;
 };
@@ -16,13 +17,14 @@ type BooleanStates = {
 type SpotifyStoreState = PrimaryStates & BooleanStates;
 
 type PrimaryActions = {
-  setActiveSong: Action<SpotifyStoreModel, SongModel>;
+  setActiveSong: Action<SpotifyStoreModel, SongModel | undefined>;
   setActiveQueue: Action<SpotifyStoreModel, SongModel[]>;
   setActiveQueueId: Action<SpotifyStoreModel, string>;
   setActiveQueueType: Action<
     SpotifyStoreModel,
     "playlist" | "album" | "artist"
   >;
+  setSongHref: Action<SpotifyStoreModel, string>;
 };
 
 type BooleanActions = {
