@@ -13,6 +13,7 @@ export const PlayerControls: React.FC<{
   // local state
   const [isSeeking, setIsSeeking] = useState(false);
   const [playedTime, setPlayedTime] = useState(0);
+  // TODO: these are global now? should they be?
   const [isShuffle, setIsShuffle] = useState(false);
   const [isRepeat, setIsRepeat] = useState(false);
 

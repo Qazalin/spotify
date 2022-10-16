@@ -38,7 +38,7 @@ type SpotifyStoreActions = PrimaryActions & BooleanActions;
 export type SpotifyStoreModel = SpotifyStoreState & SpotifyStoreActions;
 
 // TODO: This is bad
-interface SongModel {
+export interface SongModel {
   id: string;
   name: string;
   duration: number;
