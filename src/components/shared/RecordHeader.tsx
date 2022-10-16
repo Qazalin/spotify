@@ -2,6 +2,7 @@ import { PropsWithChildren } from "react";
 import { UserProfileInfo } from "types/props";
 import Image from "next/image";
 import { Verified } from "../icons/Verified";
+import { LoaderSkeleton } from "./Utils";
 
 export const UserProfileHeader: React.FC<{ user: UserProfileInfo }> = ({
   user,
@@ -28,6 +29,33 @@ export const UserProfileHeader: React.FC<{ user: UserProfileInfo }> = ({
 };
 
 export const RecordHeader: React.FC<
+  PropsWithChildren<{
+    type: "profile" | "playlist" | "artist";
+    imgSrc: string;
+    heading: string;
+    isRounded: boolean;
+    verifiedArtist?: boolean;
+  }>
+> = ({ type, heading, isRounded, children, imgSrc, verifiedArtist }) => {
+  return (
+    <div
+      className={`bg-opacity-5 w-full h-64 px-3 flex justify-start items-center pt-8 relative bg-gradient-to-b from-zinc-700 to-transparent`}
+    >
+      <div className="flex items-center space-x-4 relative h-full w-full">
+        <LoaderSkeleton
+          className={`mb-3 w-32 h-32 animate-pulse bg-zinc-700`}
+          circle={isRounded}
+        />
+        <div className="space-y-4">
+          <LoaderSkeleton className={"h-2 w-20"} />
+          <LoaderSkeleton className={"h-5 w-20"} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const RecordHeader2: React.FC<
   PropsWithChildren<{
     type: "profile" | "playlist" | "artist";
     imgSrc: string;
