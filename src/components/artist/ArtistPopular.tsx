@@ -2,14 +2,28 @@ import { SongRow } from "@spotify/components/playlist/PlaylistSongRow";
 import { trpc } from "@spotify/utils";
 import { useStoreState } from "@spotify/utils/state";
 import { SongModel } from "@spotify/utils/state/stateModel";
+import { useEffect } from "react";
 import { PlayPauseButton } from "../shared";
+import { Button } from "../shared/Utils/Button";
 
 export const ArtistPopular: React.FC<{
   id: string;
 }> = ({ id }) => {
   const activeSong = useStoreState((state) => state.activeSong);
   const isPlaying = useStoreState((state) => state.isPlaying);
-  const { data, loading } = trpc.useQuery(["artist.getTopSongs", { id }]);
+  const { data, isLoading } = trpc.useQuery(["artist.getTopSongs", { id }]);
+  const { data: isFavoriteArtist, isLoading: isFavoriteArtistLoading } =
+    trpc.useQuery(["favorite.isFavoriteArtist", { id }]);
+
+  const {
+    mutate: toggleFavoriteArtist,
+    isLoading: isToggleFavoriteArtistLoading,
+  } = trpc.useMutation("favorite.toggleFavoriteArtist");
+
+  useEffect(
+    () => console.log(isToggleFavoriteArtistLoading),
+    [isToggleFavoriteArtistLoading]
+  );
 
   if (!data) return null;
   const songs = data.albums.map((a) => a.songs).flat();
@@ -44,9 +58,13 @@ export const ArtistPopular: React.FC<{
           className="w-10 h-10 bg-green-400 p-2"
           newActiveQueue={newActiveQueue}
         />
-        <button className="text-[0.6rem] leading-[0.3rem] uppercase p-1 px-3 border-2 border-zinc-400 rounded-sm tracking-widest font-bold text-zinc-200 h-6 self-center">
-          following
-        </button>
+        <Button
+          className="text-[0.6rem] leading-[0.3rem] uppercase p-1 px-3 border-2 border-zinc-400 rounded-sm tracking-widest font-bold text-zinc-200 h-6 self-center"
+          onClick={() => toggleFavoriteArtist({ id })}
+          isLoading={isToggleFavoriteArtistLoading}
+        >
+          {isFavoriteArtist ? "following" : "follow"}
+        </Button>
       </div>
       <p className="text-lg md:text-xl lg:text-2xl font-bold mb-5">Popular</p>
       <div className="flex flex-col space-y-2 w-full max-w-3xl">

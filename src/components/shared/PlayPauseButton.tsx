@@ -5,7 +5,8 @@ import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 export const PlayPauseButton: React.FC<{
   className?: string;
   newActiveQueue: SongModel[];
-}> = ({ className, newActiveQueue }) => {
+  activeSong?: SongModel;
+}> = ({ className, newActiveQueue, activeSong }) => {
   const isPlaying = useStoreState((state) => state.isPlaying);
   const setIsPlaying = useStoreActions((actions) => actions.setIsPlaying);
   const setActiveQueue = useStoreActions((actions) => actions.setActiveQueue);
@@ -29,7 +30,7 @@ export const PlayPauseButton: React.FC<{
           onClick={() => {
             setIsPlaying(true);
             setActiveQueue(newActiveQueue);
-            setActiveSong(newActiveQueue[0]);
+            setActiveSong(activeSong ?? newActiveQueue[0]);
           }}
         />
       )}
