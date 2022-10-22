@@ -41,6 +41,7 @@ export const artistRouter = createRouter()
           albums: {
             take: 5, // "top 5 songs"
             select: {
+              Artist: true,
               id: true,
               name: true,
               image: true,
