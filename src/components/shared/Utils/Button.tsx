@@ -1,14 +1,14 @@
 import { PropsWithChildren } from "react";
 import { LoadingSpinner } from "./LoadingSpinner";
 
-type ButtonProps = {
+export type ButtonProps = PropsWithChildren<{
   className?: string;
   isLoading?: boolean;
   disabled?: boolean;
   onClick?: () => void;
-};
+}>;
 
-export const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
+export const Button: React.FC<ButtonProps> = ({
   className,
   isLoading,
   disabled,

@@ -5,6 +5,7 @@ import { SongModel } from "@spotify/utils/state/stateModel";
 import { useEffect } from "react";
 import { PlayPauseButton } from "../shared";
 import { Button } from "../shared/Utils/Button";
+import { ButtonWithOptimisticUpdate } from "../shared/Utils/ButtonWithOptimisticUpdate";
 
 export const ArtistPopular: React.FC<{
   id: string;
@@ -18,6 +19,8 @@ export const ArtistPopular: React.FC<{
   const {
     mutate: toggleFavoriteArtist,
     isLoading: isToggleFavoriteArtistLoading,
+    isError: isToggleFavoriteArtistError,
+    isSuccess: isToggleFavoriteArtistSuccess,
   } = trpc.useMutation("favorite.toggleFavoriteArtist");
 
   useEffect(
@@ -58,13 +61,19 @@ export const ArtistPopular: React.FC<{
           className="w-10 h-10 bg-green-400 p-2"
           newActiveQueue={newActiveQueue}
         />
-        <Button
+        <ButtonWithOptimisticUpdate
+          action={`${isFavoriteArtist ? "unfollowed" : "followed"} ${
+            data.name
+          }`}
           className="text-[0.6rem] leading-[0.3rem] uppercase p-1 px-3 border-2 border-zinc-400 rounded-sm tracking-widest font-bold text-zinc-200 h-6 self-center"
           onClick={() => toggleFavoriteArtist({ id })}
           isLoading={isToggleFavoriteArtistLoading}
-        >
-          {isFavoriteArtist ? "following" : "follow"}
-        </Button>
+          firstChild={isFavoriteArtist ? "following" : "follow"}
+          nextChild={isFavoriteArtist ? "follow" : "following"}
+          isSuccessful={isToggleFavoriteArtistSuccess}
+          isError={isToggleFavoriteArtistError}
+          mutate={() => toggleFavoriteArtist({ id })}
+        />
       </div>
       <p className="text-lg md:text-xl lg:text-2xl font-bold mb-5">Popular</p>
       <div className="flex flex-col space-y-2 w-full max-w-3xl">
