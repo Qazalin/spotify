@@ -1,16 +1,16 @@
 import { numberWithCommas, inferQueryOutput } from "@spotify/utils";
-import { RecordHeader } from "@spotify/components/shared/RecordHeader";
+import { HeaderWrapper } from "../shared/Wrappers/HeaderWrapper";
 
 export const PlaylistHeader: React.FC<{
   playlist: inferQueryOutput<"playlist.getPlaylistById">;
 }> = ({ playlist }) => {
   if (!playlist) return null;
   return (
-    <RecordHeader
+    <HeaderWrapper
       type="playlist"
       heading={playlist.name}
       isRounded={false}
-      imgSrc={playlist.image}
+      imageUrl={playlist.image}
     >
       <div className="flex justify-start items-center flex-col space-y-1">
         <p className="text-sm capitalize text-zinc-300 self-start">
@@ -32,6 +32,6 @@ export const PlaylistHeader: React.FC<{
           <span>·</span>
         </div>
       </div>
-    </RecordHeader>
+    </HeaderWrapper>
   );
 };

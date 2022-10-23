@@ -4,7 +4,7 @@ import { PlaylistTable, PlaylistHeader } from "@spotify/components/playlist";
 import { LoadingScreen } from "components/shared/LoadingScreen";
 import { trpc } from "@spotify/utils/trpc";
 import { AppLayout } from "@spotify/components/app";
-import { useStoreActions } from "@spotify/utils/state";
+import { useStoreActions, useStoreState } from "@spotify/utils/state";
 import { useEffect } from "react";
 import { Notification, PlayPauseButton } from "@spotify/components/shared";
 import { useFavorite } from "@spotify/utils/hooks/useFavorite";
@@ -21,6 +21,7 @@ const PlaylistPage: NextPage = () => {
   const setActiveQueueType = useStoreActions(
     (actions) => actions.setActiveQueueType
   );
+  const activeSong = useStoreState((state) => state.activeSong);
 
   /* queries */
   const { id } = router.query;
@@ -52,13 +53,23 @@ const PlaylistPage: NextPage = () => {
     return <LoadingScreen />;
   }
 
+  const isActiveSongInPlaylist = playlist?.songs.some(
+    (s) => s.id === activeSong?.id
+  );
+
   if (playlist) {
     return (
       <AppLayout>
         <PlaylistHeader playlist={playlist} />
         <div className="px-5 mt-5">
           <div className="flex space-x-2 mb-5">
-            <PlayPauseButton className="w-10 h-10 bg-green-400 p-2" />
+            <PlayPauseButton
+              className="w-10 h-10 bg-green-400 p-2"
+              newActiveQueue={playlist.songs}
+              activeSong={
+                isActiveSongInPlaylist ? activeSong : playlist.songs[0]
+              }
+            />
             <div className="w-10 h-10 p-2">
               <FavoriteButton
                 isFavorite={isFavorite}
@@ -72,7 +83,7 @@ const PlaylistPage: NextPage = () => {
           msg={
             isFavorite ? "Saved to Your Library" : "Removed from Your Library"
           }
-          state={isFavorite}
+          show={isFavorite !== undefined} // FIXME
         />
       </AppLayout>
     );

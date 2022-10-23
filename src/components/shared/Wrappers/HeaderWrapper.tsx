@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Verified } from "@spotify/components/shared/Icons/Verified";
 import { LoaderSkeleton } from "@spotify/components/shared/Utils/LoaderSkeleton";
 import { PropsWithLoading } from "@spotify/types/props";
-import { useImageLoaded } from "@spotify/utils/hooks/useImageLoaded";
 
 type HeaderWrapperProps = HeaderImageProps &
   HeaderInfoProps &

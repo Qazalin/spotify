@@ -60,6 +60,9 @@ export const ArtistPopular: React.FC<{
         <PlayPauseButton
           className="w-10 h-10 bg-green-400 p-2"
           newActiveQueue={newActiveQueue}
+          activeSong={
+            activeSong?.Album.Artist.id === id ? activeSong : newActiveQueue[0]
+          }
         />
         <ButtonWithOptimisticUpdate
           action={`${isFavoriteArtist ? "unfollowed" : "followed"} ${
