@@ -1,9 +1,10 @@
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, SyntheticEvent, useState } from "react";
 import Image from "next/image";
 
 import { Verified } from "@spotify/components/shared/Icons/Verified";
 import { LoaderSkeleton } from "@spotify/components/shared/Utils/LoaderSkeleton";
 import { PropsWithLoading } from "@spotify/types/props";
+import { useImageLoaded } from "@spotify/utils/hooks/useImageLoaded";
 
 type HeaderWrapperProps = HeaderImageProps &
   HeaderInfoProps &
@@ -55,29 +56,38 @@ const HeaderImage: React.FC<PropsWithLoading<HeaderImageProps>> = ({
   isRounded,
   isLoading,
 }) => {
-  // TODO: Why is this not working?
-  const [isLoaded, setIsLoaded] = useState(false);
-  const onLoad = () => setIsLoaded(true);
+  const [isImgLoading, setIsImgLoading] = useState(true);
+  const loading = isLoading || isImgLoading;
 
-  if (isLoading || !isLoaded) {
-    return (
-      <LoaderSkeleton
-        className={`mb-3 w-32 h-32 animate-pulse bg-zinc-700`}
-        circle={isRounded}
-      />
-    );
+  function handleLoad(e: SyntheticEvent<HTMLImageElement, Event>) {
+    const target = e.target as HTMLImageElement;
+    if (target.complete) {
+      setIsImgLoading(false);
+    }
   }
+
   return (
-    <Image
-      src={imageUrl || ""}
-      width={170}
-      height={170}
-      alt="cardImage"
-      className={`${
-        isRounded ? "rounded-full" : "rounded-none"
-      } mb-3 object-cover shadow-2xl show-black`}
-      onLoad={onLoad}
-    />
+    <>
+      {loading && (
+        <LoaderSkeleton
+          className={`mb-3 w-32 h-32 animate-pulse bg-zinc-700`}
+          circle={isRounded}
+        />
+      )}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      {imageUrl && (
+        <Image
+          src={imageUrl}
+          width={170}
+          height={170}
+          alt="cardImage"
+          className={`${
+            isRounded ? "rounded-full" : "rounded-none"
+          } mb-3 object-cover shadow-2xl show-black ${loading ? "hidden" : ""}`}
+          onLoad={(e) => handleLoad(e)}
+        />
+      )}
+    </>
   );
 };
 
