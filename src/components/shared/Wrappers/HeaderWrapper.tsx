@@ -56,11 +56,10 @@ const HeaderImage: React.FC<PropsWithLoading<HeaderImageProps>> = ({
   isLoading,
 }) => {
   // TODO: Why is this not working?
-  // const [isLoaded, setIsLoaded] = useState(false);
-  // const onLoad = () => setIsLoaded(true);
-  const [imgLoading, setImgLoading] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const onLoad = () => setIsLoaded(true);
 
-  if (isLoading) {
+  if (isLoading || !isLoaded) {
     return (
       <LoaderSkeleton
         className={`mb-3 w-32 h-32 animate-pulse bg-zinc-700`}
@@ -77,7 +76,7 @@ const HeaderImage: React.FC<PropsWithLoading<HeaderImageProps>> = ({
       className={`${
         isRounded ? "rounded-full" : "rounded-none"
       } mb-3 object-cover shadow-2xl show-black`}
-      // onLoad={() => setImgLoading(false)}
+      onLoad={onLoad}
     />
   );
 };

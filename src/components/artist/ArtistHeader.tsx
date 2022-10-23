@@ -10,6 +10,16 @@ export const ArtistHeader: React.FC<{ id: string }> = ({ id }) => {
     },
   ]);
 
+  function getFollowerCountText() {
+    const total = data?._count.favoriteArtist;
+    if (total) {
+      if (total === 1) {
+        return "1 follower";
+      }
+      return `${numberWithCommas(total)} followers`;
+    }
+    return "0 followers";
+  }
   return (
     <HeaderWrapper
       type="artist"
@@ -22,7 +32,7 @@ export const ArtistHeader: React.FC<{ id: string }> = ({ id }) => {
       {isLoading ? (
         <LoaderSkeleton className="w-30 h-3" />
       ) : (
-        <p>{numberWithCommas(data?._count.favoriteArtist || 0)} followers</p>
+        <p>{getFollowerCountText()}</p>
       )}
     </HeaderWrapper>
   );
