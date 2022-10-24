@@ -1,18 +1,29 @@
+import { PropsWithLoading } from "@spotify/types/props";
+import { RecordWrapper } from "../Wrappers/RecordWrapper";
 import { RecordCard } from "./RecordCard";
 
-export const AlbumCard: React.FC<{
-  name: string;
-  createdAt: Date;
-  img: string;
-  id: string;
-}> = ({ name, createdAt, img, id }) => {
+type AlbumCardProps = PropsWithLoading<{
+  name?: string;
+  createdAt?: Date;
+  img?: string;
+  id?: string;
+}>;
+
+export const AlbumCard: React.FC<AlbumCardProps> = ({
+  name,
+  createdAt,
+  img,
+  id,
+  isLoading,
+}) => {
   function handleAlbumPlay() {
     // TODO: Do some router.push thing and analytics maybe?
   }
   return (
-    <RecordCard
+    <RecordWrapper
+      isLoading={isLoading}
       title={name}
-      subtitle={`${createdAt.getFullYear()} • Album`}
+      subtitle={`${createdAt?.getFullYear()} • Album`}
       imgSrc={img}
       href={`/app/album/${id}`}
       onPlay={handleAlbumPlay}
