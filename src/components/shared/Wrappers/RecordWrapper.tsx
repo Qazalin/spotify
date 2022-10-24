@@ -85,7 +85,7 @@ const RecordWrapperContent: React.FC<RecordWrapperContentProps> = ({
           onClick={onPlay}
           ref={playButtonRef}
         >
-          <PlayPauseButton />
+          <PlayPauseButton className="bg-inherit" />
         </div>
       </div>
 
