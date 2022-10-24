@@ -1,15 +1,25 @@
-import { RecordCard } from "./RecordCard";
+import { PropsWithLoading } from "@spotify/types/props";
+import { RecordWrapper } from "../Wrappers/RecordWrapper";
 
-export const PlaylistCard: React.FC<{
-  name: string;
-  desc: string;
-  img: string;
-  id: string;
-}> = ({ name, desc, img, id }) => {
+type PlaylistCardProps = PropsWithLoading<{
+  name?: string;
+  desc?: string;
+  img?: string;
+  id?: string;
+}>;
+
+export const PlaylistCard: React.FC<PlaylistCardProps> = ({
+  isLoading,
+  name,
+  desc,
+  img,
+  id,
+}) => {
   // TODO: Have playlist logic if the playlist img is === ""
   function handlePlay() {}
   return (
-    <RecordCard
+    <RecordWrapper
+      isLoading={isLoading}
       title={name}
       subtitle={desc}
       imgSrc={img}
