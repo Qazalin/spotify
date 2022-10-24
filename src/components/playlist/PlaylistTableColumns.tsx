@@ -2,17 +2,17 @@ import Image from "next/future/image";
 import { BsPlayFill } from "react-icons/bs";
 
 export const IDXColumn: React.FC<{
-  idx: number;
-  isHovered: boolean;
-  isActive: boolean;
-  handlePlay: () => void;
+  idx?: number;
+  isHovered?: boolean;
+  isActive?: boolean;
+  handlePlay?: () => void;
 }> = ({ idx, isHovered, handlePlay, isActive }) => {
   return (
     <div className="w-full h-full flex items-center text-sm self-center">
       {isHovered ? (
         <BsPlayFill
           className="text-md text-zinc-50 text-lg"
-          onClick={() => handlePlay()}
+          onClick={() => handlePlay !== undefined && handlePlay()}
         />
       ) : (
         <p className={`${isActive ? "text-green-400" : "text-inherit"}`}>
@@ -24,16 +24,16 @@ export const IDXColumn: React.FC<{
 };
 
 export const TrackInfoColumn: React.FC<{
-  albumImage: string;
-  songId: string;
-  songName: string;
-  artistName: string;
-  artistId: string;
-  isActive: boolean;
+  albumImage?: string;
+  songId?: string;
+  songName?: string;
+  artistName?: string;
+  artistId?: string;
+  isActive?: boolean;
 }> = (p) => (
   <div className="flex space-x-2 w-44 max-h-12 overflow-ellipsis whitespace-nowrap">
     <Image
-      src={p.albumImage}
+      src={p.albumImage || ""}
       className="self-center"
       height={40}
       width={40}

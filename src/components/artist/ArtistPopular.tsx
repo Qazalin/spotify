@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { PlayPauseButton } from "../shared";
 import { Button } from "../shared/Utils/Button";
 import { ButtonWithOptimisticUpdate } from "../shared/Utils/ButtonWithOptimisticUpdate";
+import { SongRowWrapper } from "@spotify/components/shared/Wrappers/SongWrapper";
 
 export const ArtistPopular: React.FC<{
   id: string;
@@ -28,10 +29,9 @@ export const ArtistPopular: React.FC<{
     [isToggleFavoriteArtistLoading]
   );
 
-  if (!data) return null;
-  const songs = data.albums.map((a) => a.songs).flat();
+  const songs = data?.albums.map((a) => a.songs).flat();
 
-  const newActiveQueue: SongModel[] = data.albums
+  const newActiveQueue: SongModel[] | undefined = data?.albums
     .map((a) => {
       return a.songs.map((s) => {
         return {
@@ -61,12 +61,14 @@ export const ArtistPopular: React.FC<{
           className="w-10 h-10 bg-green-400 p-2"
           newActiveQueue={newActiveQueue}
           activeSong={
-            activeSong?.Album.Artist.id === id ? activeSong : newActiveQueue[0]
+            activeSong?.Album.Artist.id === id
+              ? activeSong
+              : newActiveQueue && newActiveQueue[0]
           }
         />
         <ButtonWithOptimisticUpdate
           action={`${isFavoriteArtist ? "unfollowed" : "followed"} ${
-            data.name
+            data?.name
           }`}
           className="text-[0.6rem] leading-[0.3rem] uppercase p-1 px-3 border-2 border-zinc-400 rounded-sm tracking-widest font-bold text-zinc-200 h-6 self-center"
           onClick={() => toggleFavoriteArtist({ id })}
@@ -80,27 +82,32 @@ export const ArtistPopular: React.FC<{
       </div>
       <p className="text-lg md:text-xl lg:text-2xl font-bold mb-5">Popular</p>
       <div className="flex flex-col space-y-2 w-full max-w-3xl">
-        {songs.map((s, i) => {
-          const img = data.albums.find((a) => a.id === s.albumId)?.image || "";
-          return (
-            <SongRow
-              key={`song-row-${i}`}
-              idx={i}
-              songId={s.id}
-              artistId={data?.id || ""}
-              artistName={data?.name || ""}
-              songName={s.name}
-              songDateAdded={s.createdAt}
-              songDuration={s.duration}
-              albumImage={img}
-              songUrl={s.url}
-              clickLink={`/app/artist/${data?.id}`}
-              isActive={activeSong?.id === s.id}
-              isPlaying={isPlaying}
-              variant="minimal"
-            />
-          );
-        })}
+        {Array(3)
+          .fill(0)
+          .map((_, i) => {
+            const s = songs ? songs[i] : undefined;
+            const img =
+              data?.albums.find((a) => a.id === s?.albumId)?.image || "";
+            return (
+              <SongRowWrapper
+                key={`song-row-${i}`}
+                idx={i + 1}
+                songId={s?.id}
+                artistId={data?.id || ""}
+                artistName={data?.name || ""}
+                songName={s?.name}
+                songDateAdded={s?.createdAt}
+                songDuration={s?.duration}
+                albumImage={img}
+                songUrl={s?.url}
+                clickLink={`/app/artist/${data?.id}`}
+                isActive={activeSong?.id === s?.id}
+                isPlaying={isPlaying}
+                variant="minimal"
+                isLoading={isLoading}
+              />
+            );
+          })}
       </div>
     </div>
   );
