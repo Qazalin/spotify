@@ -1,37 +1,30 @@
 import { trpc } from "@spotify/utils";
-import {
-  BreakpointPrefix,
-  useTailwindScreen,
-} from "@spotify/utils/responsiveBreakpoints";
-import { ArtistCard } from "../shared/RecordCard";
-import { RecordsRowWrapper } from "../shared/RecordsRowWrapper";
+import { ArtistCard } from "@spotify/components/shared/Cards";
+import { CardWrapper } from "../shared/CardWrapper";
 
 export const SimilarArtists: React.FC<{ id: string }> = ({ id }) => {
-  const { data } = trpc.useQuery(["artist.getSimilarArtists", { id }]);
-  const width = useTailwindScreen();
-  const RECORD_LIMITS: Record<BreakpointPrefix, number> = {
-    sm: 2,
-    md: 4,
-    lg: 6,
-    xl: 7,
-    "2xl": 8,
-  };
-  console.log(width);
+  const { data, isLoading } = trpc.useQuery([
+    "artist.getSimilarArtists",
+    { id },
+  ]);
 
-  if (!data) return null;
+  let cards;
 
-  return (
-    <RecordsRowWrapper title="fans also like">
-      {data.slice(0, RECORD_LIMITS[width]).map((d, i) => {
-        return (
-          <ArtistCard
-            key={`similar-artist-${i}`}
-            name={d.name}
-            id={d.id}
-            image={d.image}
-          />
-        );
-      })}
-    </RecordsRowWrapper>
-  );
+  if (data) {
+    cards = data.map((d, i) => (
+      <ArtistCard
+        key={i}
+        name={d?.name}
+        image={d?.image}
+        id={d?.id}
+        isLoading={isLoading}
+      />
+    ));
+  } else {
+    cards = Array(4)
+      .fill(0)
+      .map((_, i) => <ArtistCard isLoading={isLoading} key={i} />);
+  }
+
+  return <CardWrapper title="Fans also like" cards={cards} />;
 };
