@@ -4,7 +4,7 @@ import { RecordWrapper } from "../Wrappers/RecordWrapper";
 type PlaylistCardProps = PropsWithLoading<{
   name?: string;
   desc?: string;
-  img?: string;
+  image?: string;
   id?: string;
 }>;
 
@@ -12,7 +12,7 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = ({
   isLoading,
   name,
   desc,
-  img,
+  image,
   id,
 }) => {
   // TODO: Have playlist logic if the playlist img is === ""
@@ -22,7 +22,7 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = ({
       isLoading={isLoading}
       title={name}
       subtitle={desc}
-      imgSrc={img}
+      imgSrc={image}
       href={`app/playlist/${id}`}
       onPlay={handlePlay}
       rounded={false}
