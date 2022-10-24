@@ -24,17 +24,17 @@ export const PlayPauseButton: React.FC<{
           className="text-base w-full h-full text-black hover:scale-105"
           onClick={() => setIsPlaying(false)}
         />
+      ) : newActiveQueue ? (
+        <BsFillPlayFill
+          className="text-base w-full h-full text-black hover:scale-105"
+          onClick={() => {
+            setIsPlaying(true);
+            setActiveQueue(newActiveQueue);
+            setActiveSong(activeSong ?? newActiveQueue[0]);
+          }}
+        />
       ) : (
-        newActiveQueue && (
-          <BsFillPlayFill
-            className="text-base w-full h-full text-black hover:scale-105"
-            onClick={() => {
-              setIsPlaying(true);
-              setActiveQueue(newActiveQueue);
-              setActiveSong(activeSong ?? newActiveQueue[0]);
-            }}
-          />
-        )
+        <BsFillPlayFill className="text-base w-full h-full text-black hover:scale-105" />
       )}
     </div>
   );

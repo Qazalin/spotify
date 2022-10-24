@@ -22,6 +22,7 @@ export const ButtonWithOptimisticUpdate: React.FC<
   mutate,
   isError,
   isSuccessful,
+  isLoading,
 }) => {
   const [visibleChild, setVisibleChild] = useState<"first" | "next">("first");
   const errorMessages = `Failed to ${action}`;
@@ -39,8 +40,9 @@ export const ButtonWithOptimisticUpdate: React.FC<
   return (
     <>
       <Button
+        isLoading={isLoading}
         className={className}
-        disabled={disabled}
+        disabled={disabled || isLoading}
         onClick={handleOptimisticUpdate}
       >
         {visibleChild === "first" ? firstChild : nextChild}

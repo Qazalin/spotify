@@ -72,7 +72,7 @@ export const ArtistPopular: React.FC<{
           }`}
           className="text-[0.6rem] leading-[0.3rem] uppercase p-1 px-3 border-2 border-zinc-400 rounded-sm tracking-widest font-bold text-zinc-200 h-6 self-center"
           onClick={() => toggleFavoriteArtist({ id })}
-          isLoading={isToggleFavoriteArtistLoading}
+          isLoading={isToggleFavoriteArtistLoading || isLoading}
           firstChild={isFavoriteArtist ? "following" : "follow"}
           nextChild={isFavoriteArtist ? "follow" : "following"}
           isSuccessful={isToggleFavoriteArtistSuccess}
