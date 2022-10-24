@@ -15,7 +15,6 @@ export const AppNavbar = () => {
   const userMenuItems = ["profile", "settings"];
   return (
     <div className="w-full h-full relative">
-      <PlayerPageControls />
       <div className="flex absolute right-5 mt-2" ref={wrapperRef}>
         <div
           className="bg-stone-700 p-1 rounded-full border-2 border-black visible cursor-pointer"
