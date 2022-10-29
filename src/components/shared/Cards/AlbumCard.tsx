@@ -1,6 +1,6 @@
 import { PropsWithLoading } from "@spotify/types/props";
+import { trpc } from "@spotify/utils";
 import { RecordWrapper } from "../Wrappers/RecordWrapper";
-import { RecordCard } from "./RecordCard";
 
 type AlbumCardProps = PropsWithLoading<{
   name?: string;
@@ -16,9 +16,7 @@ export const AlbumCard: React.FC<AlbumCardProps> = ({
   id,
   isLoading,
 }) => {
-  function handleAlbumPlay() {
-    // TODO: Do some router.push thing and analytics maybe?
-  }
+  // const {data, refetch} = trpc.useQuery(["albu"])
   return (
     <RecordWrapper
       isLoading={isLoading}
@@ -26,7 +24,7 @@ export const AlbumCard: React.FC<AlbumCardProps> = ({
       subtitle={`${createdAt?.getFullYear()} • Album`}
       imgSrc={img}
       href={`/app/album/${id}`}
-      onPlay={handleAlbumPlay}
+      // onPlay={handleAlbumPlay}
       rounded={false}
     />
   );
