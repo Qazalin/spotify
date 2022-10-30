@@ -51,6 +51,14 @@ export default withTRPC<AppRouter>({
       ],
       url,
       transformer: superjson,
+      queryClientConfig: {
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            refetchInterval: false,
+          },
+        },
+      },
       /**
        * @link https://react-query.tanstack.com/reference/QueryClient
        */

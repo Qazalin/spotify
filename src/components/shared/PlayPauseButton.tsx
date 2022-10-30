@@ -1,7 +1,7 @@
 import { PropsWithClassName } from "@spotify/types/props";
 import { useStoreActions, useStoreState } from "@spotify/utils/state";
 import { SongModel } from "@spotify/utils/state/stateModel";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 import { LoadingSpinner } from "./Utils/LoadingSpinner";
 
@@ -30,12 +30,19 @@ export const PlayPauseButton: React.FC<
   const setActiveSong = useStoreActions((actions) => actions.setActiveSong);
   const activeSong = useStoreState((state) => state.activeSong);
 
-  useEffect(() => {
-    console.log("PlayPauseButtonProps: Got a new active queue");
+  const handlePlayPause = useCallback(() => {
+    console.log(
+      "Callback: PlayPauseButton: Got a new active queue: ",
+      newActiveQueue
+    );
     if (newActiveQueue && newActiveQueue !== null) {
       setActiveQueue(newActiveQueue);
     }
   }, [newActiveQueue, setActiveQueue]);
+
+  useEffect(() => {
+    handlePlayPause();
+  }, [handlePlayPause]);
 
   /*
   if (newActiveQueue) {
