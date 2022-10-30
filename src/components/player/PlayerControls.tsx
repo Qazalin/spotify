@@ -7,8 +7,14 @@ import { PlayPauseButton } from "../shared";
 import { PlayerControlsContext } from "./PlayerControlsContext";
 
 export const PlayerControls = () => {
-  const { activeSong, isPlaying, isSeeking, setIsSeeking, playedTime } =
-    useContext(PlayerControlsContext);
+  const {
+    activeSong,
+    isPlaying,
+    isSeeking,
+    setIsSeeking,
+    playedTime,
+    onSongChange,
+  } = useContext(PlayerControlsContext);
 
   const songRef = useRef(null);
 
@@ -19,12 +25,12 @@ export const PlayerControls = () => {
         <BiShuffle className="text-lg hover:fill-zinc-50" />
         <BiSkipPrevious
           className="hover:fill-zinc-50"
-          // onClick={() => onSongChange("prev")}
+          onClick={() => onSongChange("prev")}
         />
         <PlayPauseButton className="w-7 h-7" />
         <BiSkipNext
           className="hover:fill-zinc-50"
-          // onClick={() => onSongChange("next")}
+          onClick={() => onSongChange("next")}
         />
         <IoIosRepeat className="hover:fill-zinc-50" />
       </div>
@@ -34,8 +40,8 @@ export const PlayerControls = () => {
             src={activeSong.url}
             playing={isPlaying}
             ref={songRef}
-            volume={isSeeking ? 0 : 1} // don't play a sound when seeking
-            // onEnd={() => onSongChange("next")}
+            volume={isSeeking ? 0 : 0.1} // don't play a sound when seeking
+            onEnd={() => onSongChange("next")}
           />
           <PlayerSlider
             value={playedTime}

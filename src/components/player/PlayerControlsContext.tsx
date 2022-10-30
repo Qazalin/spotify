@@ -1,8 +1,5 @@
 import { useStoreActions, useStoreState } from "@spotify/utils/state";
-import { SongModel } from "@spotify/utils/state/stateModel";
 import {
-  Dispatch,
-  SetStateAction,
   createContext,
   PropsWithChildren,
   useState,
@@ -46,10 +43,6 @@ export const PlayerControlsContextProvider: React.FC<
       newIdx = (activeSongIdx - 1 + activeQueue.length) % activeQueue.length;
     }
     setActiveSong(activeQueue[newIdx]);
-  }
-
-  function onChange() {
-    console.log("changed");
   }
 
   useEffect(() => {
@@ -103,7 +96,7 @@ export const PlayerControlsContextProvider: React.FC<
     setIsRepeat,
     playedTime,
     setPlayedTime,
-    onChange,
+    onSongChange,
     isSeeking,
     setIsSeeking,
   };

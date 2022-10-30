@@ -8,7 +8,7 @@ export interface PlayerControlsContextProps {
   setIsRepeat: (isRepeat: boolean) => void;
   isPlaying: boolean;
   setIsPlaying: (isPlaying: boolean) => void;
-  onChange: (type: "next" | "prev") => void;
+  onSongChange: (type: "next" | "prev") => void;
   playedTime: number;
   activeSong?: SongModel;
   setPlayedTime: Dispatch<SetStateAction<number>>;
@@ -23,15 +23,11 @@ export const defaultCtxOptions: PlayerControlsContextProps = {
   setIsRepeat: () => undefined,
   isPlaying: false,
   setIsPlaying: () => undefined,
-  onChange: () => undefined,
+  onSongChange: () => undefined,
   playedTime: 0,
   setPlayedTime: () => undefined,
   setIsSeeking: () => undefined,
 };
-
-function getNextSong(currIdx: number, len: number) {
-  return (currIdx + 1) % len;
-}
 
 export function getActiveIdx(
   activeSong?: SongModel,
