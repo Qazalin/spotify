@@ -31,21 +31,14 @@ export const PlayPauseButton: React.FC<
   const activeSong = useStoreState((state) => state.activeSong);
 
   const handlePlayPause = useCallback(() => {
+    if (!newActiveQueue || newActiveQueue === null) return;
+
     console.log(
       "Callback: PlayPauseButton: Got a new active queue: ",
       newActiveQueue
     );
-    if (newActiveQueue && newActiveQueue !== null) {
-      setActiveQueue(newActiveQueue);
-    }
-  }, [newActiveQueue, setActiveQueue]);
 
-  useEffect(() => {
-    handlePlayPause();
-  }, [handlePlayPause]);
-
-  /*
-  if (newActiveQueue) {
+    setActiveQueue(newActiveQueue);
     if (!activeSong) {
       console.log(
         "PlayPauseButtonProps: No active song, setting the first song of this new queue"
@@ -59,8 +52,17 @@ export const PlayPauseButton: React.FC<
         setActiveSong(newActiveQueue[0]);
       }
     }
-  }
-  */
+  }, [
+    newActiveQueue,
+    setActiveQueue,
+    activeSong,
+    setActiveSong,
+    shouldChangeActiveSong,
+  ]);
+
+  useEffect(() => {
+    handlePlayPause();
+  }, [handlePlayPause]);
 
   function getSvgIcon() {
     if (isPlaying) {
@@ -94,7 +96,10 @@ export const PlayPauseButton: React.FC<
     return (
       <BsFillPlayFill
         className="text-base w-full h-full text-black hover:scale-105"
-        onClick={onPlay}
+        onClick={() => {
+          onPlay && onPlay();
+          setIsPlaying(true);
+        }}
       />
     );
   }

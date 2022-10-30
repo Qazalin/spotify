@@ -24,12 +24,6 @@ export const ArtistCard: React.FC<ArtistCardProps> = ({
     enabled: false,
   });
 
-  useEffect(() => {
-    console.log("data is: ", data);
-    console.log("refetching? ", refetchSongs);
-    console.log("new queue loading? ", isNewQueueLoading);
-  }, [data, refetchSongs, isNewQueueLoading]);
-
   function getNewActiveQeue(data?: inferQueryOutput<"artist.getTopSongs">) {
     if (data && data !== null) {
       const songs: SongModel[] = data.albums
