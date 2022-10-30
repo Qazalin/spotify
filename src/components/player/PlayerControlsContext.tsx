@@ -16,12 +16,11 @@ export interface PlayerControlsContextProps {
   isPlaying: boolean;
   setIsPlaying: (isPlaying: boolean) => void;
   onChange: (type: "next" | "prev") => void;
-  onSeek: (e: number) => void;
   playedTime: number;
-  songDuration: number;
   activeSong?: SongModel;
-  setPlayedTime?: Dispatch<SetStateAction<number>>;
-  setSongDuration?: Dispatch<SetStateAction<number>>;
+  setPlayedTime: Dispatch<SetStateAction<number>>;
+  setIsSeeking: Dispatch<SetStateAction<boolean>>;
+  isSeeking?: boolean;
 }
 
 const defaultOptions: PlayerControlsContextProps = {
@@ -32,9 +31,9 @@ const defaultOptions: PlayerControlsContextProps = {
   isPlaying: false,
   setIsPlaying: () => undefined,
   onChange: () => undefined,
-  onSeek: () => undefined,
   playedTime: 0,
-  songDuration: 0,
+  setPlayedTime: () => undefined,
+  setIsSeeking: () => undefined,
 };
 export const PlayerControlsContext =
   createContext<PlayerControlsContextProps>(defaultOptions);
@@ -51,13 +50,10 @@ export const PlayerControlsContextProvider: React.FC<
   const activeSong = useStoreState((s) => s.activeSong);
 
   const [playedTime, setPlayedTime] = useState(0);
-  const [songDuration, setSongDuration] = useState(0);
+  const [isSeeking, setIsSeeking] = useState(false);
 
   function onChange() {
     console.log("changed");
-  }
-  function onSeek() {
-    console.log("seeking");
   }
 
   const contextValue: PlayerControlsContextProps = {
@@ -70,10 +66,9 @@ export const PlayerControlsContextProvider: React.FC<
     setIsRepeat,
     playedTime,
     setPlayedTime,
-    songDuration,
-    setSongDuration,
     onChange,
-    onSeek,
+    isSeeking,
+    setIsSeeking,
   };
   return (
     <PlayerControlsContext.Provider value={contextValue}>
