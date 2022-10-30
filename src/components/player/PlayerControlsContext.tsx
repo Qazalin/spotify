@@ -103,6 +103,15 @@ export const PlayerControlsContextProvider: React.FC<
   return (
     <PlayerControlsContext.Provider value={contextValue}>
       {children}
+      {activeSong && (
+        <ReactHowler
+          src={activeSong.url}
+          playing={isPlaying}
+          ref={songRef}
+          volume={isSeeking ? 0 : 0.1} // don't play a sound when seeking
+          onEnd={() => onSongChange("next")}
+        />
+      )}
     </PlayerControlsContext.Provider>
   );
 };

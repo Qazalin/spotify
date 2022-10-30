@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext } from "react";
 import { BiShuffle, BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { IoIosRepeat } from "react-icons/io";
 import { PlayerSlider } from "./PlayerSlider";
@@ -15,8 +15,6 @@ export const PlayerControls = () => {
     playedTime,
     onSongChange,
   } = useContext(PlayerControlsContext);
-
-  const songRef = useRef(null);
 
   function onSeek() {}
   return (
@@ -35,26 +33,13 @@ export const PlayerControls = () => {
         <IoIosRepeat className="hover:fill-zinc-50" />
       </div>
       {activeSong && (
-        <>
-          <ReactHowler
-            src={activeSong.url}
-            playing={isPlaying}
-            ref={songRef}
-            volume={isSeeking ? 0 : 0.1} // don't play a sound when seeking
-            onEnd={() => onSongChange("next")}
-          />
-          <PlayerSlider
-            value={playedTime}
-            onChange={onSeek}
-            onFinalChange={() => setIsSeeking(false)}
-            duration={activeSong?.duration ?? 0}
-          />
-        </>
+        <PlayerSlider
+          value={playedTime}
+          onChange={onSeek}
+          onFinalChange={() => setIsSeeking(false)}
+          duration={activeSong?.duration ?? 0}
+        />
       )}
     </div>
   );
 };
-
-/*
- *
- */
