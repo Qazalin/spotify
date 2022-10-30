@@ -1,9 +1,9 @@
 import { Artist, Playlist } from "@prisma/client";
-import { StoreSongModel } from "@spotify/utils/state/models";
+import { SongModel } from "@spotify/utils/state/stateModel";
 
 export type PropsWithClassName<P> = P & { className?: string };
 // for components that consume the active song state stored globally through their parrent
-export type PropsWithActiveSong<P> = P & { activeSong?: StoreSongModel };
+export type PropsWithActiveSong<P> = P & { activeSong?: SongModel };
 
 export type PropsWithLoading<P> = P & { isLoading?: boolean };
 

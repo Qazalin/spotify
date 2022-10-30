@@ -2,6 +2,7 @@ import { PropsWithLoading } from "@spotify/types/props";
 import { inferQueryOutput, trpc } from "@spotify/utils";
 import { RecordWrapper } from "../Wrappers/RecordWrapper";
 import { SongModel } from "@spotify/utils/state/stateModel";
+import { useEffect } from "react";
 
 type ArtistCardProps = PropsWithLoading<{
   name?: string;
@@ -15,12 +16,19 @@ export const ArtistCard: React.FC<ArtistCardProps> = ({
   id,
   isLoading,
 }) => {
-  const { data, refetch: refetchSongs } = trpc.useQuery(
-    ["artist.getTopSongs", { id: id ?? "" }],
-    {
-      enabled: false,
-    }
-  );
+  const {
+    data,
+    refetch: refetchSongs,
+    isLoading: isNewQueueLoading,
+  } = trpc.useQuery(["artist.getTopSongs", { id: id ?? "" }], {
+    enabled: false,
+  });
+
+  useEffect(() => {
+    console.log("data is: ", data);
+    console.log("refetching? ", refetchSongs);
+    console.log("new queue loading? ", isNewQueueLoading);
+  }, [data, refetchSongs, isNewQueueLoading]);
 
   function getNewActiveQeue(data?: inferQueryOutput<"artist.getTopSongs">) {
     if (data && data !== null) {
@@ -51,6 +59,10 @@ export const ArtistCard: React.FC<ArtistCardProps> = ({
     }
   }
 
+  function onPlay() {
+    refetchSongs().then((d) => console.log(d));
+  }
+
   return (
     <RecordWrapper
       isLoading={isLoading}
@@ -59,15 +71,12 @@ export const ArtistCard: React.FC<ArtistCardProps> = ({
       imgSrc={image}
       href={`app/artist/${id}`}
       newActiveQueue={getNewActiveQeue(data)}
-      onPlay={() => {
-        console.log("refetching songs");
-        refetchSongs().then((r) => console.log("r: ", r));
-        console.log("refetched songs, new data: ", data);
-      }}
+      onPlay={onPlay}
       shouldChangeActiveSong={(activeSong) => {
         return activeSong?.Album.Artist.id === id ? false : true;
       }}
       rounded={true}
+      isNewQueueLoading={isNewQueueLoading}
     />
   );
 };

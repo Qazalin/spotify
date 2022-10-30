@@ -5,13 +5,19 @@ export const songRouter = createRouter().query("getSongsByAlbum", {
   input: z.object({
     albumId: z.string(),
   }),
-  resolve({ input, ctx }) {
-    return {
-      songs: ctx.prisma.song.findMany({
-        where: {
-          albumId: input.albumId,
+  async resolve({ input, ctx }) {
+    const songs = await ctx.prisma.song.findMany({
+      where: {
+        albumId: input.albumId,
+      },
+      include: {
+        Album: {
+          include: {
+            Artist: true,
+          },
         },
-      }),
-    };
+      },
+    });
+    return songs;
   },
 });

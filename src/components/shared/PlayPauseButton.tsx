@@ -1,47 +1,77 @@
 import { PropsWithClassName } from "@spotify/types/props";
 import { useStoreActions, useStoreState } from "@spotify/utils/state";
 import { SongModel } from "@spotify/utils/state/stateModel";
+import { useEffect } from "react";
 import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
+import { LoadingSpinner } from "./Utils/LoadingSpinner";
 
 export type PlayPauseButtonProps = {
   newActiveQueue?: SongModel[];
-  shouldChangeActiveSong: (
+  shouldChangeActiveSong?: (
     activeSong: SongModel,
     newActiveQueue: SongModel[]
   ) => boolean;
   onPlay?: () => void;
+  isNewQueueLoading?: boolean;
 };
 
 export const PlayPauseButton: React.FC<
   PropsWithClassName<PlayPauseButtonProps>
-> = ({ className, newActiveQueue, shouldChangeActiveSong, onPlay }) => {
+> = ({
+  className,
+  newActiveQueue,
+  shouldChangeActiveSong,
+  onPlay,
+  isNewQueueLoading,
+}) => {
   const isPlaying = useStoreState((state) => state.isPlaying);
   const setIsPlaying = useStoreActions((actions) => actions.setIsPlaying);
   const setActiveQueue = useStoreActions((actions) => actions.setActiveQueue);
   const setActiveSong = useStoreActions((actions) => actions.setActiveSong);
   const activeSong = useStoreState((state) => state.activeSong);
 
-  if (activeSong && newActiveQueue) {
-    if (shouldChangeActiveSong(activeSong, newActiveQueue)) {
-      setActiveSong(activeSong);
-    } else {
+  useEffect(() => {
+    console.log("PlayPauseButtonProps: Got a new active queue");
+    if (newActiveQueue && newActiveQueue !== null) {
+      setActiveQueue(newActiveQueue);
+    }
+  }, [newActiveQueue, setActiveQueue]);
+
+  /*
+  if (newActiveQueue) {
+    if (!activeSong) {
+      console.log(
+        "PlayPauseButtonProps: No active song, setting the first song of this new queue"
+      );
       setActiveSong(newActiveQueue[0]);
+    } else {
+      if (
+        shouldChangeActiveSong &&
+        shouldChangeActiveSong(activeSong, newActiveQueue)
+      ) {
+        setActiveSong(newActiveQueue[0]);
+      }
     }
   }
+  */
 
-  return (
-    <div
-      className={
-        "p-1 bg-white rounded-full flex justify-center items-center " +
-        className
-      }
-    >
-      {isPlaying ? (
+  function getSvgIcon() {
+    if (isPlaying) {
+      return (
         <BsPauseFill
           className="text-base w-full h-full text-black hover:scale-105"
           onClick={() => setIsPlaying(false)}
         />
-      ) : newActiveQueue ? (
+      );
+    }
+    if (isNewQueueLoading) {
+      return (
+        <div className="w-full h-full flex justify-center items-center">
+          <LoadingSpinner width={4} height={4} />
+        </div>
+      );
+    } else if (newActiveQueue) {
+      return (
         <BsFillPlayFill
           className="text-base w-full h-full text-black hover:scale-105"
           onClick={() => {
@@ -51,12 +81,25 @@ export const PlayPauseButton: React.FC<
             setActiveSong(activeSong ?? newActiveQueue[0]);
           }}
         />
-      ) : (
-        <BsFillPlayFill
-          className="text-base w-full h-full text-black hover:scale-105"
-          onClick={onPlay}
-        />
-      )}
+      );
+    }
+
+    return (
+      <BsFillPlayFill
+        className="text-base w-full h-full text-black hover:scale-105"
+        onClick={onPlay}
+      />
+    );
+  }
+
+  return (
+    <div
+      className={
+        "p-1 bg-white rounded-full flex justify-center items-center " +
+        className
+      }
+    >
+      {getSvgIcon()}
     </div>
   );
 };
