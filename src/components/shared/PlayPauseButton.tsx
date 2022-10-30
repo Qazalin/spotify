@@ -64,6 +64,19 @@ export const PlayPauseButton: React.FC<
     handlePlayPause();
   }, [handlePlayPause]);
 
+  function handleClickPlay() {
+    console.log(
+      "PlayPauseButton: Clicked play, the activeSong is: ",
+      activeSong
+    );
+    setIsPlaying(true);
+    if (newActiveQueue) {
+      setActiveQueue(newActiveQueue);
+      setActiveSong(newActiveQueue[0]);
+    }
+    onPlay && onPlay();
+  }
+
   function getSvgIcon() {
     if (isPlaying) {
       return (
@@ -75,31 +88,15 @@ export const PlayPauseButton: React.FC<
     }
     if (isNewQueueLoading) {
       return (
-        <div className="w-full h-full flex justify-center items-center">
-          <LoadingSpinner width={4} height={4} />
+        <div className="w-full h-full flex justify-center items-center cursor-not-allowed">
+          <LoadingSpinner width={15} height={15} color="black" />
         </div>
       );
-    } else if (newActiveQueue) {
-      return (
-        <BsFillPlayFill
-          className="text-base w-full h-full text-black hover:scale-105"
-          onClick={() => {
-            setIsPlaying(true);
-            onPlay && onPlay();
-            setActiveQueue(newActiveQueue);
-            setActiveSong(activeSong ?? newActiveQueue[0]);
-          }}
-        />
-      );
     }
-
     return (
       <BsFillPlayFill
         className="text-base w-full h-full text-black hover:scale-105"
-        onClick={() => {
-          onPlay && onPlay();
-          setIsPlaying(true);
-        }}
+        onClick={handleClickPlay}
       />
     );
   }

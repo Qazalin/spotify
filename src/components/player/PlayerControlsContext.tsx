@@ -6,37 +6,18 @@ import {
   createContext,
   PropsWithChildren,
   useState,
+  useEffect,
+  useRef,
 } from "react";
+import ReactHowler from "react-howler";
+import {
+  PlayerControlsContextProps,
+  defaultCtxOptions,
+  getActiveIdx,
+} from "./utils";
 
-export interface PlayerControlsContextProps {
-  isShuffle: boolean;
-  setIsShuffle: (isShuffle: boolean) => void;
-  isRepeat: boolean;
-  setIsRepeat: (isRepeat: boolean) => void;
-  isPlaying: boolean;
-  setIsPlaying: (isPlaying: boolean) => void;
-  onChange: (type: "next" | "prev") => void;
-  playedTime: number;
-  activeSong?: SongModel;
-  setPlayedTime: Dispatch<SetStateAction<number>>;
-  setIsSeeking: Dispatch<SetStateAction<boolean>>;
-  isSeeking?: boolean;
-}
-
-const defaultOptions: PlayerControlsContextProps = {
-  isShuffle: false,
-  setIsShuffle: () => undefined,
-  isRepeat: false,
-  setIsRepeat: () => undefined,
-  isPlaying: false,
-  setIsPlaying: () => undefined,
-  onChange: () => undefined,
-  playedTime: 0,
-  setPlayedTime: () => undefined,
-  setIsSeeking: () => undefined,
-};
 export const PlayerControlsContext =
-  createContext<PlayerControlsContextProps>(defaultOptions);
+  createContext<PlayerControlsContextProps>(defaultCtxOptions);
 
 export const PlayerControlsContextProvider: React.FC<
   PropsWithChildren<Record<string, unknown>>
@@ -48,13 +29,69 @@ export const PlayerControlsContextProvider: React.FC<
   const isRepeat = useStoreState((s) => s.isRepeat);
   const setIsRepeat = useStoreActions((a) => a.setIsRepeat);
   const activeSong = useStoreState((s) => s.activeSong);
+  const activeQueue = useStoreState((s) => s.activeQueue);
+  const activeSongIdx = getActiveIdx(activeSong, activeQueue);
+  const setActiveSong = useStoreActions((a) => a.setActiveSong);
 
   const [playedTime, setPlayedTime] = useState(0);
   const [isSeeking, setIsSeeking] = useState(false);
+  const songRef = useRef<ReactHowler>(null);
+
+  function onSongChange(type: "next" | "prev") {
+    if (!activeQueue) return;
+    let newIdx: number;
+    if (type === "next") {
+      newIdx = (activeSongIdx + 1) % activeQueue.length;
+    } else {
+      newIdx = (activeSongIdx - 1 + activeQueue.length) % activeQueue.length;
+    }
+    setActiveSong(activeQueue[newIdx]);
+  }
 
   function onChange() {
     console.log("changed");
   }
+
+  useEffect(() => {
+    let timerId: number;
+
+    if (!isPlaying && !isSeeking) return;
+
+    const timer = () => {
+      const t = songRef.current?.seek();
+      if (t) {
+        console.log("seeking to ", t);
+        setPlayedTime(t);
+      }
+
+      timerId = requestAnimationFrame(timer);
+    };
+    timerId = requestAnimationFrame(timer);
+    return () => cancelAnimationFrame(timerId);
+  }, [isPlaying, isSeeking]);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.code === "Space") {
+        e.preventDefault();
+        setIsPlaying(!isPlaying);
+      }
+      if (e.code === "ArrowLeft") {
+        // go to the prev song
+        e.preventDefault();
+        // onSongChange("prev");
+      }
+      if (e.code === "ArrowRight") {
+        // go to the next song
+        e.preventDefault();
+        // onSongChange("next");
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+    };
+  });
 
   const contextValue: PlayerControlsContextProps = {
     activeSong,
