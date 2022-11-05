@@ -1,4 +1,5 @@
 // src/pages/_app.tsx
+import { PlayerControlsProvider } from "@spotify/components/player/PlayerControlsContext";
 import { store } from "@spotify/utils/state";
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { loggerLink } from "@trpc/client/links/loggerLink";
@@ -19,7 +20,9 @@ const MyApp: AppType = ({
     <SessionProvider session={session}>
       <StoreProvider store={store}>
         <ThemeProvider attribute="class" forcedTheme="dark">
-          <Component {...pageProps} />
+          <PlayerControlsProvider>
+            <Component {...pageProps} />
+          </PlayerControlsProvider>
         </ThemeProvider>
       </StoreProvider>
     </SessionProvider>
