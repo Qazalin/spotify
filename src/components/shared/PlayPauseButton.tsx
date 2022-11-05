@@ -1,8 +1,9 @@
 import { PropsWithClassName } from "@spotify/types/props";
 import { useStoreActions, useStoreState } from "@spotify/utils/state";
 import { SongModel } from "@spotify/utils/state/stateModel";
-import { useCallback, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
+import { PlayerControlsContext } from "../player/PlayerControlsContext";
 import { LoadingSpinner } from "./Utils/LoadingSpinner";
 
 export type PlayPauseButtonProps = {
@@ -24,11 +25,12 @@ export const PlayPauseButton: React.FC<
   onPlay,
   isNewQueueLoading,
 }) => {
-  const isPlaying = useStoreState((state) => state.isPlaying);
-  const setIsPlaying = useStoreActions((actions) => actions.setIsPlaying);
+  const { isPlaying, setIsPlaying, activeSong } = useContext(
+    PlayerControlsContext
+  );
   const setActiveQueue = useStoreActions((actions) => actions.setActiveQueue);
   const setActiveSong = useStoreActions((actions) => actions.setActiveSong);
-  const activeSong = useStoreState((state) => state.activeSong);
+  const activeQueue = useStoreState((state) => state.activeQueue);
 
   const handlePlayPause = useCallback(() => {
     if (!newActiveQueue || newActiveQueue === null) return;
@@ -78,7 +80,7 @@ export const PlayPauseButton: React.FC<
   }
 
   function getSvgIcon() {
-    if (isPlaying) {
+    if (isPlaying && activeQueue === newActiveQueue) {
       return (
         <BsPauseFill
           className="text-base w-full h-full text-black hover:scale-105"

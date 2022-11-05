@@ -16,7 +16,7 @@ import {
 export const PlayerControlsContext =
   createContext<PlayerControlsContextProps>(defaultCtxOptions);
 
-export const PlayerControlsContextProvider: React.FC<
+export const PlayerControlsProvider: React.FC<
   PropsWithChildren<Record<string, unknown>>
 > = ({ children }) => {
   const isPlaying = useStoreState((s) => s.isPlaying);
@@ -46,7 +46,6 @@ export const PlayerControlsContextProvider: React.FC<
     setActiveSong(activeQueue[newIdx]);
   }
 
-  useEffect(() => console.log(activeSong), [activeSong]);
   useEffect(() => {
     let timerId: number;
 
@@ -55,7 +54,6 @@ export const PlayerControlsContextProvider: React.FC<
     const timer = () => {
       const t = songRef.current?.seek();
       if (t) {
-        console.log("seeking to ", t);
         setPlayedTime(t);
       }
 
