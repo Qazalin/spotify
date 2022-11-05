@@ -3,7 +3,7 @@ import { LoaderSkeleton } from "../Utils";
 import { PropsWithLoading } from "@spotify/types/props";
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { PlayPauseButton } from "../PlayPauseButton";
+import { PlayPauseButton, PlayPauseButtonProps } from "../PlayPauseButton";
 
 type RecordWrapperProps = PropsWithLoading<
   RecordWrapperContentProps & RecordWrapperLoadingProps
@@ -51,9 +51,8 @@ type RecordWrapperContentProps = {
   subtitle?: string;
   imgSrc?: string;
   href?: string;
-  onPlay?: () => void;
   rounded?: boolean;
-};
+} & PlayPauseButtonProps;
 const RecordWrapperContent: React.FC<RecordWrapperContentProps> = ({
   title,
   imgSrc,
@@ -61,6 +60,9 @@ const RecordWrapperContent: React.FC<RecordWrapperContentProps> = ({
   href,
   rounded,
   onPlay,
+  shouldChangeActiveSong,
+  newActiveQueue,
+  isNewQueueLoading,
 }) => {
   const [showPlay, setShowPlay] = useState(false);
   const playButtonRef = useRef<HTMLDivElement>(null);
@@ -80,12 +82,17 @@ const RecordWrapperContent: React.FC<RecordWrapperContentProps> = ({
         />
         <div
           className={`bg-green-400 rounded-full w-8 h-8 flex justify-center items-center absolute -bottom-2 -right-1 hover:scale-105 transition-all cursor-default shadow-lg shadow-zinc-900 ${
-            showPlay ? "opacity-100" : "opacity-0"
+            showPlay ? "opacity-100" : "opacity-100"
           }`}
-          onClick={onPlay}
           ref={playButtonRef}
         >
-          <PlayPauseButton />
+          <PlayPauseButton
+            className="bg-inherit"
+            onPlay={onPlay}
+            newActiveQueue={newActiveQueue}
+            shouldChangeActiveSong={shouldChangeActiveSong}
+            isNewQueueLoading={isNewQueueLoading}
+          />
         </div>
       </div>
 

@@ -39,9 +39,6 @@ const SongRowWrapperLoading = () => (
 const SongRowWrapperContent: React.FC<SongRowProps> = (p) => {
   // state
   const [isHovered, setIsHovered] = useState(false);
-  const { isFavorite, toggleFavorite } = useFavoriteSong({
-    id: p.songId || "",
-  });
   const screen = useTailwindScreen();
 
   // setters and hanlers
@@ -138,19 +135,7 @@ const SongRowWrapperContent: React.FC<SongRowProps> = (p) => {
             </p>
           </div>
         )}
-      <div className="h-full flex items-center w-1/12 p-4">
-        {isFavorite ? (
-          <FavoriteButton
-            isFavorite={isFavorite}
-            toggleFavorite={toggleFavorite}
-          />
-        ) : (
-          <FavoriteButton
-            isFavorite={isFavorite}
-            toggleFavorite={toggleFavorite}
-          />
-        )}
-      </div>
+
       <div className="h-full items-center w-1/12 flex justify-end">
         <p>{durationFormatter(p?.songDuration || 0)}</p>
       </div>

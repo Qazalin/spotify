@@ -33,7 +33,7 @@ export const userRouter = createProtectedRouter()
         select: {
           name: true,
           image: true,
-          artists: true,
+          favoriteSongs: true,
           playlists: true,
         },
       });
