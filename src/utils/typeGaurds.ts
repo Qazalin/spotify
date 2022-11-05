@@ -12,3 +12,20 @@ export function assertIsValidId(id: string | string[] | undefined) {
     throw new Error(`Wrong id, expected string, got ${typeof id}`);
   }
 }
+
+export function isStrictlyString(value: unknown): value is string {
+  return typeof value === "string";
+}
+
+export function isStrictEqualArray<T>(a1: T[], a2: T[]) {
+  if (a1.length !== a2.length) {
+    console.log("isStrictEqualArray: Arrays are not the same length");
+    return false;
+  }
+  for (let i = 0; i < a1.length; i++) {
+    if (JSON.stringify(a1[i]) !== JSON.stringify(a2[i])) {
+      return false;
+    }
+  }
+  return true;
+}

@@ -1,10 +1,8 @@
-import { SongRow } from "@spotify/components/playlist/PlaylistSongRow";
 import { trpc } from "@spotify/utils";
 import { useStoreState } from "@spotify/utils/state";
 import { SongModel } from "@spotify/utils/state/stateModel";
 import { useEffect } from "react";
 import { PlayPauseButton } from "../shared";
-import { Button } from "../shared/Utils/Button";
 import { ButtonWithOptimisticUpdate } from "../shared/Utils/ButtonWithOptimisticUpdate";
 import { SongRowWrapper } from "@spotify/components/shared/Wrappers/SongWrapper";
 
@@ -54,6 +52,12 @@ export const ArtistPopular: React.FC<{
     })
     .flat();
 
+  useEffect(() => {
+    console.log(
+      `ArtistPopular coming from ${id}: Getting new active queue: `,
+      newActiveQueue
+    );
+  }, [newActiveQueue, id]);
   return (
     <div>
       <div className="flex space-x-5 mb-5">
@@ -63,6 +67,7 @@ export const ArtistPopular: React.FC<{
           shouldChangeActiveSong={(activeSong) => {
             return activeSong?.Album.Artist.id === id ? false : true;
           }}
+          id="artist-popular-play-button"
         />
         <ButtonWithOptimisticUpdate
           action={`${isFavoriteArtist ? "unfollowed" : "followed"} ${

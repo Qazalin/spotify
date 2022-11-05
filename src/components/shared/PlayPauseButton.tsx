@@ -1,7 +1,8 @@
 import { PropsWithClassName } from "@spotify/types/props";
 import { useStoreActions, useStoreState } from "@spotify/utils/state";
 import { SongModel } from "@spotify/utils/state/stateModel";
-import { useCallback, useContext, useEffect } from "react";
+import { isStrictEqualArray } from "@spotify/utils/typeGaurds";
+import { useContext, useEffect } from "react";
 import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 import { PlayerControlsContext } from "../player/PlayerControlsContext";
 import { LoadingSpinner } from "./Utils/LoadingSpinner";
@@ -14,6 +15,7 @@ export type PlayPauseButtonProps = {
   ) => boolean;
   onPlay?: () => void;
   isNewQueueLoading?: boolean;
+  id?: string;
 };
 
 export const PlayPauseButton: React.FC<
@@ -24,6 +26,7 @@ export const PlayPauseButton: React.FC<
   shouldChangeActiveSong,
   onPlay,
   isNewQueueLoading,
+  id,
 }) => {
   const { isPlaying, setIsPlaying, activeSong } = useContext(
     PlayerControlsContext
@@ -32,55 +35,38 @@ export const PlayPauseButton: React.FC<
   const setActiveSong = useStoreActions((actions) => actions.setActiveSong);
   const activeQueue = useStoreState((state) => state.activeQueue);
 
-  const handlePlayPause = useCallback(() => {
-    if (!newActiveQueue || newActiveQueue === null) return;
-
-    console.log(
-      "Callback: PlayPauseButton: Got a new active queue: ",
-      newActiveQueue
-    );
-
-    setActiveQueue(newActiveQueue);
-    if (!activeSong) {
-      console.log(
-        "PlayPauseButtonProps: No active song, setting the first song of this new queue"
-      );
-      setActiveSong(newActiveQueue[0]);
-    } else {
-      if (
-        shouldChangeActiveSong &&
-        shouldChangeActiveSong(activeSong, newActiveQueue)
-      ) {
-        setActiveSong(newActiveQueue[0]);
-      }
-    }
-  }, [
-    newActiveQueue,
-    setActiveQueue,
-    activeSong,
-    setActiveSong,
-    shouldChangeActiveSong,
-  ]);
-
-  useEffect(() => {
-    handlePlayPause();
-  }, [handlePlayPause]);
-
   function handleClickPlay() {
-    console.log(
-      "PlayPauseButton: Clicked play, the activeSong is: ",
-      activeSong
-    );
     setIsPlaying(true);
     if (newActiveQueue) {
       setActiveQueue(newActiveQueue);
-      setActiveSong(newActiveQueue[0]);
+      if (!activeSong) {
+        console.log(
+          "handleClickPlay: No active song, setting the first song of this new queue"
+        );
+        setActiveSong(newActiveQueue[0]);
+      } else {
+        console.log(
+          "handleClickPlay: Clicked play, the activeSong is: ",
+          activeSong
+        );
+        if (
+          shouldChangeActiveSong &&
+          shouldChangeActiveSong(activeSong, newActiveQueue)
+        ) {
+          setActiveSong(newActiveQueue[0]);
+        }
+      }
     }
     onPlay && onPlay();
   }
 
   function getSvgIcon() {
-    if (isPlaying && activeQueue === newActiveQueue) {
+    if (
+      isPlaying &&
+      newActiveQueue &&
+      activeQueue &&
+      isStrictEqualArray(newActiveQueue, activeQueue)
+    ) {
       return (
         <BsPauseFill
           className="text-base w-full h-full text-black hover:scale-105"

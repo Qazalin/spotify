@@ -8,8 +8,6 @@ import {
   IDXColumn,
   TrackInfoColumn,
 } from "@spotify/components/playlist/PlaylistTableColumns";
-import { useFavoriteSong } from "@spotify/utils/hooks/useFavorite";
-import { FavoriteButton } from "@spotify/components/shared/FavoriteButton";
 
 export const SongRowWrapper: React.FC<
   SongRowProps & { isLoading?: boolean }
@@ -88,9 +86,6 @@ const SongRowWrapperContent: React.FC<SongRowProps> = (p) => {
     }
   };
 
-  const activeSong = useStoreState((state) => state.activeSong);
-
-  useEffect(() => console.log("active: ", activeSong), [activeSong]);
   return (
     <div
       className="relative w-full flex justify-between h-12 items-center fill-zinc-400 text-sm text-zinc-400 hover:bg-zinc-700 hover:bg-opacity-50 rounded-md flex-wrap px-2"

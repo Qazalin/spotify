@@ -24,7 +24,6 @@ export const AlbumCard: React.FC<AlbumCardProps> = ({
   );
 
   function onPlay() {
-    console.log("AlbumCard: refetching songs");
     refetch().then((d) => console.log(d));
   }
 
@@ -62,6 +61,12 @@ export const AlbumCard: React.FC<AlbumCardProps> = ({
       imgSrc={img}
       href={`/app/album/${id}`}
       newActiveQueue={getNewActiveQeue(songs)}
+      shouldChangeActiveSong={(activeSong) => {
+        if (activeSong.Album.id !== id) {
+          return true;
+        }
+        return false;
+      }}
       onPlay={onPlay}
       rounded={false}
     />
