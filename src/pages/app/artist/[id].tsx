@@ -14,6 +14,12 @@ const ArtistPage = () => {
   return (
     <AppLayout>
       <ArtistHeader id={id} />
+      <div className="mt-5 px-5">
+        <ArtistPopular id={id} />
+        <ArtistDiscography id={id} />
+        <SimilarArtists id={id} />
+        <ArtistFeaturedIn id={id} />
+      </div>
     </AppLayout>
   );
 };
@@ -22,10 +28,4 @@ export default ArtistPage;
 
 /*
  *
-      <div className="mt-5 px-5">
-        <ArtistPopular id={id} />
-        <ArtistDiscography id={id} />
-        <SimilarArtists id={id} />
-        <ArtistFeaturedIn id={id} />
-      </div>
-      */
+ */

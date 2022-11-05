@@ -36,6 +36,7 @@ export const PlayerControlsContextProvider: React.FC<
 
   function onSongChange(type: "next" | "prev") {
     if (!activeQueue) return;
+    setPlayedTime(0);
     let newIdx: number;
     if (type === "next") {
       newIdx = (activeSongIdx + 1) % activeQueue.length;
@@ -45,6 +46,7 @@ export const PlayerControlsContextProvider: React.FC<
     setActiveSong(activeQueue[newIdx]);
   }
 
+  useEffect(() => console.log(activeSong), [activeSong]);
   useEffect(() => {
     let timerId: number;
 
@@ -61,7 +63,7 @@ export const PlayerControlsContextProvider: React.FC<
     };
     timerId = requestAnimationFrame(timer);
     return () => cancelAnimationFrame(timerId);
-  }, [isPlaying, isSeeking]);
+  }, [isPlaying, isSeeking, activeSong]);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -72,12 +74,12 @@ export const PlayerControlsContextProvider: React.FC<
       if (e.code === "ArrowLeft") {
         // go to the prev song
         e.preventDefault();
-        // onSongChange("prev");
+        onSongChange("prev");
       }
       if (e.code === "ArrowRight") {
         // go to the next song
         e.preventDefault();
-        // onSongChange("next");
+        onSongChange("next");
       }
     };
     window.addEventListener("keydown", handleKey);
@@ -85,6 +87,12 @@ export const PlayerControlsContextProvider: React.FC<
       window.removeEventListener("keydown", handleKey);
     };
   });
+
+  const onSeek = (e: number) => {
+    setIsSeeking(true);
+    setPlayedTime(e);
+    songRef.current?.seek(e);
+  };
 
   const contextValue: PlayerControlsContextProps = {
     activeSong,
@@ -99,6 +107,7 @@ export const PlayerControlsContextProvider: React.FC<
     onSongChange,
     isSeeking,
     setIsSeeking,
+    onSeek,
   };
   return (
     <PlayerControlsContext.Provider value={contextValue}>

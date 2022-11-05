@@ -14,6 +14,7 @@ export interface PlayerControlsContextProps {
   setPlayedTime: Dispatch<SetStateAction<number>>;
   setIsSeeking: Dispatch<SetStateAction<boolean>>;
   isSeeking?: boolean;
+  onSeek: (time: number) => void;
 }
 
 export const defaultCtxOptions: PlayerControlsContextProps = {
@@ -27,6 +28,7 @@ export const defaultCtxOptions: PlayerControlsContextProps = {
   playedTime: 0,
   setPlayedTime: () => undefined,
   setIsSeeking: () => undefined,
+  onSeek: () => undefined,
 };
 
 export function getActiveIdx(
