@@ -2,12 +2,19 @@ import { useContext } from "react";
 import { BiShuffle, BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { IoIosRepeat } from "react-icons/io";
 import { PlayerSlider } from "./PlayerSlider";
-import { PlayPauseButton } from "../shared";
 import { PlayerControlsContext } from "./PlayerControlsContext";
+import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 
 export const PlayerControls = () => {
-  const { activeSong, setIsSeeking, playedTime, onSongChange, onSeek } =
-    useContext(PlayerControlsContext);
+  const {
+    activeSong,
+    setIsSeeking,
+    playedTime,
+    onSongChange,
+    onSeek,
+    isPlaying,
+    setIsPlaying,
+  } = useContext(PlayerControlsContext);
 
   return (
     <div className="flex w-full h-full flex-col">
@@ -17,7 +24,23 @@ export const PlayerControls = () => {
           className="hover:fill-zinc-50"
           onClick={() => onSongChange("prev")}
         />
-        <PlayPauseButton className="w-7 h-7" />
+        <div
+          className={
+            "p-1 bg-white rounded-full flex justify-center items-center w-7 h-7"
+          }
+        >
+          {isPlaying ? (
+            <BsPauseFill
+              className="text-base w-full h-full text-black hover:scale-105"
+              onClick={() => setIsPlaying(false)}
+            />
+          ) : (
+            <BsFillPlayFill
+              className="text-base w-full h-full text-black hover:scale-105"
+              onClick={() => setIsPlaying(true)}
+            />
+          )}
+        </div>
         <BiSkipNext
           className="hover:fill-zinc-50"
           onClick={() => onSongChange("next")}
